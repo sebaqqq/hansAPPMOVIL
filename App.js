@@ -1,13 +1,25 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import 'react-native-gesture-handler';
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Login from './screen/Login';
 
 export default function App() {
+  const Stack = createNativeStackNavigator();
+function MyLogin() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Stack.Navigator>
+      <Stack.Screen name="Login" component={Login} />
+    </Stack.Navigator>
   );
+}
+  return(
+    <NavigationContainer>
+      <MyLogin />
+    </NavigationContainer>
+  )
 }
 
 const styles = StyleSheet.create({
