@@ -8,16 +8,19 @@ import Login from './screen/Login';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
-function MyLogin() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Login" component={Login} />
-    </Stack.Navigator>
-  );
-}
+  function MyStack() {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={Login} 
+        options={{
+          headerShown: false
+        }}/>
+      </Stack.Navigator>
+    );
+  }
   return(
     <NavigationContainer>
-      <MyLogin />
+      <MyStack />
     </NavigationContainer>
   )
 }
