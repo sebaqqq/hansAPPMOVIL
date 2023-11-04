@@ -7,15 +7,36 @@ import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
 
 function Login() {
-  const [emailFocused, setEmailFocused] = useState(false);
-  const [passwordFocused, setPasswordFocused] = useState(false);
+  const [emailFocused, setEmailFocused] = useState('');
+  const [passwordFocused, setPasswordFocused] = useState('');
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        navigation.replace('HomeLogin');
+      }
+    });
+    return unsubscribe;
+  }, []);
+
+  const handleLogin = () => {
+    signInWithEmailAndPassword(auth, emailFocused, passwordFocused)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.logo}>Hans Motors</Text>
-
       <Image source={require('../images/car.png')} style={styles.logoImage} />
-
       <Text style={styles.heading}>Iniciar Sesión</Text>
       <View style={styles.inputContainer}>
         <TouchableOpacity
@@ -30,8 +51,9 @@ function Login() {
             placeholder=""
             style={styles.input}
             placeholderTextColor="#A0A0A0"
-            onFocus={() => setEmailFocused(true)}
-            onBlur={() => setEmailFocused(false)}
+            // onFocus={() => setEmailFocused(true)}
+            // onBlur={() => setEmailFocused(false)}
+            onChangeText={(text) => setEmailFocused(text)}
           />
         </TouchableOpacity>
 
@@ -48,12 +70,16 @@ function Login() {
             style={styles.input}
             secureTextEntry
             placeholderTextColor="#A0A0A0"
-            onFocus={() => setPasswordFocused(true)}
-            onBlur={() => setPasswordFocused(false)}
+            onChangeText={(text) => setPasswordFocused(text)}
+            // onFocus={() => setPasswordFocused(true)}
+            // onBlur={() => setPasswordFocused(false)}
           />
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.loginButton}>
+      <TouchableOpacity 
+        style={styles.loginButton}
+        onPress={handleLogin}
+      >
         <Text style={styles.loginButtonText}>Iniciar Sesión</Text>
       </TouchableOpacity>
     </View>
@@ -69,14 +95,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   logoImage: {
-    width: 446, // Ajusta el ancho según tus necesidades
-    height: 60,  // Ajusta la altura según tus necesidades
+    width: 446,
+    height: 60,
     marginBottom: 50,
   },
   logo: {
-    fontSize: 24,
+    fontSize: 30,  
     fontWeight: "bold",
-    marginBottom: 30,  // Ajusta el margen según tus necesidades
+    marginBottom: 20,
     color: "#525FE1",
   },
   heading: {
@@ -91,7 +117,7 @@ const styles = StyleSheet.create({
   },
   inputWrapper: {
     position: "relative",
-    marginBottom: 30,  // Ajusta el margen según tus necesidades
+    marginBottom: 30,
   },
   label: {
     position: "absolute",
@@ -110,7 +136,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#525FE1",
     paddingVertical: 10,
     paddingLeft: 15,
-    marginBottom: 20,  // Ajusta el margen según tus necesidades
+    marginBottom: 20,
     color: "#333",
   },
   loginButton: {
@@ -128,5 +154,3 @@ const styles = StyleSheet.create({
 });
 
 export default Login;
-
-
