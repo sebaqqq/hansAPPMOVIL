@@ -21,7 +21,7 @@ export default function Navigation () {
         options={{
           headerShown: false
         }}/>
-        <Stack.Screen name="HomeLogin" component={HomeLogin} 
+        <Stack.Screen name="Election" component={MyTabs}
         options={{
           headerShown: false
         }}/>
@@ -74,7 +74,7 @@ export default function Navigation () {
 
   return(
     <NavigationContainer>
-      <MyTabs />
+      <MyStack />
     </NavigationContainer>
   )
 }

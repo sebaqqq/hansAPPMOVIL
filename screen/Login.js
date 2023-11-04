@@ -22,7 +22,7 @@ function Login() {
   React.useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        navigation.replace('Cuenta');
+        navigation.replace('Election');
       }
     });
     return unsubscribe;
