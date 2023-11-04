@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, TextInput, Button, StyleSheet } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 function AgrergarMantencion() {
   const [patente, setPatente] = useState('');
@@ -8,42 +9,77 @@ function AgrergarMantencion() {
   const [descripcion, setDescripcion] = useState('');
   const [costoEstimado, setCostoEstimado] = useState('');
 
-  const handleSubmit = () => {
-    // Aquí puedes realizar la lógica para enviar los datos a tu backend o realizar alguna acción con la información ingresada.
-    console.log('Datos ingresados:', { patente, fechaInicio, fechaTerminoEstimada, descripcion, costoEstimado });
-    // Puedes agregar lógica adicional según tus necesidades, como enviar los datos a una API, guardar en una base de datos, etc.
+  const handleInputChange = (field, text) => {
+    switch (field) {
+      case 'patente':
+        setPatente(text);
+        break;
+      case 'fechaInicio':
+        setFechaInicio(text);
+        break;
+      case 'fechaTerminoEstimada':
+        setFechaTerminoEstimada(text);
+        break;
+      case 'descripcion':
+        setDescripcion(text);
+        break;
+      case 'costoEstimado':
+        setCostoEstimado(text);
+        break;
+      default:
+        break;
+    }
   };
 
   return (
     <View style={styles.container}>
-      <Text>Ingrese los datos de la mantención:</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Patente del auto"
-        onChangeText={text => setPatente(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Fecha de inicio"
-        onChangeText={text => setFechaInicio(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Fecha estimada de término"
-        onChangeText={text => setFechaTerminoEstimada(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Descripción de la mantención"
-        onChangeText={text => setDescripcion(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Costo estimado"
-        onChangeText={text => setCostoEstimado(text)}
-        keyboardType="numeric"
-      />
-      <Button title="Guardar Mantención" onPress={handleSubmit} />
+      <View style={styles.inputContainer}>
+        <Icon name="car" size={20} color="black" style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Patente del auto"
+          value={patente}
+          onChangeText={(text) => handleInputChange('patente', text)}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <Icon name="calendar" size={20} color="black" style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Fecha de inicio"
+          value={fechaInicio}
+          onChangeText={(text) => handleInputChange('fechaInicio', text)}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <Icon name="calendar" size={20} color="black" style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Fecha estimada de término"
+          value={fechaTerminoEstimada}
+          onChangeText={(text) => handleInputChange('fechaTerminoEstimada', text)}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <Icon name="list-alt" size={20} color="black" style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Descripción de la mantención"
+          value={descripcion}
+          onChangeText={(text) => handleInputChange('descripcion', text)}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <Icon name="dollar" size={20} color="black" style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Costo estimado"
+          value={costoEstimado}
+          onChangeText={(text) => handleInputChange('costoEstimado', text)}
+          keyboardType="numeric"
+        />
+      </View>
+      <Button title="Guardar Mantención" onPress={() => console.log('Guardar')} />
     </View>
   );
 }
@@ -55,13 +91,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 16,
   },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
   input: {
     height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 12,
-    paddingLeft: 8,
-    width: '100%',
+    width: '80%',
+    paddingHorizontal: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: 'black',
+  },
+  icon: {
+    marginRight: 10,
   },
 });
 
