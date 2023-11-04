@@ -35,8 +35,8 @@ function Login() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.logo}>Hans Motors</Text>
       <Image source={require('../images/car.png')} style={styles.logoImage} />
+      <Text style={styles.logo}>Hans Motors</Text>
       <Text style={styles.heading}>Iniciar Sesión</Text>
       <View style={styles.inputContainer}>
         <TouchableOpacity
@@ -97,27 +97,27 @@ const styles = StyleSheet.create({
   logoImage: {
     width: 446,
     height: 60,
-    marginBottom: 50,
   },
   logo: {
-    fontSize: 30,  
+    fontSize: 50,  
     fontWeight: "bold",
     marginBottom: 20,
     color: "#525FE1",
   },
   heading: {
-    fontSize: 18,
+    fontSize: 30,
     fontWeight: "bold",
     marginBottom: 20,
+    marginRight: '40%',
     color: "#333",
   },
   inputContainer: {
     width: "100%",
-    marginBottom: 20,
+    marginBottom: 10,
   },
   inputWrapper: {
     position: "relative",
-    marginBottom: 30,
+    marginBottom: 20,
   },
   label: {
     position: "absolute",
