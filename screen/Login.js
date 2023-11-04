@@ -5,10 +5,13 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
+import Icon from 'react-native-vector-icons/FontAwesome'; // Importa el icono que desees utilizar
+
 
 function Login() {
-  const [emailFocused, setEmailFocused] = useState('');
-  const [passwordFocused, setPasswordFocused] = useState('');
+  const [email, setEmail] = useState({ text: '', focused: false });
+  const [password, setPassword] = useState({ text: '', focused: false });
+
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -20,8 +23,9 @@ function Login() {
     return unsubscribe;
   }, []);
 
+
   const handleLogin = () => {
-    signInWithEmailAndPassword(auth, emailFocused, passwordFocused)
+    signInWithEmailAndPassword(auth, email.text, password.text)
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
@@ -33,46 +37,53 @@ function Login() {
       });
   };
 
+
+
   return (
     <View style={styles.container}>
       <Image source={require('../images/car.png')} style={styles.logoImage} />
       <Text style={styles.logo}>Hans Motors</Text>
       <Text style={styles.heading}>Iniciar Sesión</Text>
       <View style={styles.inputContainer}>
+        
         <TouchableOpacity
           style={styles.inputWrapper}
-          onPress={() => setEmailFocused(true)}
           activeOpacity={1}
         >
-          <Text style={emailFocused ? styles.labelFocused : styles.label}>
-            Correo electrónico
-          </Text>
+          <Icon name="envelope" size={20} color="#A0A0A0" style={styles.icon} />
+          <View style={styles.labelWrapper}>
+            <Text style={email.focused || email.text ? styles.labelFocused : styles.label}>
+              Correo electrónico
+            </Text>
+          </View>
           <TextInput
             placeholder=""
             style={styles.input}
             placeholderTextColor="#A0A0A0"
-            // onFocus={() => setEmailFocused(true)}
-            // onBlur={() => setEmailFocused(false)}
-            onChangeText={(text) => setEmailFocused(text)}
+            onFocus={() => setEmail((prev) => ({ ...prev, focused: true }))}
+            onBlur={() => setEmail((prev) => ({ ...prev, focused: false }))}
+            onChangeText={(text) => setEmail((prev) => ({ ...prev, text }))}
           />
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.inputWrapper}
-          onPress={() => setPasswordFocused(true)}
           activeOpacity={1}
         >
-          <Text style={passwordFocused ? styles.labelFocused : styles.label}>
-            Contraseña
-          </Text>
+          <Icon name="lock" size={20} color="#A0A0A0" style={styles.icon} />
+          <View style={styles.labelWrapper}>
+            <Text style={password.focused || password.text ? styles.labelFocused : styles.label}>
+              Contraseña
+            </Text>
+          </View>
           <TextInput
             placeholder=""
             style={styles.input}
             secureTextEntry
             placeholderTextColor="#A0A0A0"
-            onChangeText={(text) => setPasswordFocused(text)}
-            // onFocus={() => setPasswordFocused(true)}
-            // onBlur={() => setPasswordFocused(false)}
+            onFocus={() => setPassword((prev) => ({ ...prev, focused: true }))}
+            onBlur={() => setPassword((prev) => ({ ...prev, focused: false }))}
+            onChangeText={(text) => setPassword((prev) => ({ ...prev, text }))}
           />
         </TouchableOpacity>
       </View>
@@ -87,6 +98,7 @@ function Login() {
 }
 
 const styles = StyleSheet.create({
+  
   container: {
     flex: 1,
     backgroundColor: "#fff",
@@ -150,6 +162,15 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  icon: {
+    position: "absolute",
+    left: 15,
+    top: 15,
+  },
+  labelWrapper: {
+    marginLeft: 40, // Ajusta la separación según tus necesidades
+    position: "absolute",
   },
 });
 
