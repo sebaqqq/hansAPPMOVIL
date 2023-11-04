@@ -1,20 +1,28 @@
 import React, { useState } from "react";
-import { Text, StyleSheet, View, TextInput, TouchableOpacity, Image } from "react-native";
+import { 
+  Text, 
+  StyleSheet, 
+  View, 
+  TextInput, 
+  TouchableOpacity, 
+  Image, 
+  Alert
+} from "react-native";
 import "react-native-gesture-handler";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { useNavigation } from "@react-navigation/native";
-import { useEffect } from "react";
-import Icon from 'react-native-vector-icons/FontAwesome'; // Importa el icono que desees utilizar
+// import { useEffect } from "react";
+import Icon from 'react-native-vector-icons/FontAwesome'; 
 
 
 function Login() {
-  const [email, setEmail] = useState({ text: '', focused: false });
-  const [password, setPassword] = useState({ text: '', focused: false });
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const navigation = useNavigation();
 
-  useEffect(() => {
+  React.useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         navigation.replace('HomeLogin');
@@ -25,7 +33,7 @@ function Login() {
 
 
   const handleLogin = () => {
-    signInWithEmailAndPassword(auth, email.text, password.text)
+    signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
@@ -36,8 +44,6 @@ function Login() {
         console.log(errorCode, errorMessage);
       });
   };
-
-
 
   return (
     <View style={styles.container}>
@@ -60,9 +66,7 @@ function Login() {
             placeholder=""
             style={styles.input}
             placeholderTextColor="#A0A0A0"
-            onFocus={() => setEmail((prev) => ({ ...prev, focused: true }))}
-            onBlur={() => setEmail((prev) => ({ ...prev, focused: false }))}
-            onChangeText={(text) => setEmail((prev) => ({ ...prev, text }))}
+            onChangeText={(text) => setEmail(text)}
           />
         </TouchableOpacity>
 
@@ -81,9 +85,7 @@ function Login() {
             style={styles.input}
             secureTextEntry
             placeholderTextColor="#A0A0A0"
-            onFocus={() => setPassword((prev) => ({ ...prev, focused: true }))}
-            onBlur={() => setPassword((prev) => ({ ...prev, focused: false }))}
-            onChangeText={(text) => setPassword((prev) => ({ ...prev, text }))}
+            onChangeText={(text) => setPassword(text)}
           />
         </TouchableOpacity>
       </View>
