@@ -8,8 +8,15 @@ function Login () {
       <Text>Hans Motors</Text>
       <View style={styles.tarjeta}>
         <Text>Iniciar Sesión</Text>
-        <TextInput placeholder="Correo electronico" style={styles.cajaTexto}/>
-        <TextInput placeholder="Contraseña" style={styles.cajaTexto}/>
+        <TextInput 
+          placeholder="Correo electronico" 
+          style={styles.cajaTexto}
+        />
+        <TextInput
+          placeholder="Contraseña" 
+          style={styles.cajaTexto}
+          secureTextEntry={true}
+        />
         <View style={styles.padreBoton}>
           <TouchableOpacity style={styles.boton}>
             <Text style={styles.botonTexto}>Iniciar Sesión</Text>
