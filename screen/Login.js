@@ -1,7 +1,17 @@
+<<<<<<< Updated upstream
 import React, { useState } from "react";
 import { Text, StyleSheet, View, TextInput, TouchableOpacity, Image } from "react-native";
+=======
+import * as React from "react";
+import { Text, StyleSheet, View, TextInput, TouchableOpacity } from "react-native";
+>>>>>>> Stashed changes
 import "react-native-gesture-handler";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
+import { useNavigation } from "@react-navigation/native";
+// import { useEffect } from "react";
 
+<<<<<<< Updated upstream
 function Login() {
   const [emailFocused, setEmailFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
@@ -48,6 +58,54 @@ function Login() {
             onBlur={() => setPasswordFocused(false)}
           />
         </TouchableOpacity>
+=======
+function Login () {
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if(user) {
+        navigation.replace("HomeLogin");
+      }
+    });
+    return unsubscribe;
+  }, []);
+
+  const handleLogin = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((authUser) => {
+        navigation.replace("HomeLogin");
+      })
+      .catch((error) => alert(error.message));
+  }
+
+  return (
+    <View style={styles.padre}>
+      <Text>Hans Motors</Text>
+      <View style={styles.tarjeta}>
+        <Text>Iniciar Sesión</Text>
+        <TextInput 
+          placeholder="Correo electronico" 
+          style={styles.cajaTexto}
+          onChangeText={(text) => setEmail(text)}
+        />
+        <TextInput
+          placeholder="Contraseña" 
+          style={styles.cajaTexto}
+          secureTextEntry={true}
+          onChangeText={(text) => setPassword(text)}
+        />
+        <View style={styles.padreBoton}>
+          <TouchableOpacity 
+            style={styles.boton}
+            onPress={handleLogin}
+          >
+            <Text style={styles.botonTexto}>Iniciar Sesión</Text>
+          </TouchableOpacity>
+        </View>
+>>>>>>> Stashed changes
       </View>
       <TouchableOpacity style={styles.loginButton}>
         <Text style={styles.loginButtonText}>Iniciar Sesión</Text>
