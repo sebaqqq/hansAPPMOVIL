@@ -41,6 +41,7 @@ function Cuenta() {
   
   return (
     <View>
+      <Button title="Cerrar sesión" onPress={handleSignOut} />
       {!user ? (
           <Text>No hay datos</Text>
       ) : (
@@ -57,7 +58,6 @@ function Cuenta() {
               ))}
           </View>
       )}
-      <Button title="Cerrar sesión" onPress={handleSignOut} />
     </View>
   );
 }
