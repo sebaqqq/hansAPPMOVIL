@@ -19,7 +19,7 @@ function Cuenta() {
               id: doc.id,
               rut : doc.data().rut,
               nombre : doc.data().nombre,
-              apellido : doc.data().apellidoPaterno,
+              apellido : doc.data().apellido,
               direccion : doc.data().direccion,
               email : doc.data().email
             })
