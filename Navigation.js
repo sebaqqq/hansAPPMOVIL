@@ -37,7 +37,7 @@ export default function Navigation () {
       <Tab.Navigator
         initialRouteName="Hans Motors"
         screenOptions={{
-          tabBarActiveTintColor: '#e91e63',
+          tabBarActiveTintColor: '#0077B6',
         }}
       >
         <Tab.Screen 

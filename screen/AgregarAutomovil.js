@@ -15,11 +15,8 @@ function AgregarAutomovil() {
 
   const agregarAutomovil = async () => {
     try {
-      // Verifica si el documento ya existe
       const automovilRef = doc(db, "automoviles", patente);
       const automovilDoc = await getDoc(automovilRef);
-
-      // Si el documento existe, actualiza los detalles del automóvil
       if (automovilDoc.exists()) {
         await setDoc(automovilRef, {
           marca,
@@ -31,7 +28,6 @@ function AgregarAutomovil() {
         });
         console.log("Automovil updated with Patente (ID): ", patente);
       } else {
-        // Si el documento no existe, crea uno nuevo con la patente como ID
         await setDoc(automovilRef, {
           marca,
           modelo,
@@ -43,7 +39,6 @@ function AgregarAutomovil() {
         console.log("New automovil added with Patente (ID): ", patente);
       }
 
-      // Clear the form after adding/updating the automobile
       setMarca("");
       setModelo("");
       setAno("");
@@ -57,7 +52,7 @@ function AgregarAutomovil() {
   
   return (
     <View style={styles.container}>
-      <Text>Agregar Automovil</Text>
+      <Text style={styles.titulo}>Agregar Automovil</Text>
       <TextInput
         style={styles.input}
         placeholder="Marca"
@@ -97,7 +92,7 @@ function AgregarAutomovil() {
         keyboardType="numeric"
       />
       <TouchableOpacity style={styles.button} onPress={agregarAutomovil}>
-        <Text>Agregar</Text>
+        <Text>Agregar Automovil</Text>
       </TouchableOpacity>
     </View>
   );
@@ -122,6 +117,10 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     marginTop: 10,
+  },
+  titulo: {
+    fontSize: 20,
+    marginBottom: 16,
   },
 });
 

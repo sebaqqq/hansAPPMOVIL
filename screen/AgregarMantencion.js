@@ -28,7 +28,7 @@ function AgrergarMantencion() {
           name="car-alt"
           size={24}
           right={20}
-          color="#5b6f7f"
+          color="#0077B6"
           onPress={() => navigation.navigate("Agregar Automovil")}
         />
       ),
