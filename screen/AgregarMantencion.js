@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   },
   picker: {
     height: 40,
-    width: '100%',
+    width: '80%',
     color: '#333',
     textAlign: 'center', 
   },
