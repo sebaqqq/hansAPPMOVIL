@@ -64,6 +64,7 @@ export default function Navigation () {
           name="Cuenta"
           component={Cuenta}
           options={{
+            headerShown: false,
             tabBarLabel: 'Cuenta',
             tabBarIcon: ({ color, size }) => (
               <AntDesign name="user" size={size} color={color} />

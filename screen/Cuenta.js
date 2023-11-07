@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
-import { Button } from 'react-native-elements';
 import { Alert } from 'react-native';
 
 import { auth, db } from "../firebase";
@@ -19,7 +18,6 @@ function Cuenta() {
         setUser(snapshot.data());
       });
     }
-    return () => unsubscribe();
   }, []);
 
   const handleSignOut = () => {
@@ -33,22 +31,89 @@ function Cuenta() {
   };
   
   return (
-    <View>
+    <View style={{backgroundColor: "#fff", paddingBottom: '100%'}}>
+      <View style={style.encabezado}>
+        <Text style={style.logo}>Hans Motors</Text>
+      </View>
       {!user ? (
         <Text>No hay datos</Text>
       ) : (
-        <View style={{ margin: 20 }}>
-          <Text>Datos Usuario</Text>
-          <Text>Rut: {user.rut}</Text>
-          <Text>Nombre: {user.nombre}</Text>
-          <Text>Apellido: {user.apellido}</Text>
-          <Text>Direccion: {user.direccion}</Text>
-          <Text>Email: {user.email}</Text>
+        <View>
+          <View style={style.container}>
+            <View>
+              <Text style={style.title}>Datos de Usuario</Text>
+            </View>
+            <Text style={style.subtitle}>Rut:</Text>
+            <View>
+              <Text style={style.texto}>{user.rut}</Text>
+            </View>
+            <Text style={style.subtitle}>Nombre:</Text>
+            <View>
+              <Text style={style.texto}>{user.nombre} {user.apellido}</Text>
+            </View>
+            <Text style={style.subtitle}>Direccion:</Text>
+            <View>
+              <Text style={style.texto}>{user.direccion}</Text>
+            </View>
+            <Text style={style.subtitle}>Email:</Text>
+            <View>
+              <Text style={style.texto}>{user.email}</Text>
+            </View>
+            <TouchableOpacity style={style.boton} onPress={handleSignOut}>
+              <Text style={style.botonTexto}>Cerrar sesión</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       )}
-      <Button title="Cerrar sesión" onPress={handleSignOut} />
     </View>
   );
 }
 
+
+const style = StyleSheet.create({
+  encabezado:{
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 10,
+    paddingBottom: '15%',
+  },
+  container: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  logo: {
+    fontSize: 40,
+    fontWeight: "bold",
+    marginTop: '30%',
+    color: "#525FE1",
+  },
+  title: {
+    fontSize: 25,
+    fontWeight: "bold",
+    marginBottom: 20,
+    color: "#000000",
+  },
+  subtitle: {
+    fontSize: 18,
+    fontWeight: "400",
+    marginBottom: 8,
+  },
+  texto: {
+    fontSize: 15,
+    fontWeight: "300",
+    marginBottom: 10,
+  },
+  boton: {
+    backgroundColor: '#525FE1',
+    borderRadius: 30,
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    marginTop: 40,
+  },
+  botonTexto: {
+    textAlign: 'center',
+    color: '#FFFFFF',
+    fontSize: 15,
+  },
+});
 export default Cuenta;
