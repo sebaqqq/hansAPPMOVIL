@@ -11,12 +11,8 @@ import { useNavigation } from "@react-navigation/native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { 
   doc, 
-  getDoc,
-  collection,
-  addDoc, 
+  getDoc, 
   setDoc,
-  serverTimestamp,
-  Timestamp,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { Picker } from '@react-native-picker/picker'; 
