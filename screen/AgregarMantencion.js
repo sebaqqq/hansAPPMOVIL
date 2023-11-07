@@ -9,9 +9,14 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { doc, getDoc } from "firebase/firestore";
+import { 
+  doc, 
+  getDoc,
+  collection,
+  addDoc, 
+} from "firebase/firestore";
 import { db } from "../firebase";
-import { Picker } from '@react-native-picker/picker'; // Import Picker from the new location
+import { Picker } from '@react-native-picker/picker'; 
 
 function AgrergarMantencion() {
   const [patente, setPatente] = useState('');
@@ -47,9 +52,34 @@ function AgrergarMantencion() {
     }
   };
 
-  const handleSaveMantencion = () => {
-    // La lógica para guardar la mantención puede ir aquí
-    console.log('Guardar Mantención');
+  const handleSaveMantencion = async () => {
+    try {
+      if (!patente || !tipoMantencion || !descripcion) {
+        setErrorMessage('Por favor, complete todos los campos.');
+        return;
+      }
+
+      const mantencionData = {
+        patente: patente,
+        tipoMantencion: tipoMantencion,
+        descripcion: descripcion,
+        fecha: new Date().toISOString(), 
+      };
+  
+      const mantencionesCollectionRef = collection(db, 'mantenciones');
+
+      await addDoc(mantencionesCollectionRef, mantencionData);
+  
+      setPatente('');
+      setTipoMantencion('');
+      setDescripcion('');
+      setErrorMessage('');
+
+      console.log('Maintenance saved successfully!');
+    } catch (error) {
+      console.error('Error saving maintenance:', error.message);
+      setErrorMessage('Error al guardar la mantención. Inténtelo de nuevo.');
+    }
   };
 
   return (
