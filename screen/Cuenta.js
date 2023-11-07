@@ -2,9 +2,14 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { Alert } from 'react-native';
-
 import { auth, db } from "../firebase";
-import { collection, onSnapshot, query, addDoc, doc } from "firebase/firestore";
+import { 
+  collection, 
+  onSnapshot, 
+  query, 
+  addDoc, 
+  doc 
+} from "firebase/firestore";
 
 function Cuenta() {
   const navigation = useNavigation();
@@ -41,7 +46,7 @@ function Cuenta() {
         <View>
           <View style={style.container}>
             <View>
-              <Text style={style.title}>Datos de Usuario</Text>
+              <Text style={style.title}>Credencial Usuario</Text>
             </View>
             <Text style={style.subtitle}>Rut:</Text>
             <View>
@@ -68,7 +73,6 @@ function Cuenta() {
     </View>
   );
 }
-
 
 const style = StyleSheet.create({
   encabezado:{
@@ -116,4 +120,5 @@ const style = StyleSheet.create({
     fontSize: 15,
   },
 });
+
 export default Cuenta;

@@ -42,7 +42,7 @@ function AgrergarMantencion() {
           size={24}
           right={20}
           color="#5b6f7f"
-          onPress={() => navigation.navigate("AgregarAutomovil")}
+          onPress={() => navigation.navigate("Agregar Automovil")}
         />
       ),
     });
