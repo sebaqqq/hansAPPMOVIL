@@ -26,7 +26,7 @@ export default function Navigation () {
         options={{
           headerShown: false
         }}/>
-        <Stack.Screen name="AgregarAutomovil" component={AgregarAutomovil}/>
+        <Stack.Screen name="Agregar Automovil" component={AgregarAutomovil}/>
       </Stack.Navigator>
     );
   }

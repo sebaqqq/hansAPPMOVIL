@@ -40,6 +40,7 @@ function AgrergarMantencion() {
         <FontAwesome5
           name="car-alt"
           size={24}
+          right={20}
           color="#5b6f7f"
           onPress={() => navigation.navigate("AgregarAutomovil")}
         />
