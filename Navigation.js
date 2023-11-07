@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import Login from './screen/Login';
+import AgregarAutomovil from './screen/AgregarAutomovil';
 
 //la navegacion de la app
 import EscanerPatente from './screen/ScanerPatente';
@@ -25,6 +26,7 @@ export default function Navigation () {
         options={{
           headerShown: false
         }}/>
+        <Stack.Screen name="AgregarAutomovil" component={AgregarAutomovil}/>
       </Stack.Navigator>
     );
   }

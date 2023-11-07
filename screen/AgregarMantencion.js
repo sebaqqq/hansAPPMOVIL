@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from "@react-navigation/native";
+import { Feather } from "@expo/vector-icons";
 
 function AgrergarMantencion() {
   const [patente, setPatente] = useState('');
@@ -8,6 +10,8 @@ function AgrergarMantencion() {
   const [fechaTerminoEstimada, setFechaTerminoEstimada] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [costoEstimado, setCostoEstimado] = useState('');
+
+  const navigation = useNavigation();
 
   const handleInputChange = (field, text) => {
     switch (field) {
@@ -30,6 +34,18 @@ function AgrergarMantencion() {
         break;
     }
   };
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Feather
+          name="edit"
+          size={24}
+          color="#5b6f7f"
+          onPress={() => navigation.navigate("AgregarAutomovil")}
+        />
+      ),
+    });
+  }, []);
 
   return (
     <View style={styles.container}>
