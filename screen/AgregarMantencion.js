@@ -14,6 +14,9 @@ import {
   getDoc,
   collection,
   addDoc, 
+  setDoc,
+  serverTimestamp,
+  Timestamp,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { Picker } from '@react-native-picker/picker'; 
@@ -60,21 +63,20 @@ function AgrergarMantencion() {
       }
 
       const mantencionData = {
-        patente: patente,
         tipoMantencion: tipoMantencion,
         descripcion: descripcion,
         fecha: new Date().toISOString(), 
       };
   
-      const mantencionesCollectionRef = collection(db, 'mantenciones');
-
-      await addDoc(mantencionesCollectionRef, mantencionData);
+      const mantencionDocRef = doc(db, 'mantenciones', patente);
   
+      await setDoc(mantencionDocRef, mantencionData);
+
       setPatente('');
       setTipoMantencion('');
       setDescripcion('');
       setErrorMessage('');
-
+  
       console.log('Maintenance saved successfully!');
     } catch (error) {
       console.error('Error saving maintenance:', error.message);
