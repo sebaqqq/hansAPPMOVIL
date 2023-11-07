@@ -18,6 +18,8 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(""); // New state for error message
+  const [emailFocused, setEmailFocused] = useState(false);
+  const [passwordFocused, setPasswordFocused] = useState(false);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -52,19 +54,20 @@ function Login() {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1, backgroundColor: "#fff", justifyContent: "center", paddingHorizontal: 20 }}
-    >
+      style={{ flex: 1, backgroundColor: "#fff", justifyContent: "center", paddingHorizontal: 20 }}>
+
       <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }} keyboardShouldPersistTaps="handled">
         <View style={{ alignItems: "center" }}>
           <Text style={{ fontSize: 36, fontWeight: "bold", marginBottom: 20, color: "#525FE1" }}>Hans Motors</Text>
           <Image source={require('../images/car.png')} style={{ width: 300, height: 47, marginBottom: 20 }} />
 
           <Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 20, color: "#333" }}>Iniciar Sesión</Text>
+          
           <View style={{ width: "100%", marginBottom: 20 }}>
             <View style={{ position: "relative", marginBottom: 20 }}>
-              <Icon name="envelope" size={20} color="#A0A0A0" style={{ position: "absolute", left: 8, top: 12, zIndex: 1 }} />
-              <View style={{ position: "absolute", top: 8, left: 40, zIndex: 1 }}>
-                <Text style={{ color: email.length > 0 ? "#525FE1" : "#A0A0A0" }}>Correo electrónico</Text>
+              <Icon name="envelope" size={20} color="#A0A0A0" style={{ position: "absolute", left: 8, top: emailFocused || email.length > 0 ? 2 : 12, zIndex: 1 }} />
+              <View style={{ position: "absolute", top: emailFocused || email.length > 0 ? -10 : 8, left: 40, zIndex: 1 }}>
+                <Text style={{ color: emailFocused || email.length > 0 ? "#525FE1" : "#A0A0A0" }}>Correo electrónico</Text>
               </View>
               <TextInput
                 placeholder=""
@@ -72,12 +75,14 @@ function Login() {
                 placeholderTextColor="#A0A0A0"
                 onChangeText={(text) => setEmail(text)}
                 value={email}
+                onFocus={() => setEmailFocused(true)}
+                onBlur={() => setEmailFocused(false)}
               />
             </View>
             <View style={{ position: "relative", marginBottom: 20 }}>
-              <Icon name="lock" size={20} color="#A0A0A0" style={{ position: "absolute", left: 8, top: 12, zIndex: 1 }} />
-              <View style={{ position: "absolute", top: 8, left: 40, zIndex: 1 }}>
-                <Text style={{ color: password.length > 0 ? "#525FE1" : "#A0A0A0" }}>Contraseña</Text>
+              <Icon name="lock" size={20} color="#A0A0A0" style={{ position: "absolute", left: 8, top: passwordFocused || password.length > 0 ? 2 : 12, zIndex: 1 }} />
+              <View style={{ position: "absolute", top: passwordFocused || password.length > 0 ? -10 : 8, left: 40, zIndex: 1 }}>
+                <Text style={{ color: passwordFocused || password.length > 0 ? "#525FE1" : "#A0A0A0" }}>Contraseña</Text>
               </View>
               <TextInput
                 placeholder=""
@@ -86,9 +91,13 @@ function Login() {
                 placeholderTextColor="#A0A0A0"
                 onChangeText={(text) => setPassword(text)}
                 value={password}
+                onFocus={() => setPasswordFocused(true)}
+                onBlur={() => setPasswordFocused(false)}
               />
             </View>
           </View>
+
+
           {errorMessage !== "" && <Text style={{ color: "red", marginBottom: 10 }}>{errorMessage}</Text>}
           <TouchableOpacity style={{ backgroundColor: "#525FE1", borderRadius: 20, paddingVertical: 12, width: "80%", alignItems: "center", marginTop: 20 }} onPress={handleLogin}>
             <Text style={{ color: "white", fontSize: 14, fontWeight: "bold" }}>Iniciar Sesión</Text>
