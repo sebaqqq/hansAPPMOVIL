@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   titulo: {
-    fontSize: 20,
+    fontSize: 35,
     marginBottom: 16,
   },
 });
