@@ -51,7 +51,7 @@ export default function Navigation () {
           }}
         />
         <Tab.Screen 
-          name="AgrergarMantencion" 
+          name="Agregar Mantencion" 
           component={AgrergarMantencion} 
           options={{
             tabBarLabel: 'Mantencion',
