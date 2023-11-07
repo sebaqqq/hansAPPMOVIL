@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from "@react-navigation/native";
-import { Feather } from "@expo/vector-icons";
+import { FontAwesome5} from "@expo/vector-icons";
 
 function AgrergarMantencion() {
   const [patente, setPatente] = useState('');
@@ -37,8 +37,8 @@ function AgrergarMantencion() {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Feather
-          name="edit"
+        <FontAwesome5
+          name="car-alt"
           size={24}
           color="#5b6f7f"
           onPress={() => navigation.navigate("AgregarAutomovil")}
