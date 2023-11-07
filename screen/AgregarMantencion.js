@@ -5,7 +5,6 @@ import {
   Text, 
   StyleSheet,
   TouchableOpacity, 
-  Button
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from "@react-navigation/native";
@@ -13,8 +12,6 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { Picker } from '@react-native-picker/picker'; // Import Picker from the new location
-
-import DateTimePicker from '@react-native-community/datetimepicker';
 
 function AgrergarMantencion() {
   const [patente, setPatente] = useState('');
@@ -55,22 +52,6 @@ function AgrergarMantencion() {
     console.log('Guardar Mantención');
   };
 
-  const [date, setDate] = useState(new Date());
-  const [showPicker, setShowPicker] = useState(false);
-
-  const handleDateChange = (event, selectedDate) => {
-    setShowPicker(Platform.OS === 'ios');
-    if (selectedDate !== undefined) {
-      setDate(selectedDate);
-      setShowPicker(false);
-    } else {
-      setShowPicker(false);
-    }
-  };
-
-  const showDateTimePicker = () => {
-    setShowPicker(true);
-  };
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
@@ -112,21 +93,8 @@ function AgrergarMantencion() {
           onChangeText={(text) => setDescripcion(text)}
         />
       </View>
-
-      {/* contenedor de fecha */}
-      <View>
-        <Button title="Seleccionar fecha y hora" onPress={showDateTimePicker} />
-        {showPicker && (
-          <DateTimePicker
-            value={date}
-            mode="datetime"
-            onChange={handleDateChange}
-          />
-        )}
-        <Text>Fecha y Hora seleccionados: {date.toString()}</Text>
-      </View>
       <TouchableOpacity style={styles.button} onPress={handleSaveMantencion}>
-        <Text style={styles.buttonText}>Guardar Mantención</Text>
+        <Text style={styles.botonTexto}>Guardar Mantención</Text>
       </TouchableOpacity>
     </View>
   );
