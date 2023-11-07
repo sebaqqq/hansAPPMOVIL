@@ -3,6 +3,8 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-nativ
 import { db } from "../firebase";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 
+// Hola
+
 function AgregarAutomovil() {
   const [marca, setMarca] = useState("");
   const [modelo, setModelo] = useState("");
