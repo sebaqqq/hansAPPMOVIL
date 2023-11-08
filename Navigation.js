@@ -1,4 +1,5 @@
 import 'react-native-gesture-handler';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -10,10 +11,24 @@ import Cuenta from './screen/Cuenta';
 import Patente from './screen/Patente';
 import Inventario from './screen/Inventario';
 
+import Loading from './Loading';
+
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons'; 
 
 export default function Navigation () {
+
+  const [isLoading, setIsLoading] = React.useState(true);
+  React.useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   const Stack = createNativeStackNavigator();
   function MyStack() {
     return (
