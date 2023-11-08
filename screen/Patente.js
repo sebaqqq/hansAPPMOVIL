@@ -36,8 +36,7 @@ const Patente = () => {
         console.log("Clic en patente:", item);
       }}
     >
-      <Text>{item.nombrePatente}</Text>
-      <Text>Patente: {item.id}</Text>
+      <Text style={styles.patenteText}>Patente: {item.id}</Text>
     </TouchableOpacity>
   );
 
@@ -65,17 +64,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    backgroundColor: "#fff",
   },
   title: {
-    fontSize: 20,
+    fontSize: 34,
     fontWeight: "bold",
     marginBottom: 10,
+    color: "#333",
   },
   patenteItem: {
-    padding: 10,
-    marginBottom: 5,
-    backgroundColor: "#f0f0f0",
-    borderRadius: 5,
+    padding: 16,
+    marginBottom: 8,
+    backgroundColor: "#0077B6",
+    borderRadius: 8,
+  },
+  patenteText: {
+    fontSize: 26,
+    color: "#fff",
   },
 });
 
