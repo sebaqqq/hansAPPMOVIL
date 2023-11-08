@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, Alert } from "react-native";
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
+  TouchableOpacity, 
+  FlatList, 
+  Alert,
+  ActivityIndicator
+} from "react-native";
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 
@@ -44,7 +52,12 @@ const Patente = () => {
   );
 
   if (loading) {
-    return <Text>Loading...</Text>;
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text style={styles.loadingText}>Cargando...</Text>
+      </View>
+    );
   }
 
   if (error) {
@@ -114,6 +127,16 @@ const styles = StyleSheet.create({
   },
   info: {
     fontSize: 15,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: "#333333",
   },
 });
 

@@ -60,9 +60,6 @@ const Login = () => {
       });
   };
 
-
-  
-  // JSX del componente
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
