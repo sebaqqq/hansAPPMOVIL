@@ -1,4 +1,5 @@
 import React from 'react';
+import { Barcode } from 'react-native-barcode-builder';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { Alert } from 'react-native';
@@ -6,19 +7,19 @@ import { auth, db } from "../firebase";
 import { 
   collection, 
   onSnapshot, 
-  query, 
-  addDoc, 
   doc 
 } from "firebase/firestore";
 
-function Cuenta() {
+import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
+
+function Perfil() {
   const navigation = useNavigation();
   const [user, setUser] = React.useState([]);
 
   React.useEffect(() => {
-    const identyfyUser = auth.currentUser;
-    if (identyfyUser) {
-      const userRef = doc(db, "users", identyfyUser.uid);
+    const identifyUser = auth.currentUser;
+    if (identifyUser) {
+      const userRef = doc(db, "users", identifyUser.uid);
       onSnapshot(userRef, (snapshot) => {
         setUser(snapshot.data());
       });
@@ -34,39 +35,47 @@ function Cuenta() {
       })
       .catch((error) => alert(error.message));
   };
-  
+
   return (
-    <View style={{backgroundColor: "#fff", paddingBottom: '100%'}}>
-      <View style={style.encabezado}>
-        <Text style={style.logo}>Hans Motors</Text>
+    <View style={styles.container}>
+      <View style={styles.rectangulo}>
+        <Text style={styles.logo}>Hans Motors</Text>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.logoutButton} onPress={handleSignOut}>
+            <MaterialIcons name="exit-to-app" size={24} color="#FFFFFF" />
+          </TouchableOpacity>
+        </View>
       </View>
+
       {!user ? (
         <Text>No hay datos</Text>
       ) : (
-        <View>
-          <View style={style.container}>
-            <View>
-              <Text style={style.title}>Credencial Usuario</Text>
-            </View>
-            <Text style={style.subtitle}>Rut:</Text>
-            <View>
-              <Text style={style.texto}>{user.rut}</Text>
-            </View>
-            <Text style={style.subtitle}>Nombre:</Text>
-            <View>
-              <Text style={style.texto}>{user.nombre} {user.apellido}</Text>
-            </View>
-            <Text style={style.subtitle}>Direccion:</Text>
-            <View>
-              <Text style={style.texto}>{user.direccion}</Text>
-            </View>
-            <Text style={style.subtitle}>Email:</Text>
-            <View>
-              <Text style={style.texto}>{user.email}</Text>
-            </View>
-            <TouchableOpacity style={style.boton} onPress={handleSignOut}>
-              <Text style={style.botonTexto}>Cerrar sesión</Text>
-            </TouchableOpacity>
+        <View style={styles.profileContainer}>
+          <Text style={styles.subtitle}>Credencial de Usuario</Text>
+          <View style={styles.section}>
+            <FontAwesome name="id-card-o" size={20} color="#7377FF" />
+            <Text style={styles.label}>Rut:</Text>
+            <Text style={styles.text}>{user.rut}</Text>
+          </View>
+
+          <View style={styles.barcodeContainer}>
+            <Barcode value={user.rut} format="CODE128" />
+          </View>
+
+          <View style={styles.section}>
+            <FontAwesome name="user" size={20} color="#7377FF" />
+            <Text style={styles.label}>Nombre:</Text>
+            <Text style={styles.text}>{user.nombre} {user.apellido}</Text>
+          </View>
+          <View style={styles.section}>
+            <FontAwesome name="map-marker" size={20} color="#7377FF" />
+            <Text style={styles.label}>Dirección:</Text>
+            <Text style={styles.text}>{user.direccion}</Text>
+          </View>
+          <View style={styles.section}>
+            <FontAwesome name="envelope-o" size={20} color="#7377FF" />
+            <Text style={styles.label}>Email:</Text>
+            <Text style={styles.text}>{user.email}</Text>
           </View>
         </View>
       )}
@@ -74,51 +83,55 @@ function Cuenta() {
   );
 }
 
-const style = StyleSheet.create({
-  encabezado:{
-    alignItems: "center",
-    justifyContent: "center",
-    paddingTop: 10,
-    paddingBottom: '15%',
-  },
+const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
-    alignItems: "center",
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+  rectangulo: {
+    backgroundColor: "#66BAFF",
+    height: 130,
+    width: "100%",
+    flexDirection: 'row', // Añadido para alinear elementos en una fila
+    justifyContent: 'space-between', // Añadido para espaciar elementos en una fila
+    alignItems: 'center',  // Centrado verticalmente
+    paddingHorizontal: 20, // Añadido para agregar espaciado a los lados
   },
   logo: {
-    fontSize: 40,
-    fontWeight: "bold",
-    marginTop: '30%',
-    color: "#525FE1",
+    fontSize: 32,
+    marginLeft: 90,
+    fontWeight: 'bold',
+    color: '#fff',
   },
-  title: {
-    fontSize: 25,
-    fontWeight: "bold",
-    marginBottom: 20,
-    color: "#000000",
+  buttonContainer: {
+    flexDirection: 'row', // Añadido para alinear el botón a la derecha
+  },
+  logoutButton: {
+    marginLeft: 'auto', // Añadido para mover el botón a la derecha
   },
   subtitle: {
-    fontSize: 18,
-    fontWeight: "400",
-    marginBottom: 8,
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 15,
+    color: "#7377FF",
+    textAlign: "center",
   },
-  texto: {
-    fontSize: 15,
-    fontWeight: "300",
-    marginBottom: 10,
+  section: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 15,
   },
-  boton: {
-    backgroundColor: '#525FE1',
-    borderRadius: 30,
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    marginTop: 40,
+  label: {
+    marginLeft: 10,
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#7377FF",
   },
-  botonTexto: {
-    textAlign: 'center',
-    color: '#FFFFFF',
-    fontSize: 15,
+  text: {
+    marginLeft: 5,
+    fontSize: 16,
+    color: "#7377FF",
   },
 });
 
-export default Cuenta;
+export default Perfil;
