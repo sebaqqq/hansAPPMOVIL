@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { 
+  View, 
+  Text, 
+  TextInput, 
+  TouchableOpacity, 
+  StyleSheet,
+  ScrollView
+} from "react-native";
 import { db } from "../firebase";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 
@@ -49,50 +56,58 @@ function AgregarAutomovil() {
   };
   
   return (
-    <View style={styles.container}>
-      <Text style={styles.titulo}>Agregar Automovil</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Marca"
-        value={marca}
-        onChangeText={(text) => setMarca(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Modelo"
-        value={modelo}
-        onChangeText={(text) => setModelo(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Año"
-        value={ano}
-        keyboardType="numeric"
-        onChangeText={(text) => setAno(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Color"
-        value={color}
-        onChangeText={(text) => setColor(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Patente"
-        value={patente}
-        onChangeText={(text) => setPatente(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Kilometraje"
-        value={kilometraje}
-        onChangeText={(text) => setKilometraje(text)}
-        keyboardType="numeric"
-      />
-      <TouchableOpacity style={styles.button} onPress={agregarAutomovil}>
-        <Text>Agregar Automovil</Text>
-      </TouchableOpacity>
-    </View>
+    <ScrollView>
+      <View style={styles.container}>
+        <Text style={styles.titulo}>Agregar Automovil</Text>
+        <Text style={styles.nombreCategoria}>Marca</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Marca"
+          value={marca}
+          onChangeText={(text) => setMarca(text)}
+        />
+        <Text style={styles.nombreCategoria}>Modelo</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Modelo"
+          value={modelo}
+          onChangeText={(text) => setModelo(text)}
+        />
+        <Text style={styles.nombreCategoria}>Año</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Año"
+          value={ano}
+          keyboardType="numeric"
+          onChangeText={(text) => setAno(text)}
+        />
+        <Text style={styles.nombreCategoria}>Color</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Color"
+          value={color}
+          onChangeText={(text) => setColor(text)}
+        />
+        <Text style={styles.nombreCategoria}>Patente</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Patente"
+          value={patente}
+          onChangeText={(text) => setPatente(text)}
+        />
+        <Text style={styles.nombreCategoria}>Kilometraje</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Kilometraje"
+          value={kilometraje}
+          onChangeText={(text) => setKilometraje(text)}
+          keyboardType="numeric"
+        />
+        <TouchableOpacity style={styles.button} onPress={agregarAutomovil}>
+          <Text>Agregar Automovil</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 }
 
@@ -104,22 +119,53 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    padding: 10,
-    margin: 10,
+    borderColor: "#bbb",
+    borderRadius: 3,
+    padding: 8,
+    margin: 8,
     width: 200,
   },
   button: {
     backgroundColor: "#3498db",
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 3,
     marginTop: 10,
   },
   titulo: {
-    fontSize: 35,
-    marginBottom: 16,
+    fontSize: 28,
+    marginBottom: 12,
   },
+  nombreCategoria: {
+    fontSize: 18,
+    marginBottom: 4,
+  },
+  // container: {
+  //   flex: 1,
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  // },
+  // input: {
+  //   borderWidth: 1,
+  //   borderColor: "#ccc",
+  //   borderRadius: 5,
+  //   padding: 10,
+  //   margin: 10,
+  //   width: 200,
+  // },
+  // button: {
+  //   backgroundColor: "#3498db",
+  //   padding: 10,
+  //   borderRadius: 5,
+  //   marginTop: 10,
+  // },
+  // titulo: {
+  //   fontSize: 35,
+  //   marginBottom: 16,
+  // },
+  // nombreCategoria: {
+  //   fontSize: 20,
+  //   marginBottom: 5,
+  // },
 });
 
 export default AgregarAutomovil;

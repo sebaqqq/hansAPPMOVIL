@@ -30,7 +30,7 @@ function AgrergarMantencion() {
       headerRight: () => (
         <MaterialCommunityIcons
           name="car-arrow-right"
-          size={24}
+          size={26}
           right={20}
           color="#0077B6"
           onPress={() => navigation.navigate("Agregar Automovil")}
