@@ -1,5 +1,4 @@
 import React from 'react';
-import { Barcode } from 'react-native-barcode-builder';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { Alert } from 'react-native';
@@ -11,6 +10,7 @@ import {
 } from "firebase/firestore";
 
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import QRCode from 'react-native-qrcode-svg'; // Importa QRCode
 
 function Perfil() {
   const navigation = useNavigation();
@@ -52,16 +52,18 @@ function Perfil() {
       ) : (
         <View style={styles.profileContainer}>
           <Text style={styles.subtitle}>Credencial de Usuario</Text>
+          <Text style={styles.meca}>mecanico</Text>
+
+          <View style={styles.qrCodeContainer}>
+            <QRCode
+              value={`Rut: ${user.rut}\nNombre: ${user.nombre} ${user.apellido}\nDirección: ${user.direccion}\nEmail: ${user.email}`}size={150}/>
+          </View>
+
           <View style={styles.section}>
             <FontAwesome name="id-card-o" size={20} color="#7377FF" />
             <Text style={styles.label}>Rut:</Text>
             <Text style={styles.text}>{user.rut}</Text>
           </View>
-
-          <View style={styles.barcodeContainer}>
-            <Barcode value={user.rut} format="CODE128" />
-          </View>
-
           <View style={styles.section}>
             <FontAwesome name="user" size={20} color="#7377FF" />
             <Text style={styles.label}>Nombre:</Text>
@@ -77,6 +79,7 @@ function Perfil() {
             <Text style={styles.label}>Email:</Text>
             <Text style={styles.text}>{user.email}</Text>
           </View>
+
         </View>
       )}
     </View>
@@ -98,8 +101,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20, // Añadido para agregar espaciado a los lados
   },
   logo: {
-    fontSize: 32,
-    marginLeft: 90,
+    fontSize: 40,
+    marginLeft: 60,
     fontWeight: 'bold',
     color: '#fff',
   },
@@ -110,10 +113,18 @@ const styles = StyleSheet.create({
     marginLeft: 'auto', // Añadido para mover el botón a la derecha
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 15,
-    color: "#7377FF",
+    marginTop: 30,
+    marginBottom: 20,
+    color: "#000",
+    textAlign: "center",
+  },
+  meca: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 30,
+    color: "#000",
     textAlign: "center",
   },
   section: {
@@ -131,6 +142,10 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     fontSize: 16,
     color: "#7377FF",
+  },
+  qrCodeContainer: {
+    alignItems: 'center',
+    marginBottom: 15,
   },
 });
 
