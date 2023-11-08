@@ -1,10 +1,15 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from "react";
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
+  TouchableOpacity,
+  ActivityIndicator, 
+} from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { Alert } from 'react-native';
 import { auth, db } from "../firebase";
 import { 
-  collection, 
   onSnapshot, 
   doc 
 } from "firebase/firestore";
@@ -15,6 +20,7 @@ import QRCode from 'react-native-qrcode-svg'; // Importa QRCode
 function Perfil() {
   const navigation = useNavigation();
   const [user, setUser] = React.useState([]);
+  const [loading, setLoading] = useState(true);
 
   React.useEffect(() => {
     const identifyUser = auth.currentUser;
@@ -22,6 +28,7 @@ function Perfil() {
       const userRef = doc(db, "users", identifyUser.uid);
       onSnapshot(userRef, (snapshot) => {
         setUser(snapshot.data());
+        setLoading(false);
       });
     }
   }, []);
@@ -35,6 +42,15 @@ function Perfil() {
       })
       .catch((error) => alert(error.message));
   };
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text style={styles.loadingText}>Cargando...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -147,6 +163,16 @@ const styles = StyleSheet.create({
   qrCodeContainer: {
     alignItems: 'center',
     marginBottom: 15,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: "#333333",
   },
 });
 
