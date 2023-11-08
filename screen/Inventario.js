@@ -38,7 +38,15 @@ const Inventario = () => {
 
 
   const renderItem = ({ item }) => {
-    const cantidadStyle = item.cantidad < 10 ? styles.cantidadBaja : styles.cantidadNormal;
+
+    let cantidadStyle;
+    if (item.cantidad < 10) {
+      cantidadStyle = styles.cantidadBaja;
+    } else if (item.cantidad >= 10 && item.cantidad <= 20) {
+      cantidadStyle = styles.cantidadMedia;
+    } else {
+      cantidadStyle = styles.cantidadNormal;
+    }
   
     return (
       <View style={[styles.inventarioItem, cantidadStyle]}>
@@ -102,7 +110,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   itemText: {
-    fontSize: 16,
+    fontSize: 15,
     color: "#333333",
   },
   filterInput: {
@@ -125,6 +133,9 @@ const styles = StyleSheet.create({
   },
   cantidadBaja: {
     color: 'red',
+  },
+  cantidadMedia:{
+    color: 'orange'
   },
   cantidadNormal: {
     color: '#333333', // o el color predeterminado
