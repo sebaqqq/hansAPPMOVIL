@@ -102,9 +102,10 @@ const styles = StyleSheet.create({
   },
   logo: {
     fontSize: 40,
-    marginLeft: 60,
+    marginHorizontal: 'auto', // Añadido para centrar horizontalmente
     fontWeight: 'bold',
     color: '#fff',
+    textAlign: 'center', // Añadido para centrar el texto
   },
   buttonContainer: {
     flexDirection: 'row', // Añadido para alinear el botón a la derecha
