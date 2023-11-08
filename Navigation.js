@@ -5,13 +5,13 @@ import { createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import Login from './screen/Login';
 import AgregarAutomovil from './screen/AgregarAutomovil';
-
-//la navegacion de la app
-import EscanerPatente from './screen/ScanerPatente';
 import AgrergarMantencion from './screen/AgregarMantencion';
 import Cuenta from './screen/Cuenta';
+import Patente from './screen/Patente';
+import Inventario from './screen/Inventario';
 
 import { AntDesign } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons'; 
 
 export default function Navigation () {
   const Stack = createNativeStackNavigator();
@@ -41,12 +41,22 @@ export default function Navigation () {
         }}
       >
         <Tab.Screen 
-          name="EscanerPatente" 
-          component={EscanerPatente} 
+          name="Inventario" 
+          component={Inventario} 
           options={{
-            tabBarLabel: 'Escaner',
+            tabBarLabel: 'Inventario',
             tabBarIcon: ({ color, size }) => (
-              <AntDesign name="scan1" size={size} color={color} />
+              <FontAwesome5 name="list-ul" size={size} color={color} />
+            ),
+          }}
+        />
+        <Tab.Screen 
+          name="Patente" 
+          component={Patente}
+          options={{
+            tabBarLabel: 'Patente',
+            tabBarIcon: ({ color, size }) => (
+              <FontAwesome5 name="car-side" size={size} color={color} />
             ),
           }}
         />

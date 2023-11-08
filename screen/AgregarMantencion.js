@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from "@react-navigation/native";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { 
   doc, 
   getDoc, 
@@ -28,8 +28,8 @@ function AgrergarMantencion() {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <FontAwesome5
-          name="car-alt"
+        <MaterialCommunityIcons
+          name="car-arrow-right"
           size={24}
           right={20}
           color="#0077B6"
