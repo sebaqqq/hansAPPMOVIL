@@ -7,6 +7,11 @@ const Patente = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [patentes, setPatentes] = useState([]);
+  const [selectedPatente, setSelectedPatente] = useState(null);
+
+  const handleContainerPress = () => {
+    setSelectedPatente(null);
+  };
 
   useEffect(() => {
     const obtenerPatentes = async () => {
@@ -32,9 +37,7 @@ const Patente = () => {
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={styles.patenteItem}
-      onPress={() => {
-        console.log("Clic en patente:", item);
-      }}
+      onPress={() => setSelectedPatente(item)}
     >
       <Text style={styles.patenteText}>Patente: {item.id}</Text>
     </TouchableOpacity>
@@ -49,14 +52,25 @@ const Patente = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      activeOpacity={1}
+      onPress={handleContainerPress}
+    >
       <Text style={styles.title}>Patentes</Text>
       <FlatList
         data={patentes}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
       />
-    </View>
+      {selectedPatente && (
+        <View style={styles.tarjeta}>
+          <Text style={styles.info}>Mantención: {selectedPatente.tipoMantencion}</Text>
+          <Text style={styles.info}>Fecha: {selectedPatente.fecha}</Text>
+          <Text style={styles.info}>Descripción: {selectedPatente.descripcion}</Text>
+        </View>
+      )}
+    </TouchableOpacity>
   );
 };
 
@@ -81,6 +95,25 @@ const styles = StyleSheet.create({
   patenteText: {
     fontSize: 26,
     color: "#fff",
+  },
+  tarjeta: {
+    margin: 20,
+    marginBottom: '80%',
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    width: '90%',
+    padding: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  info: {
+    fontSize: 15,
   },
 });
 
