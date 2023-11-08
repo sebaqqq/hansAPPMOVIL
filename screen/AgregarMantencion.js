@@ -100,15 +100,16 @@ function AgrergarMantencion() {
           onValueChange={(itemValue) => setTipoMantencion(itemValue)}
           style={styles.picker}
         >
-          <Picker.Item label="Cambio de Aceite y Filtro" value="cambio_aceite_filtro" />
-          <Picker.Item label="Inspección de Frenos" value="inspeccion_frenos" />
-          <Picker.Item label="Revisión de Neumáticos" value="revision_neumaticos" />
+          <Picker.Item label="Seleccione el tipo de mantención" value="" />
+          <Picker.Item label="Sistema de Suspensión" value="sistema_de_suspencion" />
+          <Picker.Item label="Afinación del Motor" value="afinacion_de_motor" />
+          <Picker.Item label="Sistema de Inyección Electrónica" value="sistema_de_inyeccion_electronica" />
           <Picker.Item label='Sistema de Escape' value="sistema_escape" />
-          <Picker.Item label='Filtros de Aire y de Habitaculo' value="filtros_aire_habitaculo" />
-          <Picker.Item label='Sistema de dirrecion y Suspensión' value="sistema_direccion_suspension" />
-          <Picker.Item label='Fluidos' value="fluidos" />
-          <Picker.Item label='Bateria' value="bateria" />
-          <Picker.Item label='Luces' value="luces" />
+          <Picker.Item label='Sistema de Climatización' value="sistema_de_climatizacion" />
+          <Picker.Item label='Sistema de Dirección' value="sistema_de_direccion" />
+          <Picker.Item label='Sistema de Frenos' value="sistema_de_motor" />
+          <Picker.Item label='Sistema de Encendido' value="sistema_de_encendido" />
+          <Picker.Item label='Inspección de Carrocería y Pintura' value="inspección_de_carrocería_y_pintura" />
           <Picker.Item label='Sistema de Transmisión' value="sistema_transmision" />
         </Picker>
       </View>
