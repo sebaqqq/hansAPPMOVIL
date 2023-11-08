@@ -18,15 +18,14 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 // Definición del componente funcional Login
 const Login = () => {
-  // Estados del componente
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [emailFocused, setEmailFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigation();
 
-  // Efecto secundario para redireccionar cuando el usuario está autenticado
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
@@ -36,7 +35,6 @@ const Login = () => {
     return unsubscribe;
   }, []);
 
-  // Función para manejar el inicio de sesión
   const handleLogin = () => {
     setErrorMessage("");
     signInWithEmailAndPassword(auth, email, password)
@@ -48,8 +46,13 @@ const Login = () => {
         const errorCode = error.code;
         let errorMessage = error.message;
 
-        if (errorCode === "auth/wrong-password" || errorCode === "auth/user-not-found") {
-          errorMessage = "El correo o la contraseña es incorrecto";
+        switch (errorCode) {
+          case "auth/wrong-password":
+          case "auth/user-not-found":
+            errorMessage = "El correo o la contraseña es incorrecto";
+            break;
+          default:
+            // Manejar otros errores aquí si es necesario
         }
 
         setErrorMessage(errorMessage);
@@ -57,6 +60,8 @@ const Login = () => {
       });
   };
 
+
+  
   // JSX del componente
   return (
     <KeyboardAvoidingView
@@ -114,12 +119,7 @@ const Login = () => {
             </View>
 
             <View style={styles.inputWrapper}>
-              <Icon
-                name="lock"
-                size={20}
-                color="#A0A0A0"
-                style={styles.icon}
-              />
+              <Icon name="lock" size={20} color="#A0A0A0" style={styles.icon} />
               <TextInput
                 placeholder=""
                 style={[
@@ -127,14 +127,25 @@ const Login = () => {
                   {
                     borderBottomColor: passwordFocused || password.length > 0 ? "#525FE1" : "#000",
                   },
+                  
                 ]}
-                secureTextEntry
+                secureTextEntry={!showPassword}
                 placeholderTextColor="#A0A0A0"
                 onChangeText={(text) => setPassword(text)}
                 value={password}
                 onFocus={() => setPasswordFocused(true)}
                 onBlur={() => setPasswordFocused(false)}
               />
+              <TouchableOpacity
+                style={styles.showPasswordButton}
+                onPress={() => setShowPassword(!showPassword)}
+              >
+                <Icon
+                  name={showPassword ? "eye" : "eye-slash"}
+                  size={20}
+                  color="#A0A0A0"
+                />
+              </TouchableOpacity>
               <View style={styles.labelContainer}>
                 <Text
                   style={[
@@ -142,10 +153,10 @@ const Login = () => {
                     {
                       top: passwordFocused || password.length > 0 ? -10 : 8,
                       left: 40,
-                      color: passwordFocused || password.length > 0 ? "#525FE1" : "#A0A0A0",
-                    },
+                      color: passwordFocused || password.length > 0 ? "#525FE1" : "#A0A0A0",},
                   ]}
                 >
+                  
                   Contraseña
                 </Text>
               </View>
