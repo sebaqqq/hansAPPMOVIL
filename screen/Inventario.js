@@ -11,6 +11,8 @@ import {
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 
+// Hola
+
 const Inventario = () => {
   const [loading, setLoading] = useState(true);
   const [inventario, setInventario] = useState([]);
