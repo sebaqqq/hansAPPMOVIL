@@ -6,7 +6,8 @@ import {
   TouchableOpacity, 
   FlatList, 
   Alert,
-  ActivityIndicator
+  ActivityIndicator,
+  TextInput,
 } from "react-native";
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
@@ -16,6 +17,7 @@ const Patente = () => {
   const [error, setError] = useState(null);
   const [patentes, setPatentes] = useState([]);
   const [selectedPatente, setSelectedPatente] = useState(null);
+  const [filtroPatente, setFiltroPatente] = useState("");
 
   const handleContainerPress = () => {
     setSelectedPatente(null);
@@ -42,15 +44,21 @@ const Patente = () => {
     obtenerPatentes();
   }, []);
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.patenteItem}
-      onPress={() => setSelectedPatente(item)}
-    >
-      <Text style={styles.patenteText}>Patente: {item.id}</Text>
-    </TouchableOpacity>
-  );
-
+  const renderItem = ({ item }) => {
+    // Filtrar patentes basadas en el valor actual de filtroPatente
+    if (filtroPatente && !item.id.includes(filtroPatente)) {
+      return null; // No renderizar si no coincide con el filtro
+    }
+  
+    return (
+      <TouchableOpacity
+        style={styles.patenteItem}
+        onPress={() => setSelectedPatente(item)}
+      >
+        <Text style={styles.patenteText}>Patente: {item.id}</Text>
+      </TouchableOpacity>
+    );
+  };
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
@@ -71,6 +79,12 @@ const Patente = () => {
       onPress={handleContainerPress}
     >
       <Text style={styles.title}>Patentes</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Ingrese una patente para filtrar"
+        value={filtroPatente}
+        onChangeText={(text) => setFiltroPatente(text)}
+      />
       <FlatList
         data={patentes}
         renderItem={renderItem}
@@ -137,6 +151,19 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 16,
     color: "#333333",
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 10,
+    padding: 8,
+    borderRadius: 8,
+  },
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: "#fff",
   },
 });
 
