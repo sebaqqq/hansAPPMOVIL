@@ -11,6 +11,8 @@ import Cuenta from './screen/Cuenta';
 import Patente from './screen/Patente';
 import Inventario from './screen/Inventario';
 
+import Scanner from './screen/TextScanner';
+
 import Loading from './Loading';
 
 import { AntDesign } from '@expo/vector-icons';
@@ -72,6 +74,16 @@ export default function Navigation () {
             tabBarLabel: 'Patente',
             tabBarIcon: ({ color, size }) => (
               <FontAwesome5 name="car-side" size={size} color={color} />
+            ),
+          }}
+        />
+        <Tab.Screen 
+          name="Scanner" 
+          component={Scanner} 
+          options={{
+            tabBarLabel: 'Scanner',
+            tabBarIcon: ({ color, size }) => (
+              <AntDesign name="scan1" size={size} color={color} />
             ),
           }}
         />
