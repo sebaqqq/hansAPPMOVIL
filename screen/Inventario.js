@@ -155,12 +155,10 @@ const Inventario = () => {
   //   (selectedCategory === '' || item.categoria === selectedCategory)
   // );
 
-  const filteredInventario = inventario.filter(item => {
-    return (
-      item.nombreProducto.toLowerCase().includes(filter.toLowerCase()) &&
-      (selectedCategory === '' || item.categoria === selectedCategory)
-    );
-  });
+  const filteredInventario = inventario.filter(item =>
+    item.nombreProducto.toLowerCase().includes(filter.toLowerCase()) &&
+    (!selectedCategory || item.categoria === selectedCategory)
+  );
 
   if (loading) {
     return (
@@ -181,17 +179,19 @@ const Inventario = () => {
         style={styles.filterInput}
       >
         <Picker.Item label="Todas las Categorías" value="" />
-        <Picker.Item label="Sistema de Suspensión" value="sistema_de_suspencion" />
-        <Picker.Item label="Afinación del Motor" value="afinacion_de_motor" />
-        <Picker.Item label="Sistema de Inyección Electrónica" value="sistema_de_inyeccion_electronica" />
-        <Picker.Item label='Sistema de Escape' value="sistema_escape" />
-        <Picker.Item label='Sistema de Climatización' value="sistema_de_climatizacion" />
-        <Picker.Item label='Sistema de Dirección' value="sistema_de_direccion" />
-        <Picker.Item label='Sistema de Frenos' value="sistema_de_motor" />
-        <Picker.Item label='Sistema de Encendido' value="sistema_de_encendido" />
-        <Picker.Item label='Inspección de Carrocería y Pintura' value="inspección_de_carrocería_y_pintura" />
-        <Picker.Item label='Sistema de Transmisión' value="sistema_transmision" />
+        <Picker.Item label="Sistema de Suspensión" value="Sistema de Suspensión" />
+        <Picker.Item label="Afinación del Motor" value="Afinación del Motor" />
+        <Picker.Item label="Sistema de Inyección Electrónica" value="Sistema de Inyección Electrónica" />
+        <Picker.Item label='Sistema de Escape' value="Sistema de Escape" />
+        <Picker.Item label='Sistema de Climatización' value="Sistema de Climatización" />
+        <Picker.Item label='Sistema de Lubricación' value="Sistema de Lubricación" />
+        <Picker.Item label='Sistema de Dirección' value="Sistema de Dirección" />
+        <Picker.Item label='Sistema de Frenos' value="Sistema de Frenos" />
+        <Picker.Item label='Sistema de Encendido' value="Sistema de Encendido" />
+        <Picker.Item label='Inspección de Carrocería y Pintura' value="Inspección de Carrocería y Pintura" />
+        <Picker.Item label='Sistema de Transmisión' value="Sistema de Transmisión" />
       </Picker>
+
       <TextInput
         style={styles.filterInput}
         placeholder="Buscar Producto"
