@@ -150,10 +150,17 @@ const Inventario = () => {
     );
   };
 
-  const filteredInventario = inventario.filter(item =>
-    item.nombreProducto.toLowerCase().includes(filter.toLowerCase()) &&
-    (selectedCategory === '' || item.categoria === selectedCategory)
-  );
+  // const filteredInventario = inventario.filter(item =>
+  //   item.nombreProducto.toLowerCase().includes(filter.toLowerCase()) &&
+  //   (selectedCategory === '' || item.categoria === selectedCategory)
+  // );
+
+  const filteredInventario = inventario.filter(item => {
+    return (
+      item.nombreProducto.toLowerCase().includes(filter.toLowerCase()) &&
+      (selectedCategory === '' || item.categoria === selectedCategory)
+    );
+  });
 
   if (loading) {
     return (
@@ -185,14 +192,12 @@ const Inventario = () => {
         <Picker.Item label='Inspección de Carrocería y Pintura' value="inspección_de_carrocería_y_pintura" />
         <Picker.Item label='Sistema de Transmisión' value="sistema_transmision" />
       </Picker>
-
       <TextInput
         style={styles.filterInput}
         placeholder="Buscar Producto"
         value={filter}
         onChangeText={(text) => setFilter(text)}
       />
-
       <FlatList
         data={filteredInventario}
         renderItem={renderItem}
