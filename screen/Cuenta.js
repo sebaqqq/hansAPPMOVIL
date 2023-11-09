@@ -14,8 +14,8 @@ import {
   doc 
 } from "firebase/firestore";
 
-import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
-import QRCode from 'react-native-qrcode-svg'; // Importa QRCode
+import { MaterialIcons, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+import QRCode from 'react-native-qrcode-svg'; 
 
 function Perfil() {
   const navigation = useNavigation();
@@ -57,6 +57,12 @@ function Perfil() {
       <View style={styles.rectangulo}>
         <Text style={styles.logo}>Hans Motors</Text>
         <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.logoutButton}
+            onPress={() => navigation.navigate("Editar Usuario")}
+          >
+            <FontAwesome name="edit" right={10} size={24} color="#FFFFFF" />
+          </TouchableOpacity>
           <TouchableOpacity style={styles.logoutButton} onPress={handleSignOut}>
             <MaterialIcons name="exit-to-app" size={24} color="#FFFFFF" />
           </TouchableOpacity>

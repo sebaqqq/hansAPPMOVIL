@@ -13,6 +13,7 @@ import Inventario from './screen/Inventario';
 
 import Scanner from './screen/TextScanner';
 
+import EditarUser from './screen/EditarUser';
 import Loading from './Loading';
 
 import { AntDesign } from '@expo/vector-icons';
@@ -44,6 +45,7 @@ export default function Navigation () {
           headerShown: false
         }}/>
         <Stack.Screen name="Agregar Automovil" component={AgregarAutomovil}/>
+        <Stack.Screen name="Editar Usuario" component={EditarUser}/>
       </Stack.Navigator>
     );
   }
