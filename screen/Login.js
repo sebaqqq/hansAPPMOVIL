@@ -285,9 +285,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
   },
+  showPasswordButton: {
+    position: "absolute",
+    right: 8,  // Ajusta la posición del ícono "eye" a la derecha
+    top: 12,
+    zIndex: 1,
+  },
 });
 
-
-
-// Exportar el componente Login para su uso en otras partes de la aplicación
 export default Login;
