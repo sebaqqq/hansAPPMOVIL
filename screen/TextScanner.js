@@ -52,7 +52,6 @@ const Scanner = () => {
       <Camera
         style={{ flex: 1 }}
         type={type}
-        barCodeTypes={[Camera.Constants.BarCodeType.qr]}
         onBarCodeScanned={handleTextDetected}
       >
         <View
