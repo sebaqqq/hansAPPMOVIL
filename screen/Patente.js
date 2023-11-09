@@ -45,9 +45,8 @@ const Patente = () => {
   }, []);
 
   const renderItem = ({ item }) => {
-    // Filtrar patentes basadas en el valor actual de filtroPatente
     if (filtroPatente && !item.id.includes(filtroPatente)) {
-      return null; // No renderizar si no coincide con el filtro
+      return null;
     }
   
     return (
@@ -138,9 +137,22 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    zIndex: 1, 
+  },
+
+  tarjetaPressed: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.1)', 
+    zIndex: 0, 
   },
   info: {
-    fontSize: 15,
+    fontSize: 20,
+    marginBottom: 10,
+    color: "#333",
   },
   loadingContainer: {
     flex: 1,
