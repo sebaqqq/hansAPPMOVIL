@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   rectangulo: {
-    backgroundColor: "#66BAFF",
+    backgroundColor: "#0077B6",
     height: 130,
     width: "100%",
     flexDirection: 'row', // Añadido para alinear elementos en una fila

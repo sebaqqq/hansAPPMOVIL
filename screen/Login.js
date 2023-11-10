@@ -52,9 +52,9 @@ const Login = () => {
             errorMessage = "El correo o la contraseña es incorrecto";
             break;
           default:
-            // Manejar otros errores aquí si es necesario
+            errorMessage = "Ocurrió un error al iniciar sesión";
+            break;
         }
-
         setErrorMessage(errorMessage);
         console.log(errorCode, errorMessage);
       });
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontWeight: "bold",
     marginBottom: 40,
-    color: "#525FE1",
+    color: "#0077B6",
   },
 
   // Imagen del logotipo
@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
 
   // Botón de inicio de sesión
   loginButton: {
-    backgroundColor: "#525FE1",
+    backgroundColor: "#0077B6",
     borderRadius: 20,
     paddingVertical: 12,
     width: "80%",
