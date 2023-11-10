@@ -4,7 +4,7 @@
     "slug": "hansAppMovil",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/Logo.png",
+    "icon": "./assets/Logo.jpg",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./images/LogoSinFondo.png",
@@ -32,7 +32,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./images/LogoSinFondo.png",
+        "foregroundImage": "./assets/Logo.jpg",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
@@ -40,7 +40,7 @@
       ]
     },
     "web": {
-      "favicon": "./images/AutoSinFondo.png"
+      "favicon": "./assets/Logo.ico"
     }
   }
 }
