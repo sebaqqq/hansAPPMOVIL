@@ -1,86 +1,82 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { Camera } from 'expo-camera';
-import { db } from '../firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import React from 'react';
+import { 
+  StyleSheet, 
+  Text, 
+  View, 
+  TouchableOpacity, 
+  Linking 
+} from 'react-native';
+import { BarCodeScanner } from 'expo-barcode-scanner';
+import { useEffect, useState } from "react";
 
-const Scanner = () => {
-  const [hasPermission, setHasPermission] = useState(null);
-  const [type, setType] = useState(Camera.Constants.Type.back);
+export default function Scaner() {
+    const [hasPermission, setHasPermission] = useState([]);
+    const [scanned, setScanned] = useState([]);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const { status } = await Camera.requestPermissionsAsync();
-        setHasPermission(status === 'granted');
-      } catch (error) {
-        console.error('Error al solicitar permisos de cámara:', error);
-      }
-    })();
-  }, []);
+    useEffect(() => {
+        (async () => {
+            const { status } = await BarCodeScanner.requestPermissionsAsync([]);
+            setHasPermission(status === 'granted');
+        })();
+    }, []);
 
-  const handleTextDetected = async ({ data }) => {
-    console.log('Texto detectado:', data);
+    const handleBarCodeScanned = ({ type, data }) => {
+        setScanned(true);
+        alert(`Código de barras con tipo ${type} y data ${Linking.openURL(`${data}`)} ha sido escaneado!`);
+    };
 
-    try {
-      // Realizar una consulta a la colección "mantenciones" con el texto escaneado
-      const mantencionesRef = doc(db, 'mantenciones', data);
-      const mantencionesSnapshot = await getDoc(mantencionesRef);
-
-      if (mantencionesSnapshot.exists()) {
-        // El texto escaneado coincide con una patente en la colección
-        console.log('Texto escaneado coincide con una patente en la colección.');
-        // Aquí puedes realizar las acciones adicionales que necesites.
-      } else {
-        console.log('Texto escaneado no coincide con ninguna patente en la colección.');
-      }
-    } catch (error) {
-      console.error('Error al consultar la colección:', error);
+    if (hasPermission === null) {
+        return <Text>Requesting for camera permission</Text>;
     }
-  };
+    if (hasPermission === false) {
+        return <Text>No access to camera</Text>;
+    }
 
-  if (hasPermission === null) {
-    return <View />;
-  }
-
-  if (hasPermission === false) {
-    return <Text>Sin acceso a la cámara</Text>;
-  }
-
-  return (
-    <View style={{ flex: 1 }}>
-      <Camera
-        style={{ flex: 1 }}
-        type={type}
-        onBarCodeScanned={handleTextDetected}
-      >
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: 'transparent',
-            flexDirection: 'row',
-          }}
-        >
-          <TouchableOpacity
-            style={{
-              flex: 0.1,
-              alignSelf: 'flex-end',
-              alignItems: 'center',
-            }}
-            onPress={() => {
-              setType(
-                type === Camera.Constants.Type.back
-                  ? Camera.Constants.Type.front
-                  : Camera.Constants.Type.back
-              );
-            }}
-          >
-            <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>Cambiar cámara</Text>
-          </TouchableOpacity>
+    return (
+        <View style={styles.container}>
+            <BarCodeScanner 
+                onBarCodeScanned={ scanned ? undefined : handleBarCodeScanned}
+                style={styles.escaner}
+            />
+            {scanned && <TouchableOpacity
+                onPress={() => setScanned(false)}
+                style={styles.boton}>
+                <Text style={styles.botonText}>Presione para Escanear</Text>
+            </TouchableOpacity>}
         </View>
-      </Camera>
-    </View>
-  );
-};
+    );
+}
 
-export default Scanner;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  escaner: {  
+    height: 500,
+    width: '100%',
+    alignSelf: 'center',
+  },
+  boton: {
+    width: '98%',
+    height: 50,
+    borderColor: '#0077B6',
+    borderWidth: 1,
+    marginTop: 10,
+    borderRadius: 20,
+    paddingLeft: 40,
+    paddingRight: 40,
+    padding: 10,
+    marginTop: 20,
+    backgroundColor: '#0077B6',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  botonText: {
+    fontSize: 20,
+    color: '#fff',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+});

@@ -14,7 +14,10 @@ import {
   doc 
 } from "firebase/firestore";
 
-import { MaterialIcons, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+import { 
+  MaterialIcons, 
+  FontAwesome, 
+} from '@expo/vector-icons';
 import QRCode from 'react-native-qrcode-svg'; 
 
 function Perfil() {
@@ -82,23 +85,23 @@ function Perfil() {
           </View>
 
           <View style={styles.section}>
-            <FontAwesome name="id-card-o" size={20} color="#7377FF" />
-            <Text style={styles.label}>Rut:</Text>
+            <FontAwesome name="id-card-o" size={20} left={104} color="#7377FF" />
+            <Text style={styles.label}></Text>
             <Text style={styles.text}>{user.rut}</Text>
           </View>
           <View style={styles.section}>
-            <FontAwesome name="user" size={20} color="#7377FF" />
-            <Text style={styles.label}>Nombre:</Text>
+            <FontAwesome name="user" size={20} left={104} color="#7377FF" />
+            <Text style={styles.label}></Text>
             <Text style={styles.text}>{user.nombre} {user.apellido}</Text>
           </View>
           <View style={styles.section}>
-            <FontAwesome name="map-marker" size={20} color="#7377FF" />
-            <Text style={styles.label}>Dirección:</Text>
+            <FontAwesome name="map-marker" size={20} left={104} color="#7377FF" />
+            <Text style={styles.label}></Text>
             <Text style={styles.text}>{user.direccion}</Text>
           </View>
           <View style={styles.section}>
-            <FontAwesome name="envelope-o" size={20} color="#7377FF" />
-            <Text style={styles.label}>Email:</Text>
+            <FontAwesome name="envelope-o" size={20} left={104} color="#7377FF" />
+            <Text style={styles.label}></Text>
             <Text style={styles.text}>{user.email}</Text>
           </View>
 
@@ -165,6 +168,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     fontSize: 16,
     color: "#7377FF",
+    left: 114,
   },
   qrCodeContainer: {
     alignItems: 'center',
