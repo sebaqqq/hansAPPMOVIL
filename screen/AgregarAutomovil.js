@@ -21,7 +21,6 @@ function AgregarAutomovil({route}) {
   const navigation = useNavigation();
 
   useEffect(() => {
-    // Check if there are existing parameters, and auto-complete the fields
     if (route.params && route.params.patente) {
       setPatente(route.params.patente);
     }

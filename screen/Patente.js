@@ -40,15 +40,10 @@ const Patente = () => {
   };
 
   useEffect(() => {
-    // Cargar datos al montar el componente
     recargarDatos();
-
-    // Establecer la recarga automática cada 5 minutos (300,000 milisegundos)
     const intervalId = setInterval(() => {
       recargarDatos();
     }, 300000);
-
-    // Limpiar el intervalo cuando el componente se desmonta
     return () => clearInterval(intervalId);
   }, []);
 

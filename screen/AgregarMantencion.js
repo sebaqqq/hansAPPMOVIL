@@ -55,8 +55,7 @@ function AgrergarMantencion() {
         setErrorMessage('Por favor, complete todos los campos.');
         return;
       }
-  
-      // Check if the automobile with the given patente exists
+
       const carDocRef = doc(db, "automoviles", patente);
       const carDocSnapshot = await getDoc(carDocRef);
   
