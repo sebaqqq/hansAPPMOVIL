@@ -22,7 +22,6 @@ function AgrergarMantencion() {
   const [tipoMantencion, setTipoMantencion] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-
   const navigation = useNavigation();
 
   React.useLayoutEffect(() => {

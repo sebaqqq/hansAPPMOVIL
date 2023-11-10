@@ -5,7 +5,6 @@ import {
   View, 
   TouchableOpacity, 
   Linking,
-  ScrollView 
 } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { useEffect, useState } from "react";
