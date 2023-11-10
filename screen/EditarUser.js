@@ -86,34 +86,39 @@ const EditarUser = () => {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Text style={styles.text}>Editar Usuario</Text>
+        <Text style={styles.textTitle}>Editar Usuario</Text>
+        <Text style={styles.text}>Nombre</Text>
         <TextInput
           style={styles.input}
-          placeholder="Nuevo Nombre"
+          placeholder="Nombre"
           value={newName}
           onChangeText={(text) => setNewName(text)}
         />
+        <Text style={styles.text}>Apellido</Text>
         <TextInput
           style={styles.input}
-          placeholder="Nuevo Apellido"
+          placeholder="Apellido"
           value={newApellido}
           onChangeText={(text) => setNewApellido(text)}
         />
+        <Text style={styles.text}>Contraseña</Text>
         <TextInput
           style={styles.input}
-          placeholder="Nueva Contraseña"
+          placeholder="Contraseña"
           value={newPassword}
           onChangeText={(text) => setNewPassword(text)}
         />
+        <Text style={styles.text}>Teléfono</Text>
         <TextInput
           style={styles.input}
-          placeholder="Nuevo Teléfono"
+          placeholder="Teléfono"
           value={newTelefono}
           onChangeText={(text) => setNewTelefono(text)}
         />
+        <Text style={styles.text}>Dirección</Text>
         <TextInput
           style={styles.input}
-          placeholder="Nueva Dirección"
+          placeholder="Dirección"
           value={newDireccion}
           onChangeText={(text) => setNewDireccion(text)}
         />
@@ -132,10 +137,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 16,
   },
-  text: {
-    fontSize: 24,
+  textTitle: {
+    fontSize: 34,
     fontWeight: "bold",
     marginBottom: 20,
+  },
+  text: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
   },
   userData: {
     marginBottom: 20,

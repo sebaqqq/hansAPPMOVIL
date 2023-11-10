@@ -146,33 +146,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 4,
   },
-  // container: {
-  //   flex: 1,
-  //   justifyContent: "center",
-  //   alignItems: "center",
-  // },
-  // input: {
-  //   borderWidth: 1,
-  //   borderColor: "#ccc",
-  //   borderRadius: 5,
-  //   padding: 10,
-  //   margin: 10,
-  //   width: 200,
-  // },
-  // button: {
-  //   backgroundColor: "#3498db",
-  //   padding: 10,
-  //   borderRadius: 5,
-  //   marginTop: 10,
-  // },
-  // titulo: {
-  //   fontSize: 35,
-  //   marginBottom: 16,
-  // },
-  // nombreCategoria: {
-  //   fontSize: 20,
-  //   marginBottom: 5,
-  // },
 });
 
 export default AgregarAutomovil;

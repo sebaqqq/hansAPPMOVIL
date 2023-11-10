@@ -185,13 +185,13 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 20,
-    backgroundColor: '#5b6f7f',
+    backgroundColor: '#0077B6',
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,
   },
-  buttonText: {
-    color: 'white',
+  botonTexto: {
+    color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
   },
