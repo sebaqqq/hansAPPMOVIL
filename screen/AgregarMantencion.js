@@ -43,9 +43,9 @@ function AgrergarMantencion() {
     const carDocM = doc(db, "automoviles", text);
     const carDocSnapshotM = await getDoc(carDocM);
     if (!carDocSnapshotM.exists) {
-      setErrorMessage('No se encontró un automóvil con esa patente');
+      setErrorMessage('Automóvil encontrado');
     } else {
-      setErrorMessage('Automóvil encontrado'); // or setErrorMessage('')
+      setErrorMessage('No se encontró un automóvil con esa patente');
     }
   };
 

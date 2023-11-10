@@ -19,6 +19,39 @@ const Patente = () => {
   const [selectedPatente, setSelectedPatente] = useState(null);
   const [filtroPatente, setFiltroPatente] = useState("");
 
+  const recargarDatos = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const patentesSnapshot = await getDocs(collection(db, "mantenciones"));
+      const nuevasPatentes = patentesSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setPatentes(nuevasPatentes);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error al obtener patentes:", error);
+      setError(error);
+      setLoading(false);
+      Alert.alert("Error", "Hubo un error al obtener las patentes.");
+    }
+  };
+
+  useEffect(() => {
+    // Cargar datos al montar el componente
+    recargarDatos();
+
+    // Establecer la recarga automática cada 5 minutos (300,000 milisegundos)
+    const intervalId = setInterval(() => {
+      recargarDatos();
+    }, 300000);
+
+    // Limpiar el intervalo cuando el componente se desmonta
+    return () => clearInterval(intervalId);
+  }, []);
+
   const handleContainerPress = () => {
     setSelectedPatente(null);
   };

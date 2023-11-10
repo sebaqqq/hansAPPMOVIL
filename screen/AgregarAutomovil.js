@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ScrollView
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { db } from "../firebase";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 
@@ -17,6 +18,7 @@ function AgregarAutomovil({route}) {
   const [color, setColor] = useState("");
   const [kilometraje, setKilometraje] = useState("");
   const [patente, setPatente] = useState("");
+  const navigation = useNavigation();
 
   useEffect(() => {
     // Check if there are existing parameters, and auto-complete the fields
@@ -57,6 +59,7 @@ function AgregarAutomovil({route}) {
       setColor("");
       setKilometraje("");
       setPatente("");
+      navigation.navigate("Agregar Mantencion");
     } catch (error) {
       console.error("Error adding/updating automovil: ", error);
     }
