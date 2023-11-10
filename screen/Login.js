@@ -72,7 +72,7 @@ const Login = () => {
         <View style={styles.centeredContainer}>
           <Text style={styles.title}>Hans Motors</Text>
           <Image
-            source={require("../images/car.png")}
+            source={require("../images/AutoSinFondo.png")}
             style={styles.logoImage}
           />
           <Text style={styles.headerText}>Iniciar Sesión</Text>
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
   // Imagen del logotipo
   logoImage: {
     width: 300,
-    height: 47,
+    height: 57,
     marginBottom: 40,
   },
 
