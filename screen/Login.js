@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 40,
-    color: "#333",
+    color: "#0077B6",
   },
 
   // Contenedor de entrada de usuario

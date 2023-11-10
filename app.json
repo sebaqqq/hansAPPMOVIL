@@ -4,10 +4,10 @@
     "slug": "hansAppMovil",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./images/Auto.ico",
+    "icon": "./images/LogoSinFondo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./images/Logo.ico",
+      "image": "./images/LogoSinFondo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -32,7 +32,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./images/Auto.ico",
+        "foregroundImage": "./images/LogoSinFondo.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
