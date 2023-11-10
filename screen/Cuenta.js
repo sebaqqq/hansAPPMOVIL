@@ -60,12 +60,14 @@ function Perfil() {
       <View style={styles.rectangulo}>
         <Text style={styles.logo}>Hans Motors</Text>
         <View style={styles.buttonContainer}>
+          {/* Place the "Editar Usuario" button on the right */}
           <TouchableOpacity
             style={styles.logoutButton}
             onPress={() => navigation.navigate("Editar Usuario")}
           >
-            <FontAwesome name="edit" right={10} size={24} color="#FFFFFF" />
+            <MaterialIcons name="settings" size={24} color="#FFFFFF" />
           </TouchableOpacity>
+          {/* Place the "Cerrar Sesión" button below the "Editar Usuario" button */}
           <TouchableOpacity style={styles.logoutButton} onPress={handleSignOut}>
             <MaterialIcons name="exit-to-app" size={24} color="#FFFFFF" />
           </TouchableOpacity>
@@ -133,10 +135,12 @@ const styles = StyleSheet.create({
     textAlign: 'center', // Añadido para centrar el texto
   },
   buttonContainer: {
-    flexDirection: 'row', // Añadido para alinear el botón a la derecha
+    flexDirection: 'column', // Change to column direction
+    alignItems: 'center', // Center the buttons horizontally
+    padding: 10,
   },
   logoutButton: {
-    marginLeft: 'auto', // Añadido para mover el botón a la derecha
+    marginTop: 10, // Add margin between the buttons
   },
   subtitle: {
     fontSize: 20,
