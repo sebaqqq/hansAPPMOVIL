@@ -46,7 +46,7 @@ function AgrergarMantencion() {
     if (!carDocSnapshotM.exists) {
       setErrorMessage('No se encontró un automóvil con esa patente');
     } else {
-      setErrorMessage('No se encontró un automóvil con esa patente');
+      setErrorMessage('Automóvil encontrado'); // or setErrorMessage('')
     }
   };
 
