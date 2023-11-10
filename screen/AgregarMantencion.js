@@ -41,13 +41,12 @@ function AgrergarMantencion() {
 
   const handleCheckPatente = async (text) => {
     setPatente(text);
-    const carDocRef = doc(db, "automoviles", text);
-    const carDocSnapshot = await getDoc(carDocRef);
-    if (!carDocSnapshot.exists) {
-      setErrorMessage('La patente no existe en la base de datos');
-      navigation.navigate("Agregar Automovil");
+    const carDocM = doc(db, "automoviles", text);
+    const carDocSnapshotM = await getDoc(carDocM);
+    if (!carDocSnapshotM.exists) {
+      setErrorMessage('No se encontró un automóvil con esa patente');
     } else {
-      setErrorMessage('La patente existe en la base de datos');
+      setErrorMessage('No se encontró un automóvil con esa patente');
     }
   };
 
@@ -57,7 +56,16 @@ function AgrergarMantencion() {
         setErrorMessage('Por favor, complete todos los campos.');
         return;
       }
-
+  
+      // Check if the automobile with the given patente exists
+      const carDocRef = doc(db, "automoviles", patente);
+      const carDocSnapshot = await getDoc(carDocRef);
+  
+      if (!carDocSnapshot.exists()) {
+        navigation.navigate("Agregar Automovil", { patente });
+        return;
+      }
+  
       const mantencionData = {
         tipoMantencion: tipoMantencion,
         descripcion: descripcion,
@@ -67,7 +75,7 @@ function AgrergarMantencion() {
       const mantencionDocRef = doc(db, 'mantenciones', patente);
   
       await setDoc(mantencionDocRef, mantencionData);
-
+  
       setPatente('');
       setTipoMantencion('');
       setDescripcion('');
@@ -79,6 +87,7 @@ function AgrergarMantencion() {
       setErrorMessage('Error al guardar la mantención. Inténtelo de nuevo.');
     }
   };
+  
 
   return (
     <View style={styles.container}>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { 
   View, 
   Text, 
@@ -10,7 +10,7 @@ import {
 import { db } from "../firebase";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 
-function AgregarAutomovil() {
+function AgregarAutomovil({route}) {
   const [marca, setMarca] = useState("");
   const [modelo, setModelo] = useState("");
   const [ano, setAno] = useState("");
@@ -18,6 +18,13 @@ function AgregarAutomovil() {
   const [kilometraje, setKilometraje] = useState("");
   const [patente, setPatente] = useState("");
 
+  useEffect(() => {
+    // Check if there are existing parameters, and auto-complete the fields
+    if (route.params && route.params.patente) {
+      setPatente(route.params.patente);
+    }
+  }, [route.params]);
+  
   const agregarAutomovil = async () => {
     try {
       const automovilRef = doc(db, "automoviles", patente);
