@@ -4,7 +4,7 @@
     "slug": "hansAppMovil",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./images/LogoSinFondo.png",
+    "icon": "./images/Logo.ico",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./images/LogoSinFondo.png",
