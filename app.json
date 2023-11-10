@@ -40,7 +40,7 @@
       ]
     },
     "web": {
-      "favicon": "./images/Auto.ico"
+      "favicon": "./images/AutoSinFondo.png"
     }
   }
 }
