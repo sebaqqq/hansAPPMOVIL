@@ -1,4 +1,3 @@
-// Importaciones de módulos y librerías
 import React, { useState, useEffect } from "react";
 import {
   Text,
@@ -16,7 +15,6 @@ import { auth } from "../firebase";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-// Definición del componente funcional Login
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -176,9 +174,8 @@ const Login = () => {
   );
 };
 
-// Estilos del componente utilizando StyleSheet
+
 const styles = StyleSheet.create({
-  // Contenedor principal del componente
   container: {
     flex: 1,
     backgroundColor: "#fff",
@@ -186,18 +183,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
 
-  // Contenedor de desplazamiento
   scrollViewContainer: {
     flexGrow: 1,
     justifyContent: "center",
   },
 
-  // Contenedor centrado
   centeredContainer: {
     alignItems: "center",
   },
 
-  // Título principal
   title: {
     fontSize: 36,
     fontWeight: "bold",
@@ -205,14 +199,12 @@ const styles = StyleSheet.create({
     color: "#0077B6",
   },
 
-  // Imagen del logotipo
   logoImage: {
     width: 300,
     height: 57,
     marginBottom: 40,
   },
 
-  // Texto de encabezado
   headerText: {
     fontSize: 24,
     fontWeight: "bold",
@@ -220,19 +212,16 @@ const styles = StyleSheet.create({
     color: "#0077B6",
   },
 
-  // Contenedor de entrada de usuario
   inputContainer: {
     width: "100%",
     marginBottom: 20,
   },
 
-  // Contenedor de cada entrada de usuario
   inputWrapper: {
     position: "relative",
     marginBottom: 30,
   },
 
-  // Icono para las entradas de usuario
   icon: {
     position: "absolute",
     left: 8,
@@ -240,7 +229,6 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
 
-  // Contenedor de etiqueta sobre la entrada de usuario
   labelContainer: {
     position: "absolute",
     top: 0,
@@ -248,12 +236,10 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
 
-  // Texto de etiqueta sobre la entrada de usuario
   labelText: {
     fontSize: 14,
   },
 
-  // Entrada de usuario
   input: {
     marginBottom:30,
     borderBottomWidth: 1,
@@ -263,13 +249,11 @@ const styles = StyleSheet.create({
     color: "#333",
   },
 
-  // Texto de error
   errorText: {
     color: "red",
     marginBottom: 10,
   },
 
-  // Botón de inicio de sesión
   loginButton: {
     backgroundColor: "#0077B6",
     borderRadius: 20,
@@ -279,7 +263,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 
-  // Texto dentro del botón de inicio de sesión
   buttonText: {
     color: "white",
     fontSize: 14,
@@ -287,7 +270,7 @@ const styles = StyleSheet.create({
   },
   showPasswordButton: {
     position: "absolute",
-    right: 8,  // Ajusta la posición del ícono "eye" a la derecha
+    right: 8, 
     top: 12,
     zIndex: 1,
   },

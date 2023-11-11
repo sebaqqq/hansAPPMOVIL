@@ -59,11 +59,6 @@ const Inventario = () => {
     );
   };
 
-  // const filteredInventario = inventario.filter(item =>
-  //   item.nombreProducto.toLowerCase().includes(filter.toLowerCase()) &&
-  //   (selectedCategory === '' || item.categoria === selectedCategory)
-  // );
-
   const filteredInventario = inventario.filter(item =>
     item.nombreProducto.toLowerCase().includes(filter.toLowerCase()) &&
     (!selectedCategory || item.categoria === selectedCategory)
@@ -164,7 +159,7 @@ const styles = StyleSheet.create({
     color: 'orange'
   },
   cantidadNormal: {
-    color: '#333333', // o el color predeterminado
+    color: '#333333',
   },
 });
 

@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   loadingText: {
     marginTop: 10,
     fontSize: 16,
-    color: '#333', // Cambia el color del texto según tu diseño
+    color: '#333',
   },
 });
 

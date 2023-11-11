@@ -56,11 +56,10 @@ const styles = StyleSheet.create({
   },
   escaner: {
     height: '90%',
-    width: '100%',  // Utiliza todo el ancho disponible
+    width: '100%',
     alignSelf: 'center',
     marginTop: 30,
     borderRadius: 10,
-    // Otros estilos del escáner
   },
   boton: {
     width: '90%',

@@ -60,14 +60,12 @@ function Perfil() {
       <View style={styles.rectangulo}>
         <Text style={styles.logo}>Hans Motors</Text>
         <View style={styles.buttonContainer}>
-          {/* Place the "Editar Usuario" button on the right */}
           <TouchableOpacity
             style={styles.logoutButton}
             onPress={() => navigation.navigate("Editar Usuario")}
           >
             <MaterialIcons name="settings" size={24} color="#FFFFFF" />
           </TouchableOpacity>
-          {/* Place the "Cerrar Sesión" button below the "Editar Usuario" button */}
           <TouchableOpacity style={styles.logoutButton} onPress={handleSignOut}>
             <MaterialIcons name="exit-to-app" size={24} color="#FFFFFF" />
           </TouchableOpacity>
@@ -122,25 +120,25 @@ const styles = StyleSheet.create({
     backgroundColor: "#0077B6",
     height: 130,
     width: "100%",
-    flexDirection: 'row', // Añadido para alinear elementos en una fila
-    justifyContent: 'space-between', // Añadido para espaciar elementos en una fila
-    alignItems: 'center',  // Centrado verticalmente
-    paddingHorizontal: 20, // Añadido para agregar espaciado a los lados
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
   },
   logo: {
     fontSize: 40,
-    marginHorizontal: 'auto', // Añadido para centrar horizontalmente
+    marginHorizontal: 'auto',
     fontWeight: 'bold',
     color: '#fff',
-    textAlign: 'center', // Añadido para centrar el texto
+    textAlign: 'center',
   },
   buttonContainer: {
-    flexDirection: 'column', // Change to column direction
-    alignItems: 'center', // Center the buttons horizontally
+    flexDirection: 'column',
+    alignItems: 'center',
     padding: 10,
   },
   logoutButton: {
-    marginTop: 10, // Add margin between the buttons
+    marginTop: 10,
   },
   subtitle: {
     fontSize: 20,
