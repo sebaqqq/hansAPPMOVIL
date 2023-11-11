@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  TouchableOpacity, 
-  FlatList, 
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
   Alert,
   ActivityIndicator,
   TextInput,
 } from "react-native";
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
+import { 
+  Foundation,
+} from '@expo/vector-icons';
 
 const Patente = () => {
   const [loading, setLoading] = useState(true);
@@ -51,41 +54,24 @@ const Patente = () => {
     setSelectedPatente(null);
   };
 
-  useEffect(() => {
-    const obtenerPatentes = async () => {
-      try {
-        const patentesSnapshot = await getDocs(collection(db, "mantenciones"));
-        const nuevasPatentes = patentesSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setPatentes(nuevasPatentes);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error al obtener patentes:", error);
-        setError(error);
-        setLoading(false);
-        Alert.alert("Error", "Hubo un error al obtener las patentes.");
-      }
-    };
-
-    obtenerPatentes();
-  }, []);
-
   const renderItem = ({ item }) => {
     if (filtroPatente && !item.id.includes(filtroPatente)) {
       return null;
     }
-  
+
     return (
       <TouchableOpacity
         style={styles.patenteItem}
         onPress={() => setSelectedPatente(item)}
       >
         <Text style={styles.patenteText}>Patente: {item.id}</Text>
+        <View style={styles.statusContainer}>
+          <Text style={styles.status}><Foundation name="clock" size={24} padding={5} color="#FFFFFF" />{item.estado}</Text>
+        </View>
       </TouchableOpacity>
     );
   };
+
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
@@ -119,6 +105,7 @@ const Patente = () => {
       />
       {selectedPatente && (
         <View style={styles.tarjeta}>
+          <Text style={styles.status}>{selectedPatente.estado}</Text>
           <Text style={styles.info}>Mantención: {selectedPatente.tipoMantencion}</Text>
           <Text style={styles.info}>Fecha: {selectedPatente.fecha}</Text>
           <Text style={styles.info}>Descripción: {selectedPatente.descripcion}</Text>
@@ -145,6 +132,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     backgroundColor: "#0077B6",
     borderRadius: 8,
+    position: 'relative',
   },
   patenteText: {
     fontSize: 26,
@@ -165,17 +153,19 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    zIndex: 1, 
+    zIndex: 1,
   },
-
-  tarjetaPressed: {
+  statusContainer: {
     position: 'absolute',
     top: 0,
-    left: 0,
     right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.1)', 
-    zIndex: 0, 
+  },
+  status: {
+    fontSize: 14,
+    padding: 8,
+    backgroundColor: "#0077B6",
+    borderRadius: 8,
+    color: "#fff",
   },
   info: {
     fontSize: 20,
@@ -199,11 +189,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     padding: 8,
     borderRadius: 8,
-  },
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: "#fff",
   },
 });
 
