@@ -90,15 +90,15 @@ function AgrergarMantencion() {
         setErrorMessage('Por favor, complete todos los campos.');
         return;
       }
-
+  
       const carDocRef = doc(db, 'automoviles', patente);
       const carDocSnapshot = await getDoc(carDocRef);
-
+  
       if (!carDocSnapshot.exists()) {
         navigation.navigate('Agregar Automovil', { patente });
         return;
       }
-
+  
       const mantencionData = {
         tipoMantencion: tipoMantencion,
         descripcion: descripcion,
@@ -106,25 +106,67 @@ function AgrergarMantencion() {
         estado: estado,
         kilometrajeMantencion: kilometrajeMantencion,
       };
-
+  
       const mantencionDocRef = doc(db, 'mantenciones', patente);
-
+  
       await setDoc(mantencionDocRef, mantencionData);
-
+  
       setPatente('');
       setTipoMantencion('');
       setDescripcion('');
       setEstado('');
       setKilometrajeMantencion('');
-      setProductos([]);
+      setProductos([]); // Fix: Set productos to an empty array instead of an empty string
       setErrorMessage('');
-
+  
       console.log('Maintenance saved successfully!');
     } catch (error) {
       console.error('Error saving maintenance:', error.message);
       setErrorMessage('Error al guardar la mantención. Inténtelo de nuevo.');
     }
   };
+
+  // const handleSaveMantencion = async () => {
+  //   try {
+  //     if (!patente || !tipoMantencion || !descripcion || !estado || !kilometrajeMantencion || !productos) {
+  //       setErrorMessage('Por favor, complete todos los campos.');
+  //       return;
+  //     }
+
+  //     const carDocRef = doc(db, 'automoviles', patente);
+  //     const carDocSnapshot = await getDoc(carDocRef);
+
+  //     if (!carDocSnapshot.exists()) {
+  //       navigation.navigate('Agregar Automovil', { patente });
+  //       return;
+  //     }
+
+  //     const mantencionData = {
+  //       tipoMantencion: tipoMantencion,
+  //       descripcion: descripcion,
+  //       fecha: new Date().toISOString(),
+  //       estado: estado,
+  //       kilometrajeMantencion: kilometrajeMantencion,
+  //     };
+
+  //     const mantencionDocRef = doc(db, 'mantenciones', patente);
+
+  //     await setDoc(mantencionDocRef, mantencionData);
+
+  //     setPatente('');
+  //     setTipoMantencion('');
+  //     setDescripcion('');
+  //     setEstado('');
+  //     setKilometrajeMantencion('');
+  //     setProductos([]);
+  //     setErrorMessage('');
+
+  //     console.log('Maintenance saved successfully!');
+  //   } catch (error) {
+  //     console.error('Error saving maintenance:', error.message);
+  //     setErrorMessage('Error al guardar la mantención. Inténtelo de nuevo.');
+  //   }
+  // };
 
   return (
     <View style={styles.container}>
@@ -165,14 +207,17 @@ function AgrergarMantencion() {
         <Icon name="list" size={20} color="black" style={styles.icon} />
         {productos && productos.length > 0 ? (
           <Picker
-            selectedValue={productos[0]?.nombreProducto}
-            onValueChange={(itemValue) => setProductos(itemValue)}
-            key={(item) => item.id.toString()}
+            selectedValue={productos.length > 0 ? productos[0]?.nombreProducto : ""}
+            onValueChange={(itemValue) => setProductos(itemValue !== "" ? [{ nombreProducto: itemValue }] : [])}
             style={styles.picker}
           >
             <Picker.Item label="Seleccione el producto a utilizar" value="" />
             {productos.map((item) => (
-              <Picker.Item label={item.nombreProducto} value={item.nombreProducto} key={item.id.toString()} />
+              <Picker.Item
+                label={item.nombreProducto}
+                value={item.nombreProducto}
+                key={item.nombreProducto} // Use the product name as the key
+              />
             ))}
           </Picker>
         ) : (
@@ -189,8 +234,8 @@ function AgrergarMantencion() {
           <Picker.Item label="Seleccione el estado de la mantención" value="" />
           <Picker.Item label="Pendiente" value="pendiente" />
           <Picker.Item label="Prioridad" value="prioridad" />
-          <Picker.Item label="En proceso" value="en_proceso" />
-          <Picker.Item label="Atencion Especial" value="atencion_especial" />
+          <Picker.Item label="En proceso" value="en proceso" />
+          <Picker.Item label="Atencion Especial" value="atencion especial" />
         </Picker>
       </View>
       <View style={styles.inputContainer}>
