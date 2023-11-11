@@ -13,6 +13,10 @@ import {
   doc, 
   getDoc, 
   setDoc,
+  collection,
+  getDocs,
+  query,
+  where,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { Picker } from '@react-native-picker/picker'; 
@@ -21,7 +25,10 @@ function AgrergarMantencion() {
   const [patente, setPatente] = useState('');
   const [tipoMantencion, setTipoMantencion] = useState('');
   const [descripcion, setDescripcion] = useState('');
+  const [estado, setEstado] = useState('');
+  const [kilometrajeMantencion, setKilometrajeMantencion] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [productos, setProductos] = useState([]);
   const navigation = useNavigation();
 
   React.useLayoutEffect(() => {
@@ -32,15 +39,43 @@ function AgrergarMantencion() {
           size={26}
           right={20}
           color="#0077B6"
-          onPress={() => navigation.navigate("Agregar Automovil")}
+          onPress={() => navigation.navigate('Agregar Automovil')}
         />
       ),
     });
   }, [navigation]);
 
+  React.useEffect(() => {
+    const cargarProductos = async () => {
+      try {
+        if (!tipoMantencion) {
+          setProductos([]);
+          return;
+        }
+
+        const inventarioRef = collection(db, 'inventario');
+        const q = query(inventarioRef, where('categoria', '==', tipoMantencion));
+
+        const snapshot = await getDocs(q);
+        const productosData = [];
+
+        snapshot.forEach((doc) => {
+          const producto = doc.data();
+          productosData.push(producto);
+        });
+
+        setProductos(productosData);
+      } catch (error) {
+        console.error('Error al cargar productos:', error.message);
+      }
+    };
+
+    cargarProductos();
+  }, [tipoMantencion]);
+
   const handleCheckPatente = async (text) => {
     setPatente(text);
-    const carDocM = doc(db, "automoviles", text);
+    const carDocM = doc(db, 'automoviles', text);
     const carDocSnapshotM = await getDoc(carDocM);
     if (!carDocSnapshotM.exists) {
       setErrorMessage('Automóvil encontrado');
@@ -51,41 +86,45 @@ function AgrergarMantencion() {
 
   const handleSaveMantencion = async () => {
     try {
-      if (!patente || !tipoMantencion || !descripcion) {
+      if (!patente || !tipoMantencion || !descripcion || !estado || !kilometrajeMantencion || !productos) {
         setErrorMessage('Por favor, complete todos los campos.');
         return;
       }
 
-      const carDocRef = doc(db, "automoviles", patente);
+      const carDocRef = doc(db, 'automoviles', patente);
       const carDocSnapshot = await getDoc(carDocRef);
-  
+
       if (!carDocSnapshot.exists()) {
-        navigation.navigate("Agregar Automovil", { patente });
+        navigation.navigate('Agregar Automovil', { patente });
         return;
       }
-  
+
       const mantencionData = {
         tipoMantencion: tipoMantencion,
         descripcion: descripcion,
-        fecha: new Date().toISOString(), 
+        fecha: new Date().toISOString(),
+        estado: estado,
+        kilometrajeMantencion: kilometrajeMantencion,
       };
-  
+
       const mantencionDocRef = doc(db, 'mantenciones', patente);
-  
+
       await setDoc(mantencionDocRef, mantencionData);
-  
+
       setPatente('');
       setTipoMantencion('');
       setDescripcion('');
+      setEstado('');
+      setKilometrajeMantencion('');
+      setProductos([]);
       setErrorMessage('');
-  
+
       console.log('Maintenance saved successfully!');
     } catch (error) {
       console.error('Error saving maintenance:', error.message);
       setErrorMessage('Error al guardar la mantención. Inténtelo de nuevo.');
     }
   };
-  
 
   return (
     <View style={styles.container}>
@@ -107,18 +146,62 @@ function AgrergarMantencion() {
           onValueChange={(itemValue) => setTipoMantencion(itemValue)}
           style={styles.picker}
         >
-          <Picker.Item label="Seleccione el tipo de mantención" value="" />
-          <Picker.Item label="Sistema de Suspensión" value="sistema_de_suspencion" />
-          <Picker.Item label="Afinación del Motor" value="afinacion_de_motor" />
-          <Picker.Item label="Sistema de Inyección Electrónica" value="sistema_de_inyeccion_electronica" />
-          <Picker.Item label='Sistema de Escape' value="sistema_escape" />
-          <Picker.Item label='Sistema de Climatización' value="sistema_de_climatizacion" />
-          <Picker.Item label='Sistema de Dirección' value="sistema_de_direccion" />
-          <Picker.Item label='Sistema de Frenos' value="sistema_de_motor" />
-          <Picker.Item label='Sistema de Encendido' value="sistema_de_encendido" />
-          <Picker.Item label='Inspección de Carrocería y Pintura' value="inspección_de_carrocería_y_pintura" />
-          <Picker.Item label='Sistema de Transmisión' value="sistema_transmision" />
+          <Picker.Item label="Todas las Categorías" value="" />
+          <Picker.Item label="Sistema de Suspensión" value="Sistema de Suspensión" />
+          <Picker.Item label="Afinación del Motor" value="Afinación del Motor" />
+          <Picker.Item label="Sistema de Inyección Electrónica" value="Sistema de Inyección Electrónica" />
+          <Picker.Item label='Sistema de Escape' value="Sistema de Escape" />
+          <Picker.Item label='Sistema de Climatización' value="Sistema de Climatización" />
+          <Picker.Item label='Sistema de Lubricación' value="Sistema de Lubricación" />
+          <Picker.Item label='Sistema de Dirección' value="Sistema de Dirección" />
+          <Picker.Item label='Sistema de Frenos' value="Sistema de Frenos" />
+          <Picker.Item label='Sistema de Encendido' value="Sistema de Encendido" />
+          <Picker.Item label='Inspección de Carrocería y Pintura' value="Inspección de Carrocería y Pintura" />
+          <Picker.Item label='Sistema de Transmisión' value="Sistema de Transmisión" />
         </Picker>
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Icon name="list" size={20} color="black" style={styles.icon} />
+        {productos && productos.length > 0 ? (
+          <Picker
+            selectedValue={productos[0]?.nombreProducto}
+            onValueChange={(itemValue) => setProductos(itemValue)}
+            key={(item) => item.id.toString()}
+            style={styles.picker}
+          >
+            <Picker.Item label="Seleccione el producto a utilizar" value="" />
+            {productos.map((item) => (
+              <Picker.Item label={item.nombreProducto} value={item.nombreProducto} key={item.id.toString()} />
+            ))}
+          </Picker>
+        ) : (
+          <Text>No hay productos disponibles.</Text>
+        )}
+      </View>
+      <View style={styles.inputContainer}>
+        <Icon name="check" size={20} color="black" style={styles.icon} />
+        <Picker
+          selectedValue={estado}
+          onValueChange={(itemValue) => setEstado(itemValue)}
+          style={styles.picker}
+        >
+          <Picker.Item label="Seleccione el estado de la mantención" value="" />
+          <Picker.Item label="Pendiente" value="pendiente" />
+          <Picker.Item label="Prioridad" value="prioridad" />
+          <Picker.Item label="En proceso" value="en_proceso" />
+          <Picker.Item label="Atencion Especial" value="atencion_especial" />
+        </Picker>
+      </View>
+      <View style={styles.inputContainer}>
+        <Icon name="tachometer" size={20} color="black" style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Kilometraje de la mantención"
+          keyboardType='numeric'
+          value={kilometrajeMantencion}
+          onChangeText={(text) => setKilometrajeMantencion(text)}
+        />
       </View>
       <View style={styles.inputContainer}>
         <Icon name="comment" size={20} color="black" style={styles.icon} />
