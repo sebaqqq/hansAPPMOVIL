@@ -5,6 +5,7 @@ import {
   Text, 
   StyleSheet,
   TouchableOpacity, 
+  Alert
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from "@react-navigation/native";
@@ -105,6 +106,7 @@ function AgrergarMantencion() {
         fecha: new Date().toISOString(),
         estado: estado,
         kilometrajeMantencion: kilometrajeMantencion,
+        productos: productos,
       };
   
       const mantencionDocRef = doc(db, 'mantenciones', patente);
@@ -118,7 +120,8 @@ function AgrergarMantencion() {
       setKilometrajeMantencion('');
       setProductos([]); // Fix: Set productos to an empty array instead of an empty string
       setErrorMessage('');
-  
+      
+      Alert.alert("Mantención agregada correctamente");
       console.log('Maintenance saved successfully!');
     } catch (error) {
       console.error('Error saving maintenance:', error.message);
