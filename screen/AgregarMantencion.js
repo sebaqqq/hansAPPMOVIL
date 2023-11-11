@@ -129,48 +129,6 @@ function AgrergarMantencion() {
     }
   };
 
-  // const handleSaveMantencion = async () => {
-  //   try {
-  //     if (!patente || !tipoMantencion || !descripcion || !estado || !kilometrajeMantencion || !productos) {
-  //       setErrorMessage('Por favor, complete todos los campos.');
-  //       return;
-  //     }
-
-  //     const carDocRef = doc(db, 'automoviles', patente);
-  //     const carDocSnapshot = await getDoc(carDocRef);
-
-  //     if (!carDocSnapshot.exists()) {
-  //       navigation.navigate('Agregar Automovil', { patente });
-  //       return;
-  //     }
-
-  //     const mantencionData = {
-  //       tipoMantencion: tipoMantencion,
-  //       descripcion: descripcion,
-  //       fecha: new Date().toISOString(),
-  //       estado: estado,
-  //       kilometrajeMantencion: kilometrajeMantencion,
-  //     };
-
-  //     const mantencionDocRef = doc(db, 'mantenciones', patente);
-
-  //     await setDoc(mantencionDocRef, mantencionData);
-
-  //     setPatente('');
-  //     setTipoMantencion('');
-  //     setDescripcion('');
-  //     setEstado('');
-  //     setKilometrajeMantencion('');
-  //     setProductos([]);
-  //     setErrorMessage('');
-
-  //     console.log('Maintenance saved successfully!');
-  //   } catch (error) {
-  //     console.error('Error saving maintenance:', error.message);
-  //     setErrorMessage('Error al guardar la mantención. Inténtelo de nuevo.');
-  //   }
-  // };
-
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
