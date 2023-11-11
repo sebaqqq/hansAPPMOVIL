@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView} from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { db } from "../firebase";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { Picker } from '@react-native-picker/picker'; 
+import ValidadorPatenteAutomovil from "./ValidadorPatente";
 
 function AgregarAutomovil({ route }) {
   const [marca, setMarca] = useState("");
@@ -21,6 +22,15 @@ function AgregarAutomovil({ route }) {
   }, [route.params]);
 
   const agregarAutomovil = async () => {
+    if (patente) {
+      const validador = new ValidadorPatenteAutomovil(patente);
+      if (!validador.validar()) {
+        Alert.alert("Patente invalida");
+        return;
+      } else {
+        Alert.alert("Patente valida");
+      }
+    }
     try {
       const automovilRef = doc(db, "automoviles", patente);
       const automovilDoc = await getDoc(automovilRef);
