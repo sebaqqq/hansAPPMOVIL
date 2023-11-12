@@ -66,7 +66,7 @@ const Patente = () => {
       >
         <Text style={styles.patenteText}>Patente: {item.id}</Text>
         <View style={styles.statusContainer}>
-          <Text style={styles.status}><Foundation name="clock" size={24} padding={5} color="#FFFFFF" />{item.estado}</Text>
+          <Text style={styles.status}><Foundation name="clock" size={24} left={12} color="#FFFFFF" />{item.estado}</Text>
         </View>
       </TouchableOpacity>
     );

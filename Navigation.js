@@ -18,6 +18,7 @@ import Loading from './Loading';
 
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons'; 
+import { color } from 'react-native-elements/dist/helpers';
 
 export default function Navigation () {
 
@@ -35,7 +36,9 @@ export default function Navigation () {
   const Stack = createNativeStackNavigator();
   function MyStack() {
     return (
-      <Stack.Navigator>
+      <Stack.Navigator 
+        systemUiVisibility={false}
+      >
         <Stack.Screen name="Login" component={Login} 
         options={{
           headerShown: false
@@ -57,6 +60,9 @@ export default function Navigation () {
         initialRouteName="Hans Motors"
         screenOptions={{
           tabBarActiveTintColor: '#0077B6',
+          tabBarInactiveTintColor: '#000000',
+          tabBarActiveBackgroundColor: '#FFFFFF',
+          tabBarInactiveBackgroundColor: '#FFFFFF',
         }}
       >
         <Tab.Screen 
