@@ -56,6 +56,7 @@ const EditarUser = () => {
           apellido: newApellido || userData.apellido,
           telefono: newTelefono || userData.telefono,
           direccion: newDireccion || userData.direccion,
+          password: newPassword || userData.password,
         };
   
         await setDoc(userDocRef, updatedUserData, { merge: true });
