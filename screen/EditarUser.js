@@ -124,7 +124,7 @@ const EditarUser = () => {
           onChangeText={(text) => setNewDireccion(text)}
         />
         <TouchableOpacity onPress={actualizarDatosUsuario} style={styles.boton}>
-          <Text>Actualizar Datos</Text>
+          <Text style={styles.botonText}>Actualizar Datos</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -175,11 +175,15 @@ const styles = StyleSheet.create({
     color: "#333333",
   },
   boton: {
-    backgroundColor: "#00cc00",
+    backgroundColor: "#0077B6",
     padding: 10,
     borderRadius: 8,
     width: "100%",
     alignItems: "center",
+  },
+  botonText: {
+    color: "#fff",
+    fontWeight: "bold",
   },
 });
 

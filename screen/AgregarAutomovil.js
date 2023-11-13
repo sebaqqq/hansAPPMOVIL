@@ -164,7 +164,7 @@ function AgregarAutomovil({ route }) {
           keyboardType="numeric"
         />
         <TouchableOpacity style={styles.button} onPress={agregarAutomovil}>
-          <Text>Agregar Automovil</Text>
+          <Text style={styles.buttonText}>Agregar Automovil</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     width: 200,
   },
   button: {
-    backgroundColor: "#3498db",
+    backgroundColor: "#0077B6",
     padding: 10,
     borderRadius: 8,
     marginTop: 10,
@@ -213,6 +213,10 @@ const styles = StyleSheet.create({
     width: '80%',
     color: '#333',
     textAlign: 'center', 
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
   },
 });
 
