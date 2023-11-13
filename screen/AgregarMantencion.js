@@ -5,7 +5,7 @@ import {
   Text, 
   StyleSheet,
   TouchableOpacity, 
-  Alert
+  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from "@react-navigation/native";
@@ -85,8 +85,6 @@ function AgrergarMantencion() {
       setPatente(text);
       const carDocM = doc(db, 'automoviles', text);
       const carDocSnapshotM = await getDoc(carDocM);
-
-      setPatente('');
   
       if (carDocSnapshotM.exists) {
         setErrorMessage('Automóvil encontrado');
@@ -151,6 +149,7 @@ function AgrergarMantencion() {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.textTitle}>Agregar Mantención</Text>
       <View style={styles.inputContainer}>
         <Icon name="car" size={20} color="black" style={styles.icon} />
         <TextInput
@@ -301,6 +300,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  textTitle: {
+    fontSize: 34,
+    fontWeight: "bold",
+    marginBottom: 20,
   },
 });
 
