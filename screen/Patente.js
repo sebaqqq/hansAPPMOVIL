@@ -46,7 +46,7 @@ const Patente = () => {
     recargarDatos();
     const intervalId = setInterval(() => {
       recargarDatos();
-    }, 300000);
+    }, 10000);
     return () => clearInterval(intervalId);
   }, []);
 

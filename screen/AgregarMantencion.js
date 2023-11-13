@@ -75,13 +75,25 @@ function AgrergarMantencion() {
   }, [tipoMantencion]);
 
   const handleCheckPatente = async (text) => {
-    setPatente(text);
-    const carDocM = doc(db, 'automoviles', text);
-    const carDocSnapshotM = await getDoc(carDocM);
-    if (!carDocSnapshotM.exists) {
-      setErrorMessage('Automóvil encontrado');
-    } else {
-      setErrorMessage('No se encontró un automóvil con esa patente');
+    try {
+      // Verify if the text is a non-empty string
+      if (typeof text !== 'string' || text.trim() === '') {
+        setErrorMessage('La patente no es válida.');
+        return;
+      }
+  
+      setPatente(text);
+      const carDocM = doc(db, 'automoviles', text);
+      const carDocSnapshotM = await getDoc(carDocM);
+  
+      if (carDocSnapshotM.exists) {
+        setErrorMessage('Automóvil encontrado');
+      } else {
+        setErrorMessage('No se encontró un automóvil con esa patente');
+      }
+    } catch (error) {
+      console.error('Error checking patente:', error.message);
+      setErrorMessage('Error al verificar la patente. Inténtelo de nuevo.');
     }
   };
 
@@ -89,6 +101,12 @@ function AgrergarMantencion() {
     try {
       if (!patente || !tipoMantencion || !descripcion || !estado || !kilometrajeMantencion || !productos) {
         setErrorMessage('Por favor, complete todos los campos.');
+        return;
+      }
+  
+      // Verify if the patente is a non-empty string
+      if (typeof patente !== 'string' || patente.trim() === '') {
+        setErrorMessage('La patente no es válida.');
         return;
       }
   
@@ -118,9 +136,9 @@ function AgrergarMantencion() {
       setDescripcion('');
       setEstado('');
       setKilometrajeMantencion('');
-      setProductos([]); // Fix: Set productos to an empty array instead of an empty string
+      setProductos([]);
       setErrorMessage('');
-      
+  
       Alert.alert("Mantención agregada correctamente");
       console.log('Maintenance saved successfully!');
     } catch (error) {

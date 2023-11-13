@@ -59,6 +59,7 @@ const Inventario = () => {
     );
   };
 
+
   const filteredInventario = inventario.filter(item =>
     item.nombreProducto.toLowerCase().includes(filter.toLowerCase()) &&
     (!selectedCategory || item.categoria === selectedCategory)
