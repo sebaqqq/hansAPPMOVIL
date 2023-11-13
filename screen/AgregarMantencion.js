@@ -85,6 +85,8 @@ function AgrergarMantencion() {
       setPatente(text);
       const carDocM = doc(db, 'automoviles', text);
       const carDocSnapshotM = await getDoc(carDocM);
+
+      setPatente('');
   
       if (carDocSnapshotM.exists) {
         setErrorMessage('Automóvil encontrado');
