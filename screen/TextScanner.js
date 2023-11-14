@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet,
-  TouchableOpacity
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
@@ -14,8 +9,7 @@ export default function Scanner() {
   const navigation = useNavigation();
 
   const [hasPermission, setHasPermission] = useState(null);
-  const [scanned, setScanned] = useState(false);
-  const [patente, setPatente] = useState('');
+  const [isScanning, setIsScanning] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
@@ -27,22 +21,18 @@ export default function Scanner() {
 
   const handleCheckPatente = async (text) => {
     try {
-      // Verificar si el texto es una cadena no vacía
       if (typeof text !== 'string' || text.trim() === '') {
         setErrorMessage('La patente no es válida.');
         return;
       }
 
-      setPatente(text);
       const mantencionDocRef = doc(db, 'mantenciones', text);
       const mantencionDocSnapshot = await getDoc(mantencionDocRef);
 
       if (mantencionDocSnapshot.exists()) {
         const mantencionData = mantencionDocSnapshot.data();
-        // setErrorMessage(`Mantención encontrada. Datos: ${JSON.stringify(mantencionData)}`);
         console.log(mantencionData);
 
-        // Navegar a la pantalla "DatosEscaneados" con los datos escaneados
         navigation.navigate('Datos Escaneados', { mantencionData });
       } else {
         setErrorMessage('No se encontró una mantención con esa patente');
@@ -53,9 +43,20 @@ export default function Scanner() {
     }
   };
 
-  const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
-    handleCheckPatente(data);
+  const handleBarCodeScanned = ({ data }) => {
+    if (isScanning) {
+      setIsScanning(false);
+      handleCheckPatente(data);
+
+      setTimeout(() => {
+        setIsScanning(true);
+      }, 2000);
+    }
+  };
+
+  const resetScanner = () => {
+    setIsScanning(true);
+    setErrorMessage('');
   };
 
   if (hasPermission === null) {
@@ -68,13 +69,13 @@ export default function Scanner() {
   return (
     <View style={styles.container}>
       <BarCodeScanner
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+        onBarCodeScanned={handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
       <View style={styles.overlay}>
         <Text style={styles.label}>Escanea el código QR</Text>
-        <TouchableOpacity onPress={() => setScanned(false)} style={styles.button}>
-          <Text style={styles.buttonText}>Cancelar Escaneo</Text>
+        <TouchableOpacity onPress={resetScanner} style={styles.button}>
+          <Text style={styles.buttonText}>Reiniciar Escaneo</Text>
         </TouchableOpacity>
       </View>
       {errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null}
