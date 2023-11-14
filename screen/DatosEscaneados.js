@@ -17,19 +17,21 @@ export default function DatosEscaneadosScreen({ route }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Datos Escaneados</Text>
-      <Text>{`Descripción: ${descripcion}`}</Text>
-      <Text>{`Estado: ${estado}`}</Text>
-      <Text>{`Fecha: ${fecha}`}</Text>
-      <Text>{`Kilometraje de Mantención: ${kilometrajeMantencion}`}</Text>
-      <Text>{`Tipo de Mantención: ${tipoMantencion}`}</Text>
+      <Text style={styles.title}>Datos Escaneados</Text>
+      <View style={styles.dataContainer}>
+        <Text style={styles.dataItem}>{`Descripción: ${descripcion}`}</Text>
+        <Text style={styles.dataItem}>{`Estado: ${estado}`}</Text>
+        <Text style={styles.dataItem}>{`Fecha: ${fecha}`}</Text>
+        <Text style={styles.dataItem}>{`Kilometraje de Mantención: ${kilometrajeMantencion}`}</Text>
+        <Text style={styles.dataItem}>{`Tipo de Mantención: ${tipoMantencion}`}</Text>
+      </View>
       
       {/* Mostrar productos si están presentes */}
       {productos.length > 0 && (
-        <View>
-          <Text>Productos:</Text>
+        <View style={styles.productContainer}>
+          <Text style={styles.productTitle}>Productos:</Text>
           {productos.map((producto, index) => (
-            <Text key={index}>{`- ${producto.nombreProducto}`}</Text>
+            <Text style={styles.productItem} key={index}>{`- ${producto.nombreProducto}`}</Text>
           ))}
         </View>
       )}
@@ -40,12 +42,29 @@ export default function DatosEscaneadosScreen({ route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    padding: 20,
   },
-  label: {
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  dataContainer: {
+    marginBottom: 20,
+  },
+  dataItem: {
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  productContainer: {
+    marginBottom: 20,
+  },
+  productTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
+  },
+  productItem: {
+    fontSize: 16,
   },
 });

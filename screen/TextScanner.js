@@ -39,7 +39,7 @@ export default function Scanner() {
 
       if (mantencionDocSnapshot.exists()) {
         const mantencionData = mantencionDocSnapshot.data();
-        setErrorMessage(`Mantención encontrada. Datos: ${JSON.stringify(mantencionData)}`);
+        // setErrorMessage(`Mantención encontrada. Datos: ${JSON.stringify(mantencionData)}`);
         console.log(mantencionData);
 
         // Navegar a la pantalla "DatosEscaneados" con los datos escaneados
