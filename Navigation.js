@@ -12,13 +12,13 @@ import Patente from './screen/Patente';
 import Inventario from './screen/Inventario';
 
 import Scanner from './screen/TextScanner';
+import DatosEscaneados from './screen/DatosEscaneados';
 
 import EditarUser from './screen/EditarUser';
 import Loading from './Loading';
 
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons'; 
-import { color } from 'react-native-elements/dist/helpers';
 
 export default function Navigation () {
 
@@ -49,6 +49,7 @@ export default function Navigation () {
         }}/>
         <Stack.Screen name="Agregar Automovil" component={AgregarAutomovil}/>
         <Stack.Screen name="Editar Usuario" component={EditarUser}/>
+        <Stack.Screen name="Datos Escaneados" component={DatosEscaneados}/>
       </Stack.Navigator>
     );
   }
