@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     padding: 20,
     elevation: 3,
     minHeight: 100, // Ajusta la altura según tus necesidades
-    width: '100%', // Ajusta el ancho según tus necesidades
+    width: '90%', // Ajusta el ancho según tus necesidades
     alignSelf: 'center', // Centra la credencial en el centro horizontal de la pantalla
     justifyContent: 'center', // Centra la credencial verticalmente en la pantalla
     marginTop: 'auto', // Coloca la credencial en la mitad de la pantalla
