@@ -54,6 +54,15 @@ export default function Scanner() {
     }
   };
 
+  useEffect(() => {
+    handleCheckPatente();
+    const intervalId = setInterval(() => {
+      handleCheckPatente();
+    }
+    , 10000);
+    return () => clearInterval(intervalId);
+  }, []);
+
   const resetScanner = () => {
     setIsScanning(true);
     setErrorMessage('');
