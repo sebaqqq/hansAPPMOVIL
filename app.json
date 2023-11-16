@@ -4,7 +4,7 @@
     "slug": "hansAppMovil",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/Logo.jpg",
+    "icon": "./assets/Logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./images/LogoSinFondo.png",
@@ -28,19 +28,33 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Allow $(PRODUCT_NAME) to access your photos",
+        "NSPhotoLibraryAddUsageDescription": "Allow $(PRODUCT_NAME) to save photos"
+      }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/Logo.jpg",
+        "foregroundImage": "./assets/Logo.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
-        "CAMERA_ROLL"
-      ]
+        "CAMERA_ROLL",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.ACCESS_MEDIA_LOCATION"
+      ],
+      "package": "com.sebaquintana.hansAppMovil"
     },
     "web": {
       "favicon": "./assets/Logo.ico"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "faa7f615-058a-4520-895c-a224254da096"
+      }
+    },
+    "owner": "sebaquintana"
   }
 }
