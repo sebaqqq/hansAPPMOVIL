@@ -45,7 +45,7 @@
         "android.permission.WRITE_EXTERNAL_STORAGE",
         "android.permission.ACCESS_MEDIA_LOCATION"
       ],
-      "package": "com.sebaquintana.hansAppMovil"
+      "package": "com.sebaquintana.HansMotors"
     },
     "web": {
       "favicon": "./assets/Logo.ico"
