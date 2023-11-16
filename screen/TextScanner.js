@@ -11,6 +11,7 @@ export default function Scanner() {
   const [hasPermission, setHasPermission] = useState(null);
   const [isScanning, setIsScanning] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -32,7 +33,6 @@ export default function Scanner() {
       if (mantencionDocSnapshot.exists()) {
         const mantencionData = mantencionDocSnapshot.data();
         console.log(mantencionData);
-
         navigation.navigate('Datos Escaneados', { mantencionData });
       } else {
         setErrorMessage('No se encontró una mantención con esa patente');
@@ -40,6 +40,8 @@ export default function Scanner() {
     } catch (error) {
       console.error('Error al verificar la patente:', error.message);
       setErrorMessage('Error al verificar la patente. Inténtelo de nuevo.');
+    } finally {
+      setIsScanning(true);
     }
   };
 
@@ -47,10 +49,6 @@ export default function Scanner() {
     if (isScanning) {
       setIsScanning(false);
       handleCheckPatente(data);
-
-      setTimeout(() => {
-        setIsScanning(true);
-      }, 2000);
     }
   };
 
@@ -58,14 +56,14 @@ export default function Scanner() {
     handleCheckPatente();
     const intervalId = setInterval(() => {
       handleCheckPatente();
-    }
-    , 10000);
+    }, 10000);
     return () => clearInterval(intervalId);
-  }, []);
+  }, [refresh]); // Agrega refresh a las dependencias del useEffect
 
   const resetScanner = () => {
     setIsScanning(true);
     setErrorMessage('');
+    setRefresh((prevRefresh) => !prevRefresh);
   };
 
   if (hasPermission === null) {
@@ -78,6 +76,7 @@ export default function Scanner() {
   return (
     <View style={styles.container}>
       <BarCodeScanner
+        key={refresh}
         onBarCodeScanned={handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />

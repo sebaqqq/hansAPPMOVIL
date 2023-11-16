@@ -4,7 +4,6 @@ import { useNavigation } from "@react-navigation/native";
 import { auth, db } from "../firebase";
 import { onSnapshot, doc } from "firebase/firestore";
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
-import QRCode from 'react-native-qrcode-svg';
 
 function Perfil() {
   const navigation = useNavigation();
@@ -64,14 +63,6 @@ function Perfil() {
         <View style={styles.profileContainer}>
           <Text style={styles.subtitle}>Credencial de Usuario</Text>
           <Text style={styles.meca}>{user.rol}</Text>
-
-          <View style={[styles.qrCodeContainer, styles.elevation]}>
-            <QRCode
-              value={`Rut: ${user.rut}\nNombre: ${user.nombre} ${user.apellido}\nDirección: ${user.direccion}\nEmail: ${user.email}`}
-              size={150}
-            />
-          </View>
-
           <View style={styles.section}>
             <View style={styles.iconTextContainer}>
               <FontAwesome name="id-card-o" size={20} color="#0077B6" />
