@@ -63,7 +63,7 @@ function Perfil() {
       ) : (
         <View style={styles.profileContainer}>
           <Text style={styles.subtitle}>Credencial de Usuario</Text>
-          <Text style={styles.meca}>Mecánico</Text>
+          <Text style={styles.meca}>{user.rol}</Text>
 
           <View style={[styles.qrCodeContainer, styles.elevation]}>
             <QRCode
