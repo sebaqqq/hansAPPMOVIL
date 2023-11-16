@@ -65,7 +65,7 @@ function Perfil() {
           <Text style={styles.subtitle}>Credencial de Usuario</Text>
           <Text style={styles.meca}>Mecánico</Text>
 
-          <View style={styles.qrCodeContainer}>
+          <View style={[styles.qrCodeContainer, styles.elevation]}>
             <QRCode
               value={`Rut: ${user.rut}\nNombre: ${user.nombre} ${user.apellido}\nDirección: ${user.direccion}\nEmail: ${user.email}`}
               size={150}
@@ -73,23 +73,31 @@ function Perfil() {
           </View>
 
           <View style={styles.section}>
-            <FontAwesome name="id-card-o" size={20} rightg={80} color="#0077B6" />
-            <Text style={styles.label}>RUT:</Text>
+            <View style={styles.iconTextContainer}>
+              <FontAwesome name="id-card-o" size={20} color="#0077B6" />
+              <Text style={styles.label}>RUT:</Text>
+            </View>
             <Text style={styles.text}>{user.rut}</Text>
           </View>
           <View style={styles.section}>
-            <FontAwesome name="user" size={20} color="#0077B6" />
-            <Text style={styles.label}>Nombre:</Text>
+            <View style={styles.iconTextContainer}>
+              <FontAwesome name="user" size={20} color="#0077B6" />
+              <Text style={styles.label}>Nombre:</Text>
+            </View>
             <Text style={styles.text}>{user.nombre} {user.apellido}</Text>
           </View>
           <View style={styles.section}>
-            <FontAwesome name="map-marker" size={20} color="#0077B6" />
-            <Text style={styles.label}>Dirección:</Text>
+            <View style={styles.iconTextContainer}>
+              <FontAwesome name="map-marker" size={20} color="#0077B6" />
+              <Text style={styles.label}>Dirección:</Text>
+            </View>
             <Text style={styles.text}>{user.direccion}</Text>
           </View>
           <View style={styles.section}>
-            <FontAwesome name="envelope-o" size={20} color="#0077B6" />
-            <Text style={styles.label}>Email:</Text>
+            <View style={styles.iconTextContainer}>
+              <FontAwesome name="envelope-o" size={20} color="#0077B6" />
+              <Text style={styles.label}>Email:</Text>
+            </View>
             <Text style={styles.text}>{user.email}</Text>
           </View>
         </View>
@@ -103,25 +111,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F0F0F0",
     borderRadius: 10,
-    margin: 10,
-    padding: 20,
+    margin: 30,
+    padding: 10,
     elevation: 3,
-    minHeight: 100, // Ajusta la altura según tus necesidades
-    width: '90%', // Ajusta el ancho según tus necesidades
-    alignSelf: 'center', // Centra la credencial en el centro horizontal de la pantalla
-    justifyContent: 'center', // Centra la credencial verticalmente en la pantalla
-    marginTop: 'auto', // Coloca la credencial en la mitad de la pantalla
-    marginBottom: 'auto', // Coloca la credencial en la mitad de la pantalla
+    maxHeight: "90%",
+    width: '90%',
+    alignSelf: 'center',
   },
   headerContainer: {
     backgroundColor: "#0077B6",
     height: 90,
+    marginBottom: 120, // Asegúrate de cerrar correctamente la propiedad height con una coma
     borderRadius: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    marginBottom: 20,
   },
   logo: {
     fontSize: 20,
@@ -138,7 +143,6 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 30,
     fontWeight: "bold",
-    marginTop: 10,
     marginBottom: 10,
     color: "#000",
     textAlign: "center",
@@ -153,7 +157,7 @@ const styles = StyleSheet.create({
   section: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between', // Mover los iconos a la derecha
+    paddingLeft: 70,
     marginBottom: 15,
   },
   label: {
@@ -161,17 +165,27 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "#0077B6",
-    textAlign: "center",
   },
   text: {
     marginLeft: 5,
     fontSize: 16,
     color: "#0077B6",
-    textAlign: "center",
   },
   qrCodeContainer: {
     alignItems: 'center',
-    marginBottom: 15,
+    marginBottom: 20,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    padding: 10,
+    width: 180,
+    alignSelf: 'center', // Centra horizontalmente el código QR
+  },
+  qrContent: {
+    width: "100%",
+    alignItems: 'center',
+  },
+  elevation: {
+    elevation: 5, // Ajusta el valor según sea necesario
   },
   loadingContainer: {
     flex: 1,
@@ -183,6 +197,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#333333",
   },
+  profileContainer: {
+    marginTop: -60, // Ajusta el valor según sea necesario
+  },
+  iconTextContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center', // Centra horizontalmente los iconos y el texto
+  },
+
 });
 
 export default Perfil;
