@@ -188,9 +188,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#333333",
   },
-  profileContainer: {
-    marginTop: -60, // Ajusta el valor según sea necesario
-  },
   iconTextContainer: {
     flexDirection: 'row',
     alignItems: 'center',

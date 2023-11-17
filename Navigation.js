@@ -38,6 +38,15 @@ export default function Navigation () {
     return (
       <Stack.Navigator 
         systemUiVisibility={false}
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#0077B6',
+          },
+          headerTintColor: '#0077B6',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
       >
         <Stack.Screen name="Login" component={Login} 
         options={{
