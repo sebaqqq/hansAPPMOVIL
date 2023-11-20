@@ -1,3 +1,19 @@
+// Componente Scanner:
+
+// Este componente React Native utiliza la cámara del dispositivo para escanear códigos QR. Luego, verifica la patente asociada en la base de datos Firebase y muestra la información de la mantención correspondiente.
+
+// Características Principales:
+
+// - Utiliza el componente `BarCodeScanner` de `expo-barcode-scanner` para escanear códigos QR.
+// - Verifica la información asociada con la patente en Firebase.
+// - Actualiza automáticamente los datos cada 10 segundos utilizando un intervalo.
+// - Muestra un mensaje de error si la patente no es válida o no se encuentra.
+// - Permite reiniciar el escaneo mediante un botón.
+// - Proporciona feedback visual al escanear y al reiniciar.
+
+
+
+
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';

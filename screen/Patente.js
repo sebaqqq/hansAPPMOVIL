@@ -1,3 +1,20 @@
+// Componente Patente:
+
+// Este componente React Native muestra una lista de patentes y sus estados asociados. Permite filtrar las patentes por su número y ver detalles de mantenimiento al hacer clic en una patente.
+
+// Características Principales:
+
+// - Utiliza el estado para gestionar la carga, los errores, las patentes y la patente seleccionada.
+// - Utiliza Firebase Firestore para obtener datos de patentes.
+// - Actualiza automáticamente los datos cada 10 segundos utilizando un intervalo.
+// - Permite filtrar las patentes por su número mediante un campo de entrada.
+// - Muestra una lista de patentes con su número y estado.
+// - Muestra detalles de mantenimiento cuando se selecciona una patente.
+// - Utiliza estilos y colores para mejorar la presentación visual.
+
+
+
+
 import React, { useEffect, useState } from "react";
 import {
   View,

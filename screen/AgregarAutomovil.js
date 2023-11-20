@@ -1,3 +1,18 @@
+// Componente AgregarAutomovil:
+
+// Este componente React Native sirve como la pantalla para agregar o editar información sobre un automóvil.
+
+// Características Principales:
+
+// - Utiliza diferentes estados para almacenar la información del automóvil, como marca, modelo, año, color, patente y kilometraje.
+// - Utiliza un efecto de lado para manejar la patente proporcionada en los parámetros de la ruta.
+// - Utiliza un componente `Picker` de React Native para seleccionar la marca del automóvil.
+// - Proporciona campos de entrada de texto para el modelo, año, color, patente y kilometraje del automóvil.
+// - Utiliza un botón para ejecutar la función `agregarAutomovil`, que agrega o actualiza la información del automóvil en la base de datos Firestore.
+// - Muestra una alerta cuando el automóvil se agrega correctamente y navega a la pantalla "Agregar Mantencion".
+
+
+
 import React, { useState, useEffect } from "react";
 import { 
   View, 
