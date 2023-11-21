@@ -70,9 +70,9 @@ export default function Navigation () {
         initialRouteName="Hans Motors"
         screenOptions={{
           tabBarActiveTintColor: '#0077B6',
-          tabBarInactiveTintColor: '#000000',
-          tabBarActiveBackgroundColor: '#FFFFFF',
-          tabBarInactiveBackgroundColor: '#FFFFFF',
+          tabBarInactiveTintColor: '#0077B6',
+          tabBarActiveBackgroundColor: '#0077B6',
+          tabBarInactiveBackgroundColor: '#0077B6',
         }}
       >
         <Tab.Screen 
@@ -80,6 +80,7 @@ export default function Navigation () {
           component={Inventario} 
           options={{
             tabBarLabel: 'Inventario',
+            headerShown: false,
             tabBarIcon: ({ color, size }) => (
               <FontAwesome5 name="list-ul" size={size} color={color} />
             ),
@@ -90,6 +91,7 @@ export default function Navigation () {
           component={Patente}
           options={{
             tabBarLabel: 'Patente',
+            headerShown: false,
             tabBarIcon: ({ color, size }) => (
               <FontAwesome5 name="car-side" size={size} color={color} />
             ),
