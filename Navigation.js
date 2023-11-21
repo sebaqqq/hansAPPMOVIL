@@ -38,11 +38,13 @@ export default function Navigation () {
     return (
       <Stack.Navigator 
         systemUiVisibility={false}
+        initialRouteName="Login"
         screenOptions={{
           headerStyle: {
-            backgroundColor: '#0077B6',
+            backgroundColor: '#0077B6',    
           },
           headerTintColor: '#0077B6',
+          backgroundColor: '#9ACEF8',
           headerTitleStyle: {
             fontWeight: 'bold',
           },
@@ -70,9 +72,9 @@ export default function Navigation () {
         initialRouteName="Hans Motors"
         screenOptions={{
           tabBarActiveTintColor: '#0077B6',
-          tabBarInactiveTintColor: '#0077B6',
-          tabBarActiveBackgroundColor: '#0077B6',
-          tabBarInactiveBackgroundColor: '#0077B6',
+          tabBarInactiveTintColor: '#000000',
+          tabBarActiveBackgroundColor: '#FFFFFF ',
+          tabBarInactiveBackgroundColor: '#FFFFFF',
         }}
       >
         <Tab.Screen 
