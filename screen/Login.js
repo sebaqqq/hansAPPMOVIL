@@ -1,9 +1,6 @@
 // Componente Login:
-
 // Este componente React Native proporciona una pantalla de inicio de sesión con campos para correo electrónico y contraseña.
-
 // Características Principales:
-
 // - Utiliza el estado para gestionar el correo electrónico, la contraseña, el mensaje de error y el estado de visualización de la contraseña.
 // - Utiliza Firebase Authentication para realizar la autenticación por correo electrónico y contraseña.
 // - Utiliza un efecto para redirigir al usuario a otra pantalla si ya está autenticado.
@@ -11,9 +8,6 @@
 // - Muestra un mensaje de error en caso de fallo en la autenticación.
 // - Utiliza íconos de FontAwesome para el icono de correo electrónico y contraseña.
 // - Cambia el color del borde inferior de los campos de entrada y las etiquetas de acuerdo con su estado (focado o no).
-
-
-
 
 import React, { useState, useEffect } from "react";
 import {
@@ -91,7 +85,6 @@ const Login = () => {
             style={styles.logoImage}
           />
           <Text style={styles.headerText}>Iniciar Sesión</Text>
-
           <View style={styles.inputContainer}>
             <View style={styles.inputWrapper}>
               <Icon
@@ -129,7 +122,6 @@ const Login = () => {
                 </Text>
               </View>
             </View>
-
             <View style={styles.inputWrapper}>
               <Icon name="lock" size={20} color="#A0A0A0" style={styles.icon} />
               <TextInput
@@ -139,7 +131,6 @@ const Login = () => {
                   {
                     borderBottomColor: passwordFocused || password.length > 0 ? "#525FE1" : "#000",
                   },
-                  
                 ]}
                 secureTextEntry={!showPassword}
                 placeholderTextColor="#A0A0A0"
@@ -168,17 +159,14 @@ const Login = () => {
                       color: passwordFocused || password.length > 0 ? "#525FE1" : "#A0A0A0",},
                   ]}
                 >
-                  
                   Contraseña
                 </Text>
               </View>
             </View>
           </View>
-
           {errorMessage !== "" && (
             <Text style={styles.errorText}>{errorMessage}</Text>
           )}
-
           <TouchableOpacity
             style={styles.loginButton}
             onPress={handleLogin}

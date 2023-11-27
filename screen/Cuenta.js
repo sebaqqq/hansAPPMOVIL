@@ -1,18 +1,12 @@
 // Componente Perfil:
-
 // Este componente React Native sirve como la pantalla de perfil del usuario, mostrando sus credenciales y opciones para editar el usuario o cerrar sesión.
-
 // Características Principales:
-
 // - Utiliza estados como `user` para almacenar la información del usuario y `loading` para indicar si la información está cargando.
 // - Utiliza el componente `onSnapshot` para escuchar cambios en los datos del usuario en Firestore.
 // - Muestra la información del usuario, incluyendo el rol, RUT, nombre, dirección y correo electrónico.
 // - Proporciona botones para editar el usuario y cerrar sesión.
 // - Utiliza el componente `ActivityIndicator` para mostrar un indicador de carga mientras se obtiene la información del usuario.
 // - Utiliza estilos de diseño para una apariencia atractiva y fácil de leer.
-
-
-
 
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
@@ -82,28 +76,24 @@ function Perfil() {
           <View style={styles.section}>
             <View style={styles.iconTextContainer}>
               <FontAwesome name="id-card-o" size={20} color="#0077B6" />
-              <Text style={styles.label}>RUT:</Text>
             </View>
             <Text style={styles.text}>{user.rut}</Text>
           </View>
           <View style={styles.section}>
             <View style={styles.iconTextContainer}>
               <FontAwesome name="user" size={20} color="#0077B6" />
-              <Text style={styles.label}>Nombre:</Text>
             </View>
             <Text style={styles.text}>{user.nombre} {user.apellido}</Text>
           </View>
           <View style={styles.section}>
             <View style={styles.iconTextContainer}>
               <FontAwesome name="map-marker" size={20} color="#0077B6" />
-              <Text style={styles.label}>Dirección:</Text>
             </View>
             <Text style={styles.text}>{user.direccion}</Text>
           </View>
           <View style={styles.section}>
             <View style={styles.iconTextContainer}>
               <FontAwesome name="envelope-o" size={20} color="#0077B6" />
-              <Text style={styles.label}>Email:</Text>
             </View>
             <Text style={styles.text}>{user.email}</Text>
           </View>
