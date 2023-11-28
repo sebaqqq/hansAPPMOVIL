@@ -63,7 +63,7 @@ const Inventario = () => {
       <View style={[styles.inventarioItem, cantidadStyle]}>
         <Text style={styles.itemText}>Marca: {item.marca}</Text>
         <Text style={styles.itemText}>Nombre Producto: {item.nombreProducto}</Text>
-        <Text style={styles.itemText}>Categoria: {item.categoria}</Text>
+        <Text style={styles.itemText}>Categoría: {item.categoria}</Text>
         <Text style={[styles.itemText, cantidadStyle]}>Cantidad: {item.cantidad}</Text>
         <Text style={styles.itemText}>Precio: {item.costo}</Text>
       </View>
