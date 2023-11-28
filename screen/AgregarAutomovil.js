@@ -80,7 +80,7 @@ function AgregarAutomovil({ route }) {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Text style={styles.titulo}>Agregar Automovil</Text>
+        <Text style={styles.titulo}>Agregar Automóvil</Text>
         <Text style={styles.nombreCategoria}>Marca</Text>
         <Picker
           selectedValue={marca}
@@ -174,7 +174,7 @@ function AgregarAutomovil({ route }) {
           keyboardType="numeric"
         />
         <TouchableOpacity style={styles.button} onPress={agregarAutomovil}>
-          <Text style={styles.buttonText}>Agregar Automovil</Text>
+          <Text style={styles.buttonText}>Agregar Automóvil</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
