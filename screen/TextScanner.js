@@ -77,10 +77,10 @@ export default function Scanner() {
   };
 
   if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
+    return <Text>Solicitando permiso de Cámara</Text>;
   }
   if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
+    return <Text>Sin acceso a la cámara</Text>;
   }
 
   return (
