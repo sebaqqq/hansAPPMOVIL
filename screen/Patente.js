@@ -15,23 +15,24 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  FlatList,
+  ScrollView,
   Alert,
-  ActivityIndicator,
   TextInput,
+  RefreshControl,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
-import { 
-  Foundation,
-} from '@expo/vector-icons';
+import { Foundation } from "@expo/vector-icons";
 
 const Patente = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [patentes, setPatentes] = useState([]);
-  const [selectedPatente, setSelectedPatente] = useState(null);
   const [filtroPatente, setFiltroPatente] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
+  const [selectedPatente, setSelectedPatente] = useState(null);
 
   const recargarDatos = async () => {
     setLoading(true);
@@ -55,14 +56,14 @@ const Patente = () => {
 
   useEffect(() => {
     recargarDatos();
-    const intervalId = setInterval(() => {
-      recargarDatos();
-    }, 10000);
-    return () => clearInterval(intervalId);
   }, []);
 
   const handleContainerPress = () => {
     setSelectedPatente(null);
+  };
+
+  const selectPatente = (patente) => {
+    setSelectedPatente(selectedPatente === patente ? null : patente);
   };
 
   const renderItem = ({ item }) => {
@@ -73,56 +74,84 @@ const Patente = () => {
     return (
       <TouchableOpacity
         style={styles.patenteItem}
-        onPress={() => setSelectedPatente(item)}
+        onPress={() => selectPatente(item)}
       >
         <Text style={styles.patenteText}>Patente: {item.id}</Text>
         <View style={styles.statusContainer}>
-          <Text style={styles.status}><Foundation name="clock" size={24} left={12} color="#FFFFFF" />{item.estado}</Text>
+          <Text style={styles.status}>
+            <Foundation name="clock" size={24} left={12} color="#FFFFFF" />
+            {item.estado}
+          </Text>
         </View>
       </TouchableOpacity>
     );
   };
 
-  if (loading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#0077B6" />
-        <Text style={styles.loadingText}>Cargando...</Text>
-      </View>
-    );
-  }
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await recargarDatos();
+    setRefreshing(false);
+  };
 
-  if (error) {
-    return <Text>Error: {error.message}</Text>;
-  }
+  const hideTarjeta = () => {
+    setSelectedPatente(null);
+  };
 
   return (
-    <TouchableOpacity
-      style={styles.container}
-      activeOpacity={1}
-      onPress={handleContainerPress}
-    >
-      <Text style={styles.title}>Patentes</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Ingrese una patente para filtrar"
-        value={filtroPatente}
-        onChangeText={(text) => setFiltroPatente(text)}
-      />
-      <FlatList
-        data={patentes}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-      />
-      {selectedPatente && (
-        <View style={styles.tarjeta}>
-          <Text style={styles.status}>{selectedPatente.estado}</Text>
-          <Text style={styles.info}>Mantención: {selectedPatente.tipoMantencion}</Text>
-          <Text style={styles.info}>Fecha: {selectedPatente.fecha}</Text>
-          <Text style={styles.info}>Descripción: {selectedPatente.descripcion}</Text>
-        </View>
-      )}
-    </TouchableOpacity>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Patentes</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Ingrese una patente para filtrar"
+          value={filtroPatente}
+          onChangeText={(text) => setFiltroPatente(text)}
+        />
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
+          <View style={styles.content}>
+            {patentes.map((item) => (
+              <TouchableOpacity
+                key={item.id}
+                style={styles.patenteItem}
+                onPress={() => selectPatente(item)}
+              >
+                <Text style={styles.patenteText}>Patente: {item.id}</Text>
+                <View style={styles.statusContainer}>
+                  <Text style={styles.status}>
+                    <Foundation
+                      name="clock"
+                      size={24}
+                      left={12}
+                      color="#FFFFFF"
+                    />
+                    {item.estado}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+            {selectedPatente && (
+              <TouchableWithoutFeedback onPress={hideTarjeta}>
+                <View style={[styles.overlay, styles.tarjeta]}>
+                  <Text style={styles.status}>{selectedPatente.estado}</Text>
+                  <Text style={styles.info}>
+                    Mantención: {selectedPatente.tipoMantencion}
+                  </Text>
+                  <Text style={styles.info}>Fecha: {selectedPatente.fecha}</Text>
+                  <Text style={styles.info}>
+                    Descripción: {selectedPatente.descripcion}
+                  </Text>
+                </View>
+              </TouchableWithoutFeedback>
+            )}
+          </View>
+        </ScrollView>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -138,33 +167,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: "#333",
   },
+  content: {
+    marginTop: 8,
+  },
   patenteItem: {
     padding: 16,
     marginBottom: 8,
     backgroundColor: "#0077B6",
     borderRadius: 8,
-    position: 'relative',
   },
   patenteText: {
     fontSize: 26,
     color: "#fff",
-  },
-  tarjeta: {
-    margin: 20,
-    marginBottom: '80%',
-    backgroundColor: "#fff",
-    borderRadius: 20,
-    width: '90%',
-    padding: 20,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    zIndex: 1,
   },
   statusContainer: {
     position: 'absolute',
@@ -178,20 +192,22 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     color: "#fff",
   },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.7)",
+    zIndex: 1,
+  },
+  tarjeta: {
+    padding: 20,
+    zIndex: 2,
+    elevation: 5,
+    backgroundColor: "#fff",
+    borderRadius: 20,
+  },
   info: {
     fontSize: 20,
     marginBottom: 10,
     color: "#333",
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  loadingText: {
-    marginTop: 10,
-    fontSize: 16,
-    color: "#333333",
   },
   input: {
     height: 40,
@@ -200,6 +216,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     padding: 8,
     borderRadius: 8,
+  },
+  scrollContent: {
+    paddingBottom: 100, // Ajusta este valor según sea necesario
   },
 });
 
