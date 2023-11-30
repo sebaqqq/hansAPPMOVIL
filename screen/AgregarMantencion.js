@@ -167,6 +167,8 @@ function AgrergarMantencion() {
           style={styles.input}
           placeholder="Patente del auto"
           value={patente}
+          autoCapitalize="characters" // Convertir automáticamente a mayúsculas
+          keyboardType="ascii-capable"
           onChangeText={(text) => handleCheckPatente(text)}
         />
       </View>
