@@ -84,6 +84,7 @@ function AgrergarMantencion() {
     cargarProductos();
   }, [tipoMantencion]);
 
+
   const handleCheckPatente = async (text) => {
     try {
       // Verify if the text is a non-empty string
@@ -96,7 +97,7 @@ function AgrergarMantencion() {
       const carDocM = doc(db, 'automoviles', text);
       const carDocSnapshotM = await getDoc(carDocM);
   
-      if (carDocSnapshotM.exists) {
+      if (carDocSnapshotM.exists() && carDocSnapshotM.data()) {
         setErrorMessage('Automóvil encontrado');
       } else {
         setErrorMessage('No se encontró un automóvil con esa patente');
