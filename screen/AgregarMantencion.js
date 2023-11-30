@@ -41,7 +41,7 @@ function AgrergarMantencion() {
   const [errorMessage, setErrorMessage] = useState('');
   const [productos, setProductos] = useState([]);
   const navigation = useNavigation();
-
+  
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
