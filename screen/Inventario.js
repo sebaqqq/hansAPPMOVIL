@@ -9,45 +9,52 @@
 // - Muestra la lista de productos con información detallada, incluyendo marca, nombre, categoría, cantidad y precio.
 // - Cambia el color del texto de la cantidad dependiendo de su nivel (baja, media, normal).
 
+
 import React, { useState, useEffect } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  FlatList, 
-  Alert, 
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Alert,
   TextInput,
-  ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
-import { db } from "../firebase";
-import { collection, getDocs } from "firebase/firestore";
-import { Picker } from '@react-native-picker/picker'; 
+import { db } from '../firebase';
+import { collection, getDocs } from 'firebase/firestore';
+import { Picker } from '@react-native-picker/picker';
 
 const Inventario = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [inventario, setInventario] = useState([]);
   const [filter, setFilter] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [refreshing, setRefreshing] = useState(false);
+
+  const obtenerInventario = async () => {
+    setLoading(true);
+    try {
+      const inventarioSnapshot = await getDocs(collection(db, 'inventario'));
+      const nuevoInventario = inventarioSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setInventario(nuevoInventario);
+    } catch (error) {
+      console.error('Error al obtener inventario:', error);
+      Alert.alert('Error', 'Hubo un error al obtener el inventario.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const obtenerInventario = async () => {
-      try {
-        const inventarioSnapshot = await getDocs(collection(db, "inventario"));
-        const nuevoInventario = inventarioSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setInventario(nuevoInventario);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error al obtener inventario:", error);
-        Alert.alert("Error", "Hubo un error al obtener el inventario.");
-        setLoading(false);
-      }
-    };
-
     obtenerInventario();
   }, []);
+
+  useEffect(() => {
+    obtenerInventario();
+  }, [refreshing]);
 
   const renderItem = ({ item }) => {
     let cantidadStyle;
@@ -70,25 +77,24 @@ const Inventario = () => {
     );
   };
 
-
-  const filteredInventario = inventario.filter(item =>
-    item.nombreProducto.toLowerCase().includes(filter.toLowerCase()) &&
-    (!selectedCategory || item.categoria === selectedCategory)
+  const filteredInventario = inventario.filter(
+    (item) =>
+      item.nombreProducto.toLowerCase().includes(filter.toLowerCase()) &&
+      (!selectedCategory || item.categoria === selectedCategory)
   );
 
-  if (loading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#0077B6" />
-        <Text style={styles.loadingText}>Cargando...</Text>
-      </View>
-    );
-  }
+  const onRefresh = async () => {
+    setRefreshing(true);
+    try {
+      await obtenerInventario();
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Inventario</Text>
-
       <Picker
         selectedValue={selectedCategory}
         onValueChange={(itemValue) => setSelectedCategory(itemValue)}
@@ -117,7 +123,10 @@ const Inventario = () => {
       <FlatList
         data={filteredInventario}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()} // Convert id to string
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
     </View>
   );
