@@ -9,7 +9,6 @@
 // - Muestra la lista de productos con información detallada, incluyendo marca, nombre, categoría, cantidad y precio.
 // - Cambia el color del texto de la cantidad dependiendo de su nivel (baja, media, normal).
 
-
 import React, { useState, useEffect } from 'react';
 import {
   View,
