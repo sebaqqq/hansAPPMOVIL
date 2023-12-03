@@ -25,6 +25,7 @@ import {
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { Foundation } from "@expo/vector-icons";
+import { Picker } from '@react-native-picker/picker';
 
 const Patente = () => {
   const [loading, setLoading] = useState(true);
@@ -33,6 +34,7 @@ const Patente = () => {
   const [filtroPatente, setFiltroPatente] = useState("");
   const [refreshing, setRefreshing] = useState(false);
   const [selectedPatente, setSelectedPatente] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   const recargarDatos = async () => {
     setLoading(true);
@@ -87,6 +89,12 @@ const Patente = () => {
     );
   };
 
+  const filteredPatentes = patentes.filter(
+    (item) =>
+      item.id.toLowerCase().includes(filtroPatente.toLowerCase()) &&
+      (!selectedCategory || item.estado.toLowerCase() === selectedCategory.toLowerCase())
+  );
+
   const onRefresh = async () => {
     setRefreshing(true);
     await recargarDatos();
@@ -101,11 +109,21 @@ const Patente = () => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
         <Text style={styles.title}>Patentes</Text>
+        <Picker
+          selectedValue={selectedCategory}
+          onValueChange={(itemValue) => setSelectedCategory(itemValue)}
+          style={styles.filterInput}
+        >
+          <Picker.Item label="Seleccione una categoría" value="" />
+          <Picker.Item label="Pendiente" value="pendiente" />
+          <Picker.Item label="En proceso" value="en proceso" />
+          <Picker.Item label="Entregados" value="entregados" />
+        </Picker>
         <TextInput
           style={styles.input}
-          placeholder="Ingrese una patente para filtrar"
+          onChangeText={setFiltroPatente}
           value={filtroPatente}
-          onChangeText={(text) => setFiltroPatente(text)}
+          placeholder="Filtrar por patente"
         />
         <ScrollView
           contentContainerStyle={styles.scrollContent}
@@ -114,7 +132,7 @@ const Patente = () => {
           }
         >
           <View style={styles.content}>
-            {patentes.map((item) => (
+            {filteredPatentes.map((item) => (
               <TouchableOpacity
                 key={item.id}
                 style={styles.patenteItem}
@@ -166,6 +184,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
     color: "#333",
+  },
+  filterInput: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 16,
+    paddingLeft: 8,
+    borderRadius: 8,
   },
   content: {
     marginTop: 8,
