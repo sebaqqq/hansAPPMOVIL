@@ -9,7 +9,7 @@
 // - Utiliza estilos de diseño para una apariencia atractiva y fácil de leer.
 
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, Alert, Image } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { auth, db } from "../firebase";
 import { onSnapshot, doc } from "firebase/firestore";
@@ -51,17 +51,17 @@ function Perfil() {
   }
 
   return (
-    <View style={styles.credencialContainer}>
-      <View style={styles.headerContainer}>
+    <View style={styles.container}>
+      <View style={styles.header}>
         <Text style={styles.logo}>Hans Motors</Text>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
-            style={styles.logoutButton}
+            style={styles.iconButton}
             onPress={() => navigation.navigate("Editar Usuario")}
           >
             <MaterialIcons name="settings" size={24} color="#FFFFFF" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.logoutButton} onPress={handleSignOut}>
+          <TouchableOpacity style={styles.iconButton} onPress={handleSignOut}>
             <MaterialIcons name="exit-to-app" size={24} color="#FFFFFF" />
           </TouchableOpacity>
         </View>
@@ -70,41 +70,35 @@ function Perfil() {
       {!user ? (
         <Text>No hay datos</Text>
       ) : (
-        <View style={styles.profileContainer}>
+        <View style={styles.profile}>
           <Text style={styles.subtitle}>Credencial de Usuario</Text>
+          <Image
+            source={require("../images/AutoSinFondo.png")}
+            style={styles.logoImage}
+          />
           <Text style={styles.meca}>{user.rol}</Text>
-          <View style={styles.section}>
-            <View style={styles.iconTextContainer}>
-              <FontAwesome name="id-card-o" size={20} color="#0077B6" />
-            </View>
-            <Text style={styles.text}>{user.rut}</Text>
-          </View>
-          <View style={styles.section}>
-            <View style={styles.iconTextContainer}>
-              <FontAwesome name="user" size={20} color="#0077B6" />
-            </View>
-            <Text style={styles.text}>{user.nombre} {user.apellido}</Text>
-          </View>
-          <View style={styles.section}>
-            <View style={styles.iconTextContainer}>
-              <FontAwesome name="map-marker" size={20} color="#0077B6" />
-            </View>
-            <Text style={styles.text}>{user.direccion}</Text>
-          </View>
-          <View style={styles.section}>
-            <View style={styles.iconTextContainer}>
-              <FontAwesome name="envelope-o" size={20} color="#0077B6" />
-            </View>
-            <Text style={styles.text}>{user.email}</Text>
-          </View>
+
+          {renderProfileInfo("id-card-o", user.rut)}
+          {renderProfileInfo("user", `${user.nombre} ${user.apellido}`)}
+          {renderProfileInfo("map-marker", user.direccion)}
+          {renderProfileInfo("envelope-o", user.email)}
         </View>
       )}
     </View>
   );
 }
 
+const renderProfileInfo = (iconName, text) => (
+  <View style={styles.section}>
+    <View style={styles.iconTextContainer}>
+      <FontAwesome name={iconName} size={20} color="#0077B6" />
+    </View>
+    <Text style={styles.text}>{text}</Text>
+  </View>
+);
+
 const styles = StyleSheet.create({
-  credencialContainer: {
+  container: {
     flex: 1,
     backgroundColor: "#F0F0F0",
     borderRadius: 10,
@@ -115,10 +109,10 @@ const styles = StyleSheet.create({
     width: '90%',
     alignSelf: 'center',
   },
-  headerContainer: {
+  header: {
     backgroundColor: "#0077B6",
     height: 90,
-    marginBottom: 120, // Asegúrate de cerrar correctamente la propiedad height con una coma
+    marginBottom: 20,
     borderRadius: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -134,7 +128,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  logoutButton: {
+  iconButton: {
     marginLeft: 10,
   },
   subtitle: {
@@ -148,7 +142,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
     marginBottom: 20,
-    color: "#000",
+    color: "#0077B6",
     textAlign: "center",
   },
   section: {
@@ -157,32 +151,21 @@ const styles = StyleSheet.create({
     paddingLeft: 70,
     marginBottom: 15,
   },
-  label: {
-    marginLeft: 10,
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#0077B6",
-  },
   text: {
     marginLeft: 5,
     fontSize: 16,
     color: "#0077B6",
   },
-  qrCodeContainer: {
+  iconTextContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 10,
-    padding: 10,
+    justifyContent: 'center',
+  },
+  logoImage: {
     width: 180,
-    alignSelf: 'center', // Centra horizontalmente el código QR
-  },
-  qrContent: {
-    width: "100%",
-    alignItems: 'center',
-  },
-  elevation: {
-    elevation: 5, // Ajusta el valor según sea necesario
+    height: 180,
+    marginBottom: 7,
+    alignSelf: 'center',
   },
   loadingContainer: {
     flex: 1,
@@ -194,12 +177,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#333333",
   },
-  iconTextContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center', // Centra horizontalmente los iconos y el texto
-  },
-
 });
 
 export default Perfil;
