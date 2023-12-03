@@ -124,6 +124,8 @@ const Patente = () => {
           onChangeText={setFiltroPatente}
           value={filtroPatente}
           placeholder="Filtrar por patente"
+          autoCapitalize="characters" // Convertir automáticamente a mayúsculas
+          keyboardType="ascii-capable"
         />
         <ScrollView
           contentContainerStyle={styles.scrollContent}
