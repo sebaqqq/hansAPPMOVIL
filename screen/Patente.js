@@ -116,6 +116,8 @@ const Patente = () => {
         >
           <Picker.Item label="Seleccione una categoría" value="" />
           <Picker.Item label="Pendiente" value="pendiente" />
+          <Picker.Item label="Prioridad" value="prioridad" />
+          <Picker.Item label="Atención Especial" value="atencion especial" />
           <Picker.Item label="En proceso" value="en proceso" />
           <Picker.Item label="Entregados" value="entregados" />
         </Picker>
