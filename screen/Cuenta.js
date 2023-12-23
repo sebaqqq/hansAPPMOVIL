@@ -1,13 +1,3 @@
-// Componente Perfil:
-// Este componente React Native sirve como la pantalla de perfil del usuario, mostrando sus credenciales y opciones para editar el usuario o cerrar sesión.
-// Características Principales:
-// - Utiliza estados como `user` para almacenar la información del usuario y `loading` para indicar si la información está cargando.
-// - Utiliza el componente `onSnapshot` para escuchar cambios en los datos del usuario en Firestore.
-// - Muestra la información del usuario, incluyendo el rol, RUT, nombre, dirección y correo electrónico.
-// - Proporciona botones para editar el usuario y cerrar sesión.
-// - Utiliza el componente `ActivityIndicator` para mostrar un indicador de carga mientras se obtiene la información del usuario.
-// - Utiliza estilos de diseño para una apariencia atractiva y fácil de leer.
-
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, Alert, Image } from 'react-native';
 import { useNavigation } from "@react-navigation/native";

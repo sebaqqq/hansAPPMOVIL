@@ -1,13 +1,3 @@
-// Componente AgrergarMantencion:
-// Este componente React Native sirve como la pantalla para agregar información sobre las mantenciones de un automóvil.
-// Características Principales:
-// - Utiliza diferentes estados para almacenar la información de la mantención, como patente, tipoMantencion, descripcion, estado, kilometrajeMantencion y productos.
-// - Utiliza el componente `Picker` de React Native para seleccionar la categoría de la mantención.
-// - Utiliza el componente `TextInput` para introducir la patente del automóvil y otros detalles de la mantención.
-// - Utiliza el botón para ejecutar la función `handleSaveMantencion`, que guarda la información de la mantención en la base de datos Firestore.
-// - Muestra mensajes de error si la información no está completa o si hay algún error al guardar la mantención.
-// - Utiliza el componente `MaterialCommunityIcons` para agregar un botón en la barra de navegación para ir a la pantalla "Agregar Automovil".
-
 import React, { useState } from 'react';
 import { 
   View, 

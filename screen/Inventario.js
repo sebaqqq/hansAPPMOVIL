@@ -1,14 +1,3 @@
-// Componente Inventario:
-// Este componente React Native muestra un inventario de productos con la posibilidad de filtrar y buscar.
-// Características Principales:
-// - Utiliza el estado para gestionar la carga, el inventario, el filtro de búsqueda y la categoría seleccionada.
-// - Utiliza Firebase Firestore para obtener datos del inventario.
-// - Muestra un indicador de carga mientras se obtiene el inventario.
-// - Utiliza un componente `Picker` para seleccionar una categoría y filtrar el inventario por ella.
-// - Utiliza un campo de entrada de texto para filtrar productos por nombre.
-// - Muestra la lista de productos con información detallada, incluyendo marca, nombre, categoría, cantidad y precio.
-// - Cambia el color del texto de la cantidad dependiendo de su nivel (baja, media, normal).
-
 import React, { useState, useEffect } from 'react';
 import {
   View,

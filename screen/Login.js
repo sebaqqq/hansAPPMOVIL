@@ -1,14 +1,3 @@
-// Componente Login:
-// Este componente React Native proporciona una pantalla de inicio de sesión con campos para correo electrónico y contraseña.
-// Características Principales:
-// - Utiliza el estado para gestionar el correo electrónico, la contraseña, el mensaje de error y el estado de visualización de la contraseña.
-// - Utiliza Firebase Authentication para realizar la autenticación por correo electrónico y contraseña.
-// - Utiliza un efecto para redirigir al usuario a otra pantalla si ya está autenticado.
-// - Utiliza un `ScrollView` y `KeyboardAvoidingView` para manejar la visualización del teclado en dispositivos iOS.
-// - Muestra un mensaje de error en caso de fallo en la autenticación.
-// - Utiliza íconos de FontAwesome para el icono de correo electrónico y contraseña.
-// - Cambia el color del borde inferior de los campos de entrada y las etiquetas de acuerdo con su estado (focado o no).
-
 import React, { useState, useEffect } from "react";
 import {
   Text,

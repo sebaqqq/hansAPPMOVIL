@@ -1,13 +1,3 @@
-// Componente EditarUser:
-// Este componente React Native permite al usuario editar sus datos personales, incluyendo nombre, apellido,
-// contraseña, teléfono y dirección.
-// Características Principales:
-// - Utiliza el estado para gestionar los datos de usuario y los nuevos datos a editar.
-// - Utiliza `useEffect` para cargar los datos del usuario actual al montar el componente.
-// - Proporciona campos de entrada de texto para editar el nombre, apellido, contraseña, teléfono y dirección.
-// - Permite actualizar los datos del usuario y, opcionalmente, la contraseña.
-// - Muestra un indicador de carga mientras se obtienen los datos del usuario.
-
 import React, { useState } from "react";
 import { 
   View, 

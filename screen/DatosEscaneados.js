@@ -1,10 +1,3 @@
-// Componente DatosEscaneadosScreen:
-// Este componente React Native sirve como la pantalla para mostrar los datos escaneados de una mantención.
-// Características Principales:
-// - Utiliza la ruta (`route.params.mantencionData`) para obtener los datos de la mantención escaneada.
-// - Muestra la descripción, estado, fecha, kilometraje, tipo de mantención y productos asociados, si están presentes.
-// - Utiliza estilos de diseño para una apariencia atractiva y fácil de leer.
-
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
