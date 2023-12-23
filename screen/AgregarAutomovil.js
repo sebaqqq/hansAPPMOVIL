@@ -122,7 +122,6 @@ function AgregarAutomovil({ route }) {
           <Picker.Item label="Tata" value="Tata" />
           <Picker.Item label="Volvo" value="Volvo" />
           <Picker.Item label="Alfa Romeo" value="Alfa Romeo" />
-          <Picker.Item label="Aston Martin" value="Aston Martin" />
           <Picker.Item label="BAIC" value="BAIC" />
           <Picker.Item label="Brilliance" value="Brilliance" />
         </Picker>
