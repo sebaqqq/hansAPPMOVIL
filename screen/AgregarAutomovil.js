@@ -19,6 +19,7 @@ function AgregarAutomovil({ route }) {
   const [ano, setAno] = useState("");
   const [color, setColor] = useState("");
   const [kilometraje, setKilometraje] = useState("");
+  const [numchasis,  setNumChasis] = useState("");
   const [patente, setPatente] = useState("");
   const navigation = useNavigation();
 
@@ -39,6 +40,7 @@ function AgregarAutomovil({ route }) {
           ano,
           color,
           kilometraje,
+          numchasis,
           timestamp: serverTimestamp(),
         });
         console.log("Automovil updated with Patente (ID): ", patente);
@@ -49,6 +51,7 @@ function AgregarAutomovil({ route }) {
           ano,
           color,
           kilometraje,
+          numchasis,
           timestamp: serverTimestamp(),
         });
         console.log("New automovil added with Patente (ID): ", patente);
@@ -59,6 +62,7 @@ function AgregarAutomovil({ route }) {
       setAno("");
       setColor("");
       setKilometraje("");
+      setNumChasis("");
       setPatente("");
       Alert.alert("Automovil agregado correctamente");
       navigation.navigate("Agregar Mantencion");
@@ -70,7 +74,6 @@ function AgregarAutomovil({ route }) {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Text style={styles.titulo}>Agregar Automóvil</Text>
         <Text style={styles.nombreCategoria}>Marca</Text>
         <Picker
           selectedValue={marca}
@@ -151,8 +154,19 @@ function AgregarAutomovil({ route }) {
         <TextInput
           style={styles.input}
           placeholder="Patente"
+          autoCapitalize="characters" // Convertir automáticamente a mayúsculas
+          keyboardType="ascii-capable"
           value={patente}
           onChangeText={(text) => setPatente(text)}
+        />
+        <Text style={styles.nombreCategoria}>Número de Chasis</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Número de Chasis"
+          autoCapitalize="characters" // Convertir automáticamente a mayúsculas
+          keyboardType="ascii-capable"
+          value={numchasis}
+          onChangeText={(text) => setNumChasis(text)}
         />
         <Text style={styles.nombreCategoria}>Kilometraje</Text>
         <TextInput

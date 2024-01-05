@@ -44,7 +44,7 @@ export default function Navigation () {
           initialRouteName="Login"
           screenOptions={{
             headerStyle: {
-              backgroundColor: '#0077B6',    
+              backgroundColor: '#FAFAFA',    
             },
             headerTintColor: '#0077B6',
             backgroundColor: '#9ACEF8',
