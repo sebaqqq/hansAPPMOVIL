@@ -11,8 +11,15 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import { db } from "../firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { db, auth } from "../firebase";
+import { 
+  collection, 
+  getDocs, 
+  doc, 
+  onSnapshot, 
+  updateDoc,
+  getDoc
+} from "firebase/firestore";
 import { Foundation } from "@expo/vector-icons";
 import { Picker } from '@react-native-picker/picker';
 
@@ -24,18 +31,36 @@ const Patente = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [selectedPatente, setSelectedPatente] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const identifyUser = auth.currentUser;
+    if (identifyUser) {
+      const userRef = doc(db, "users", identifyUser.uid);
+      onSnapshot(userRef, (snapshot) => {
+        const userData = snapshot.data();
+        return userData;
+      });
+    }
+  }, []);
 
   const recargarDatos = async () => {
     setLoading(true);
     setError(null);
-
+  
     try {
       const patentesSnapshot = await getDocs(collection(db, "mantenciones"));
       const nuevasPatentes = patentesSnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
-      setPatentes(nuevasPatentes);
+  
+      // Filtrar las patentes en proceso
+      const patentesFiltradas = nuevasPatentes.filter(
+        (patente) => patente.estado !== "en proceso"
+      );
+  
+      setPatentes(patentesFiltradas);
       setLoading(false);
     } catch (error) {
       console.error("Error al obtener patentes:", error);
@@ -94,6 +119,48 @@ const Patente = () => {
     setSelectedPatente(null);
   };
 
+  const tomarTarea = async () => {
+    if (!selectedPatente) {
+      return;
+    }
+  
+    try {
+      const identifyUser = auth.currentUser;
+  
+      if (identifyUser) {
+        const patenteRef = doc(db, "mantenciones", selectedPatente.id);
+  
+        // Obtiene la tarea actualizada antes de tomarla
+        const patenteSnapshot = await getDoc(patenteRef);
+        const patenteData = patenteSnapshot.data();
+  
+        // Verifica si la tarea ya ha sido tomada por alguien más
+        if (patenteData.personaTomadora) {
+          Alert.alert(
+            "Tarea ya tomada",
+            "Esta tarea ya ha sido tomada por otra persona."
+          );
+          return;
+        }
+  
+        // Actualiza la tarea seleccionada con la información de la persona que toma la tarea
+        await updateDoc(patenteRef, {
+          personaTomadora: identifyUser.uid,
+          estado: "en proceso", // Cambia el estado a "En proceso"
+        });
+  
+        // Vuelve a cargar los datos después de tomar la tarea
+        await recargarDatos();
+  
+        // Oculta la tarjeta después de tomar la tarea
+        hideTarjeta();
+      }
+    } catch (error) {
+      console.error("Error al tomar tarea:", error);
+      Alert.alert("Error", "Hubo un error al tomar la tarea.");
+    }
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
@@ -131,7 +198,7 @@ const Patente = () => {
                 style={styles.patenteItem}
                 onPress={() => selectPatente(item)}
               >
-                <Text style={styles.patenteText}>Patente: {item.id}</Text>
+                <Text style={styles.patenteText}>{item.id}</Text>
                 <View style={styles.statusContainer}>
                   <Text style={styles.status}>
                     <Foundation
@@ -156,6 +223,9 @@ const Patente = () => {
                   <Text style={styles.info}>
                     Descripción: {selectedPatente.descripcion}
                   </Text>
+                  <TouchableOpacity onPress={tomarTarea} style={styles.tomarTarea}>
+                    <Text style={styles.textTomarTarea}>Tomar Tarea</Text>
+                  </TouchableOpacity>
                 </View>
               </TouchableWithoutFeedback>
             )}
@@ -248,6 +318,19 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingBottom: 100, // Ajusta este valor según sea necesario
+  },
+  tomarTarea: {
+    backgroundColor: "#4CAF50", // Color de fondo del botón
+    padding: 10,
+    borderRadius: 8,
+    marginTop: 10,
+    alignItems: "center",
+  },
+  
+  textTomarTarea: {
+    color: "#fff", // Color del texto del botón
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });
 

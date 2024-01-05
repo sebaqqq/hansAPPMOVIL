@@ -15,6 +15,8 @@ import Scanner from './screen/TextScanner';
 import DatosEscaneados from './screen/DatosEscaneados';
 import EditarUser from './screen/EditarUser';
 import Loading from './Loading';
+import Tareas from './screen/Tareas';
+
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons'; 
 
@@ -100,6 +102,17 @@ export default function Navigation () {
             headerShown: false,
             tabBarIcon: ({ color, size }) => (
               <FontAwesome5 name="car-side" size={size} color={color} />
+            ),
+          }}
+        />
+        <Tab.Screen 
+          name="Tareas" 
+          component={Tareas}
+          options={{
+            tabBarLabel: 'Tareas',
+            headerShown: false,
+            tabBarIcon: ({ color, size }) => (
+              <FontAwesome5 name="tasks" size={size} color={color} />
             ),
           }}
         />
