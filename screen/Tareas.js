@@ -43,7 +43,6 @@ const Tareas = () => {
         }
       } catch (error) {
         console.error("Error al cargar tareas tomadas:", error);
-        // Manejar el error según tus necesidades
       }
     };
 
@@ -62,7 +61,6 @@ const Tareas = () => {
       );
     } catch (error) {
       console.error("Error al finalizar la tarea:", error);
-      // Manejar el error según tus necesidades
     }
   };
 
