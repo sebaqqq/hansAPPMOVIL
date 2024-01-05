@@ -9,9 +9,11 @@ import {
   Platform,
   Image,
   StyleSheet,
+  Alert
 } from "react-native";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../firebase";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
@@ -24,6 +26,18 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigation();
 
+  const handleLogin = () => {
+    signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      Alert.alert("Bienvenido");
+    })
+    .catch(error => {
+      console.log(error);
+      Alert.alert('Correo o Contraseña incorrectos');
+    });
+  };
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
@@ -32,31 +46,6 @@ const Login = () => {
     });
     return unsubscribe;
   }, []);
-
-  const handleLogin = () => {
-    setErrorMessage("");
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        let errorMessage = error.message;
-
-        switch (errorCode) {
-          case "auth/wrong-password":
-          case "auth/user-not-found":
-            errorMessage = "El correo o la contraseña es incorrecto";
-            break;
-          default:
-            errorMessage = "Ocurrió un error al iniciar sesión";
-            break;
-        }
-        setErrorMessage(errorMessage);
-        console.log(errorCode, errorMessage);
-      });
-  };
 
   return (
     <KeyboardAvoidingView
