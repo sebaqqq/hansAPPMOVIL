@@ -217,7 +217,6 @@ function AgrergarMantencion() {
           <Picker.Item label="Seleccione el estado de la mantención" value="" />
           <Picker.Item label="Pendiente" value="pendiente" />
           <Picker.Item label="Prioridad" value="prioridad" />
-          <Picker.Item label="En proceso" value="en proceso" />
           <Picker.Item label="Atención Especial" value="atencion especial" />
         </Picker>
       </View>
