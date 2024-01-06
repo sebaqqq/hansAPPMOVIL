@@ -5,6 +5,7 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  RefreshControl,
 } from "react-native";
 import { db, auth } from "../firebase";
 import {
@@ -20,47 +21,60 @@ import { Octicons } from "@expo/vector-icons";
 const Tareas = () => {
   const [tareasTomadas, setTareasTomadas] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    const cargarTareasTomadas = async () => {
-      try {
-        const identifyUser = auth.currentUser;
-
-        if (identifyUser) {
-          const q = query(
-            collection(db, "mantenciones"),
-            where("personaTomadora", "==", identifyUser.uid)
-          );
-
-          const querySnapshot = await getDocs(q);
-          const tareasTomadasData = querySnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-
-          setTareasTomadas(tareasTomadasData);
-          setLoading(false);
-        }
-      } catch (error) {
-        console.error("Error al cargar tareas tomadas:", error);
-      }
-    };
-
     cargarTareasTomadas();
   }, []);
+
+  const cargarTareasTomadas = async () => {
+    try {
+      const identifyUser = auth.currentUser;
+
+      if (identifyUser) {
+        const q = query(
+          collection(db, "mantenciones"),
+          where("personaTomadora", "==", identifyUser.uid)
+        );
+
+        const querySnapshot = await getDocs(q);
+        const tareasTomadasData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setTareasTomadas(tareasTomadasData);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error("Error al cargar tareas tomadas:", error);
+    }
+  };
 
   const finalizarTarea = async (taskId) => {
     try {
       // Update the task state to "terminado" in Firestore
       const taskRef = doc(db, "mantenciones", taskId);
-      await updateDoc(taskRef, { estado: "terminado" });
+      await updateDoc(taskRef, { estado: "terminado", personaTomadora: null });
 
       // Remove the completed task from the local state
       setTareasTomadas((prevTareas) =>
-        prevTareas.filter((tarea) => tarea.id !== taskId)
+        prevTareas.filter((tarea) => tarea.id !== taskId && tarea.estado !== "terminado")
       );
     } catch (error) {
       console.error("Error al finalizar la tarea:", error);
+    }
+  };
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+
+    try {
+      await cargarTareasTomadas();
+    } catch (error) {
+      console.error("Error al refrescar tareas:", error);
+    } finally {
+      setRefreshing(false);
     }
   };
 
@@ -93,11 +107,19 @@ const Tareas = () => {
               </TouchableOpacity>
             </View>
           )}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={handleRefresh}
+              colors={["#0077B6"]}
+            />
+          }
         />
       )}
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
