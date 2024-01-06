@@ -112,7 +112,7 @@ const Patente = () => {
         <Text style={styles.patenteText}>Patente: {item.id}</Text>
         <View style={styles.statusContainer}>
           <Text style={styles.status}>
-            <Foundation name="clock" size={24} left={12} color="#FFFFFF" />
+            <Foundation name="clock" size={24} left={45} color="#FFFFFF" />
             {item.estado}
           </Text>
         </View>
@@ -156,6 +156,15 @@ const Patente = () => {
           Alert.alert(
             "Tarea ya tomada",
             "Esta tarea ya ha sido tomada por otra persona."
+          );
+          return;
+        }
+  
+        // Verifica si la tarea ya está marcada como "terminado"
+        if (patenteData.estado === "terminado") {
+          Alert.alert(
+            "Tarea Terminada",
+            "Esta tarea ya ha sido marcada como terminada y no se puede tomar de nuevo."
           );
           return;
         }
@@ -304,6 +313,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#0077B6",
     borderRadius: 8,
     color: "#fff",
+    right: 12
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
