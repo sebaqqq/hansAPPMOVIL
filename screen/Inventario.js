@@ -82,7 +82,6 @@ const Inventario = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Inventario</Text>
       <Picker
         selectedValue={selectedCategory}
         onValueChange={(itemValue) => setSelectedCategory(itemValue)}
