@@ -22,6 +22,8 @@ import {
 } from "firebase/firestore";
 import { Foundation } from "@expo/vector-icons";
 import { Picker } from '@react-native-picker/picker';
+import { useNavigation } from "@react-navigation/native";
+import { MaterialIcons } from '@expo/vector-icons'; 
 
 const Patente = () => {
   const [loading, setLoading] = useState(true);
@@ -32,6 +34,21 @@ const Patente = () => {
   const [selectedPatente, setSelectedPatente] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [userData, setUserData] = useState(null);
+  const navigation = useNavigation();
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <MaterialIcons
+          name="inventory"
+          size={26}
+          right={20}
+          color="#0077B6"
+          onPress={() => navigation.navigate('Inventario')}
+        />
+      ),
+    });
+  }, [navigation]);
 
   useEffect(() => {
     const identifyUser = auth.currentUser;
@@ -173,7 +190,7 @@ const Patente = () => {
           <Picker.Item label="Seleccione una categoría" value="" />
           <Picker.Item label="Pendiente" value="pendiente" />
           <Picker.Item label="En proceso" value="en proceso" />
-          <Picker.Item label="Entregados" value="entregados" />
+          <Picker.Item label="Terminado" value="terminados" />
         </Picker>
         <TextInput
           style={styles.input}

@@ -66,6 +66,7 @@ export default function Navigation () {
           <Stack.Screen name="Agregar Automovil" component={AgregarAutomovil}/>
           <Stack.Screen name="Editar Usuario" component={EditarUser}/>
           <Stack.Screen name="Datos Escaneados" component={DatosEscaneados}/>
+          <Stack.Screen name="Inventario" component={Inventario}/>
         </Stack.Navigator>
       </>
     );
@@ -84,22 +85,10 @@ export default function Navigation () {
         }}
       >
         <Tab.Screen 
-          name="Inventario" 
-          component={Inventario} 
-          options={{
-            tabBarLabel: 'Inventario',
-            headerShown: false,
-            tabBarIcon: ({ color, size }) => (
-              <FontAwesome5 name="list-ul" size={size} color={color} />
-            ),
-          }}
-        />
-        <Tab.Screen 
           name="Patente" 
           component={Patente}
           options={{
             tabBarLabel: 'Patente',
-            headerShown: false,
             tabBarIcon: ({ color, size }) => (
               <FontAwesome5 name="car-side" size={size} color={color} />
             ),
