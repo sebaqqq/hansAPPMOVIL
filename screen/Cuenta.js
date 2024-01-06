@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, Alert, Image } from 'react-native';
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
+  TouchableOpacity, 
+  ActivityIndicator, 
+  Alert, 
+  Image 
+} from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { auth, db } from "../firebase";
 import { onSnapshot, doc } from "firebase/firestore";
