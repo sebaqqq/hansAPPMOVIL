@@ -9,7 +9,7 @@ import {
   TextInput,
   RefreshControl,
   TouchableWithoutFeedback,
-  Keyboard,
+  Keyboard
 } from "react-native";
 import { db, auth } from "../firebase";
 import { 
@@ -180,6 +180,9 @@ const Patente = () => {
   
         // Oculta la tarjeta después de tomar la tarea
         hideTarjeta();
+  
+        // Muestra un mensaje de confirmación
+        Alert.alert("Tarea Tomada", "Has tomado la tarea con éxito.");
       }
     } catch (error) {
       console.error("Error al tomar tarea:", error);

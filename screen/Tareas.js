@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   RefreshControl,
+  Alert
 } from "react-native";
 import { db, auth } from "../firebase";
 import {
@@ -61,6 +62,8 @@ const Tareas = () => {
       setTareasTomadas((prevTareas) =>
         prevTareas.filter((tarea) => tarea.id !== taskId && tarea.estado !== "terminado")
       );
+
+      Alert.alert("Tarea Terminada con Éxito");
     } catch (error) {
       console.error("Error al finalizar la tarea:", error);
     }
