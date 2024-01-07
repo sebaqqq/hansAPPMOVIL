@@ -77,7 +77,18 @@ const Patente = () => {
         (patente) => patente.estado !== "en proceso"
       );
   
-      setPatentes(patentesFiltradas);
+      // Ordenar las patentes colocando las "pendientes" al principio y las "terminadas" al final
+      const patentesOrdenadas = patentesFiltradas.sort((a, b) => {
+        if (a.estado === "pendiente" && b.estado !== "pendiente") {
+          return -1; // Colocar "pendiente" antes que otras
+        } else if (a.estado !== "pendiente" && b.estado === "pendiente") {
+          return 1; // Colocar "pendiente" después que otras
+        } else {
+          return 0; // Mantener el orden actual si ambos estados son iguales
+        }
+      });
+  
+      setPatentes(patentesOrdenadas);
       setLoading(false);
     } catch (error) {
       console.error("Error al obtener patentes:", error);
@@ -86,7 +97,7 @@ const Patente = () => {
       Alert.alert("Error", "Hubo un error al obtener las patentes.");
     }
   };
-
+  
   useEffect(() => {
     recargarDatos();
   }, []);
