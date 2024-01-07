@@ -142,9 +142,8 @@ function AgrergarMantencion() {
       setKilometrajeMantencion('');
       setProductos([]);
       setErrorMessage('');
-  
+
       Alert.alert("Mantención agregada correctamente");
-      console.log('Maintenance saved successfully!');
     } catch (error) {
       console.error('Error saving maintenance:', error.message);
       setErrorMessage('Error al guardar la mantención. Inténtelo de nuevo.');
