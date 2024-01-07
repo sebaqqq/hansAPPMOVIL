@@ -20,7 +20,9 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "../firebase";
-import { Picker } from '@react-native-picker/picker'; 
+import { Picker } from '@react-native-picker/picker';
+import Modal from 'react-native-modal';
+
 
 function AgrergarMantencion() {
   const [patente, setPatente] = useState('');
@@ -30,6 +32,7 @@ function AgrergarMantencion() {
   const [kilometrajeMantencion, setKilometrajeMantencion] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [productos, setProductos] = useState([]);
+  const [isConfirmationModalVisible, setConfirmationModalVisible] = useState(false);
   const navigation = useNavigation();
   
   React.useLayoutEffect(() => {
@@ -147,6 +150,20 @@ function AgrergarMantencion() {
       setErrorMessage('Error al guardar la mantención. Inténtelo de nuevo.');
     }
   };
+  
+
+  const showConfirmationModal = () => {
+    setConfirmationModalVisible(true);
+  };
+
+  const hideConfirmationModal = () => {
+    setConfirmationModalVisible(false);
+  };
+
+  const handleConfirmationAndSave = () => {
+    hideConfirmationModal();
+    handleSaveMantencion();
+  };
 
   return (
     <View style={styles.container}>
@@ -239,9 +256,25 @@ function AgrergarMantencion() {
           onChangeText={(text) => setDescripcion(text)}
         />
       </View>
-      <TouchableOpacity style={styles.button} onPress={handleSaveMantencion}>
+      <TouchableOpacity style={styles.button} onPress={showConfirmationModal}>
         <Text style={styles.botonTexto}>Guardar Mantención</Text>
       </TouchableOpacity>
+      <Modal
+        isVisible={isConfirmationModalVisible}
+        onBackdropPress={hideConfirmationModal}
+      >
+        <View style={styles.confirmationModal}>
+          <Text style={styles.confirmationModalText}>
+            ¿Estás seguro de que deseas guardar esta mantención?
+          </Text>
+          <TouchableOpacity onPress={handleConfirmationAndSave}>
+            <Text style={styles.confirmationModalButton}>Sí, Guardar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={hideConfirmationModal}>
+            <Text style={styles.confirmationModalButton}>Cancelar</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -307,6 +340,23 @@ const styles = StyleSheet.create({
     fontSize: 34,
     fontWeight: "bold",
     marginBottom: 20,
+  },
+  confirmationModal: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  confirmationModalText: {
+    fontSize: 18,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  confirmationModalButton: {
+    fontSize: 16,
+    color: 'blue',
+    marginVertical: 10,
+    textAlign: 'center',
   },
 });
 
