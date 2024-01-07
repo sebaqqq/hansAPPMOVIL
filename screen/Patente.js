@@ -198,7 +198,7 @@ const Patente = () => {
           <Picker.Item label="Seleccione una categoría" value="" />
           <Picker.Item label="Pendiente" value="pendiente" />
           <Picker.Item label="En proceso" value="en proceso" />
-          <Picker.Item label="Terminado" value="terminados" />
+          <Picker.Item label="Terminado" value="terminado" />
         </Picker>
         <TextInput
           style={styles.input}
