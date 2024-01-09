@@ -6,7 +6,8 @@ import {
   FlatList,
   TouchableOpacity,
   RefreshControl,
-  Alert
+  Alert,
+  Modal,
 } from "react-native";
 import { db, auth } from "../firebase";
 import {
@@ -16,8 +17,6 @@ import {
   getDocs,
   updateDoc,
   doc,
-  getDoc,
-  addDoc
 } from "firebase/firestore";
 import { Octicons } from "@expo/vector-icons";
 
@@ -25,6 +24,8 @@ const Tareas = () => {
   const [tareasTomadas, setTareasTomadas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedTaskId, setSelectedTaskId] = useState(null);
 
   useEffect(() => {
     cargarTareasTomadas();
@@ -54,6 +55,32 @@ const Tareas = () => {
     }
   };
 
+  const finalizarTarea = (taskId) => {
+    setSelectedTaskId(taskId);
+    setModalVisible(true);
+  };
+
+  const handleConfirm = async () => {
+    try {
+      const taskRef = doc(db, "mantenciones", selectedTaskId);
+      await updateDoc(taskRef, { estado: "terminado", personaTomadora: null });
+
+      setTareasTomadas((prevTareas) =>
+        prevTareas.filter((tarea) => tarea.id !== selectedTaskId && tarea.estado !== "terminado")
+      );
+
+      Alert.alert("Tarea Terminada con Éxito");
+    } catch (error) {
+      console.error("Error al finalizar la tarea:", error);
+    } finally {
+      setModalVisible(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setModalVisible(false);
+  };
+
   const handleRefresh = async () => {
     setRefreshing(true);
 
@@ -66,31 +93,6 @@ const Tareas = () => {
     }
   };
 
-  const finalizarTarea = async (taskId) => {
-    try {
-      // Fetch the completed task details
-      const completedTaskRef = doc(db, "mantenciones", taskId);
-      const completedTaskSnapshot = await getDoc(completedTaskRef);
-      const completedTaskData = completedTaskSnapshot.data();
-  
-      // Update the task state to "terminado" in Firestore
-      await updateDoc(completedTaskRef, { estado: "terminado", personaTomadora: null });
-  
-      // Remove the completed task from the local state
-      setTareasTomadas((prevTareas) =>
-        prevTareas.filter((tarea) => tarea.id !== taskId && tarea.estado !== "terminado")
-      );
-  
-      // Save the completed task in the "historialMantenciones" collection
-      const historialMantencionesRef = collection(db, "historialMantenciones");
-      await addDoc(historialMantencionesRef, completedTaskData);
-  
-      Alert.alert("Tarea Terminada con Éxito");
-    } catch (error) {
-      console.error("Error al finalizar la tarea:", error);
-    }
-  };
-  
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
@@ -102,11 +104,6 @@ const Tareas = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tareas Tomadas</Text>
-      <RefreshControl
-        refreshing={refreshing}
-        onRefresh={handleRefresh}
-        colors={["#0077B6"]}
-      />
       {tareasTomadas.length === 0 ? (
         <Text>No has tomado ninguna tarea.</Text>
       ) : (
@@ -127,14 +124,27 @@ const Tareas = () => {
             </View>
           )}
           refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={handleRefresh}
-              colors={["#0077B6"]}
-            />
+            <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} colors={["#0077B6"]} />
           }
         />
       )}
+
+      <Modal
+        transparent={true}
+        visible={modalVisible}
+        animationType="slide"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.confirmationModal}>
+          <Text style={styles.confirmationModalText}>¿Estás seguro de finalizar la tarea?</Text>
+          <TouchableOpacity onPress={handleConfirm}>
+            <Text style={styles.confirmationModalButton}>Confirmar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleCancel}>
+            <Text style={styles.confirmationModalButton}>Cancelar</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -178,6 +188,25 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 16,
     color: "#333333",
+  },
+  confirmationModal: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center', // Añadido para centrar verticalmente
+    flex: 1, // Añadido para ocupar todo el espacio disponible
+  },
+  confirmationModalText: {
+    fontSize: 18,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  confirmationModalButton: {
+    fontSize: 16,
+    color: 'blue',
+    marginVertical: 10,
+    textAlign: 'center',
   },
 });
 

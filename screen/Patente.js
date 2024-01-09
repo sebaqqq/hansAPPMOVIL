@@ -9,22 +9,23 @@ import {
   TextInput,
   RefreshControl,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
+  Modal,
 } from "react-native";
 import { db, auth } from "../firebase";
-import { 
-  collection, 
-  getDocs, 
-  doc, 
-  onSnapshot, 
+import {
+  collection,
+  getDocs,
+  doc,
+  onSnapshot,
   updateDoc,
-  getDoc
+  getDoc,
 } from "firebase/firestore";
 import { Foundation } from "@expo/vector-icons";
-import { Picker } from '@react-native-picker/picker';
+import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
-import { MaterialIcons } from '@expo/vector-icons'; 
-import { FontAwesome5 } from '@expo/vector-icons';
+import { MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 const Patente = () => {
   const [loading, setLoading] = useState(true);
@@ -33,27 +34,29 @@ const Patente = () => {
   const [filtroPatente, setFiltroPatente] = useState("");
   const [refreshing, setRefreshing] = useState(false);
   const [selectedPatente, setSelectedPatente] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [userData, setUserData] = useState(null);
   const [hideTimeout, setHideTimeout] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [confirmModalVisible, setConfirmModalVisible] = useState(false);
   const navigation = useNavigation();
-  
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <View style={{ flexDirection: 'row', marginRight: 20 }}>
+        <View style={{ flexDirection: "row", marginRight: 20 }}>
           <MaterialIcons
             name="inventory"
             size={26}
             color="#0077B6"
-            onPress={() => navigation.navigate('Inventario')}
+            onPress={() => navigation.navigate("Inventario")}
           />
           <FontAwesome5
             name="history"
             size={26}
             style={{ marginLeft: 20 }}
             color="#0077B6"
-            onPress={() => navigation.navigate('Historial Patente')}
+            onPress={() => navigation.navigate("Historial Patente")}
           />
         </View>
       ),
@@ -74,29 +77,29 @@ const Patente = () => {
   const recargarDatos = async () => {
     setLoading(true);
     setError(null);
-  
+
     try {
       const patentesSnapshot = await getDocs(collection(db, "mantenciones"));
       const nuevasPatentes = patentesSnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
-  
+
       // Filtrar las patentes en proceso
       const patentesFiltradas = nuevasPatentes.filter(
         (patente) => patente.estado !== "en proceso"
       );
-  
+
       const patentesOrdenadas = patentesFiltradas.sort((a, b) => {
         if (a.estado === "pendiente" && b.estado !== "pendiente") {
           return -1; // Colocar "pendiente" antes que otras
         } else if (a.estado !== "pendiente" && b.estado === "pendiente") {
-          return 1; 
+          return 1;
         } else {
-          return 0; 
+          return 0;
         }
       });
-  
+
       setPatentes(patentesOrdenadas);
       setLoading(false);
     } catch (error) {
@@ -106,7 +109,7 @@ const Patente = () => {
       Alert.alert("Error", "Hubo un error al obtener las patentes.");
     }
   };
-  
+
   useEffect(() => {
     recargarDatos();
   }, []);
@@ -143,7 +146,8 @@ const Patente = () => {
   const filteredPatentes = patentes.filter(
     (item) =>
       item.id.toLowerCase().includes(filtroPatente.toLowerCase()) &&
-      (!selectedCategory || item.estado.toLowerCase() === selectedCategory.toLowerCase())
+      (!selectedCategory ||
+        item.estado.toLowerCase() === selectedCategory.toLowerCase())
   );
 
   const onRefresh = async () => {
@@ -160,17 +164,17 @@ const Patente = () => {
     if (!selectedPatente) {
       return;
     }
-  
+
     try {
       const identifyUser = auth.currentUser;
-  
+
       if (identifyUser) {
         const patenteRef = doc(db, "mantenciones", selectedPatente.id);
-  
+
         // Obtiene la tarea actualizada antes de tomarla
         const patenteSnapshot = await getDoc(patenteRef);
         const patenteData = patenteSnapshot.data();
-  
+
         // Verifica si la tarea ya ha sido tomada por alguien más
         if (patenteData.personaTomadora) {
           Alert.alert(
@@ -179,7 +183,7 @@ const Patente = () => {
           );
           return;
         }
-  
+
         // Verifica si la tarea ya está marcada como "terminado"
         if (patenteData.estado === "terminado") {
           Alert.alert(
@@ -188,7 +192,7 @@ const Patente = () => {
           );
           return;
         }
-  
+
         // Actualiza la tarea seleccionada con la información de la persona que toma la tarea
         await updateDoc(patenteRef, {
           personaTomadora: identifyUser.uid,
@@ -196,10 +200,9 @@ const Patente = () => {
         });
 
         await recargarDatos();
-  
-        hideTarjeta();
 
-        Alert.alert("Tarea Tomada", "Has tomado la tarea con éxito.");
+        setModalVisible(true);
+        setConfirmModalVisible(true);
 
         const timeoutId = setTimeout(() => {
           hideTarjeta();
@@ -212,6 +215,13 @@ const Patente = () => {
       Alert.alert("Error", "Hubo un error al tomar la tarea.");
     }
   };
+
+  const confirmTomarTarea = async () => {
+    setConfirmModalVisible(false);
+    // Call your existing tomarTarea function here
+    await tomarTarea();
+  };
+  
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -282,10 +292,36 @@ const Patente = () => {
             )}
           </View>
         </ScrollView>
+
+        {/* Modal for "Tarea Tomada" */}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={confirmModalVisible}
+          onRequestClose={() => setConfirmModalVisible(!confirmModalVisible)}
+        >
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalText}>
+              ¿Estás seguro de tomar esta tarea?
+            </Text>
+            <View style={styles.modalButtons}>
+              <TouchableOpacity
+                onPress={() => setConfirmModalVisible(!confirmModalVisible)}
+                style={[styles.closeModal, { backgroundColor: "#FF3333" }]}
+              >
+                <Text style={styles.closeText}>Cancelar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={confirmTomarTarea} style={styles.closeModal}>
+                <Text style={styles.closeText}>Confirmar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </View>
     </TouchableWithoutFeedback>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -378,9 +414,30 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignItems: "center",
   },
-  
   textTomarTarea: {
     color: "#fff", // Color del texto del botón
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.7)",
+  },
+  modalText: {
+    fontSize: 24,
+    color: "#fff",
+    marginBottom: 20,
+  },
+  closeModal: {
+    backgroundColor: "#4CAF50",
+    padding: 10,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  closeText: {
+    color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
   },
