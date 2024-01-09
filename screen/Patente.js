@@ -34,6 +34,7 @@ const Patente = () => {
   const [selectedPatente, setSelectedPatente] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [userData, setUserData] = useState(null);
+  const [hideTimeout, setHideTimeout] = useState(null);
   const navigation = useNavigation();
 
   React.useLayoutEffect(() => {
@@ -77,14 +78,13 @@ const Patente = () => {
         (patente) => patente.estado !== "en proceso"
       );
   
-      // Ordenar las patentes colocando las "pendientes" al principio y las "terminadas" al final
       const patentesOrdenadas = patentesFiltradas.sort((a, b) => {
         if (a.estado === "pendiente" && b.estado !== "pendiente") {
           return -1; // Colocar "pendiente" antes que otras
         } else if (a.estado !== "pendiente" && b.estado === "pendiente") {
-          return 1; // Colocar "pendiente" después que otras
+          return 1; 
         } else {
-          return 0; // Mantener el orden actual si ambos estados son iguales
+          return 0; 
         }
       });
   
@@ -165,7 +165,7 @@ const Patente = () => {
         // Verifica si la tarea ya ha sido tomada por alguien más
         if (patenteData.personaTomadora) {
           Alert.alert(
-            "Tarea ya tomada",
+            "Tarea ya Tomada",
             "Esta tarea ya ha sido tomada por otra persona."
           );
           return;
@@ -185,15 +185,18 @@ const Patente = () => {
           personaTomadora: identifyUser.uid,
           estado: "en proceso", // Cambia el estado a "En proceso"
         });
-  
-        // Vuelve a cargar los datos después de tomar la tarea
+
         await recargarDatos();
   
-        // Oculta la tarjeta después de tomar la tarea
         hideTarjeta();
-  
-        // Muestra un mensaje de confirmación
+
         Alert.alert("Tarea Tomada", "Has tomado la tarea con éxito.");
+
+        const timeoutId = setTimeout(() => {
+          hideTarjeta();
+        }, 24 * 60 * 60 * 1000); 
+
+        setHideTimeout(timeoutId);
       }
     } catch (error) {
       console.error("Error al tomar tarea:", error);

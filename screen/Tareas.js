@@ -104,7 +104,7 @@ const Tareas = () => {
                 <Text style={styles.tareaTomadaText}>Patente: {item.id}</Text>
                 <Text style={styles.tareaTomadaText}>Estado: {item.estado}</Text>
                 <Text style={styles.tareaTomadaText}>Mantención: {item.tipoMantencion}</Text>
-                <Text style={styles.tareaTomadaText}>Mantención: {item.descripcion}</Text>
+                <Text style={styles.tareaTomadaText}>Descripción: {item.descripcion}</Text>
               </View>
               <TouchableOpacity onPress={() => finalizarTarea(item.id)}>
                 <Octicons name="tasklist" size={24} color="white" />

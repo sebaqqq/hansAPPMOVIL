@@ -23,7 +23,6 @@ import { db } from "../firebase";
 import { Picker } from '@react-native-picker/picker';
 import Modal from 'react-native-modal';
 
-
 function AgrergarMantencion() {
   const [patente, setPatente] = useState('');
   const [tipoMantencion, setTipoMantencion] = useState('');
