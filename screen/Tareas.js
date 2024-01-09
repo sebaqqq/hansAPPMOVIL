@@ -16,6 +16,8 @@ import {
   getDocs,
   updateDoc,
   doc,
+  getDoc,
+  addDoc
 } from "firebase/firestore";
 import { Octicons } from "@expo/vector-icons";
 
@@ -52,23 +54,6 @@ const Tareas = () => {
     }
   };
 
-  const finalizarTarea = async (taskId) => {
-    try {
-      // Update the task state to "terminado" in Firestore
-      const taskRef = doc(db, "mantenciones", taskId);
-      await updateDoc(taskRef, { estado: "terminado", personaTomadora: null });
-
-      // Remove the completed task from the local state
-      setTareasTomadas((prevTareas) =>
-        prevTareas.filter((tarea) => tarea.id !== taskId && tarea.estado !== "terminado")
-      );
-
-      Alert.alert("Tarea Terminada con Éxito");
-    } catch (error) {
-      console.error("Error al finalizar la tarea:", error);
-    }
-  };
-
   const handleRefresh = async () => {
     setRefreshing(true);
 
@@ -81,6 +66,31 @@ const Tareas = () => {
     }
   };
 
+  const finalizarTarea = async (taskId) => {
+    try {
+      // Fetch the completed task details
+      const completedTaskRef = doc(db, "mantenciones", taskId);
+      const completedTaskSnapshot = await getDoc(completedTaskRef);
+      const completedTaskData = completedTaskSnapshot.data();
+  
+      // Update the task state to "terminado" in Firestore
+      await updateDoc(completedTaskRef, { estado: "terminado", personaTomadora: null });
+  
+      // Remove the completed task from the local state
+      setTareasTomadas((prevTareas) =>
+        prevTareas.filter((tarea) => tarea.id !== taskId && tarea.estado !== "terminado")
+      );
+  
+      // Save the completed task in the "historialMantenciones" collection
+      const historialMantencionesRef = collection(db, "historialMantenciones");
+      await addDoc(historialMantencionesRef, completedTaskData);
+  
+      Alert.alert("Tarea Terminada con Éxito");
+    } catch (error) {
+      console.error("Error al finalizar la tarea:", error);
+    }
+  };
+  
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
@@ -92,6 +102,11 @@ const Tareas = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tareas Tomadas</Text>
+      <RefreshControl
+        refreshing={refreshing}
+        onRefresh={handleRefresh}
+        colors={["#0077B6"]}
+      />
       {tareasTomadas.length === 0 ? (
         <Text>No has tomado ninguna tarea.</Text>
       ) : (
