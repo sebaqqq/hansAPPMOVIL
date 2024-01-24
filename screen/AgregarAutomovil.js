@@ -23,7 +23,6 @@ function AgregarAutomovil({ route }) {
   const [patente, setPatente] = useState("");
   const navigation = useNavigation();
 
-
   useEffect(() => {
     if (route.params && route.params.patente) {
       setPatente(route.params.patente);

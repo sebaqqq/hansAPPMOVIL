@@ -106,8 +106,7 @@ function AgrergarMantencion() {
         setErrorMessage('Por favor, complete todos los campos.');
         return;
       }
-  
-      // Verify if the patente is a non-empty string
+
       if (typeof patente !== 'string' || patente.trim() === '') {
         setErrorMessage('La patente no es válida.');
         return;

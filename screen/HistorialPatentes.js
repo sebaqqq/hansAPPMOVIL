@@ -38,8 +38,7 @@ const HistorialPatente = () => {
         id: doc.id,
         ...doc.data(),
       }));
-  
-      // Filtrar las patentes en proceso
+
       const patentesFiltradas = nuevasPatentes.filter(
         (patente) => patente.estado !== "en proceso"
       );

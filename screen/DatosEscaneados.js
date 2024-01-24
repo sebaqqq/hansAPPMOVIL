@@ -3,11 +3,6 @@ import { View, Text, StyleSheet } from 'react-native';
 
 export default function DatosEscaneadosScreen({ route }) {
   const { mantencionData } = route.params;
-
-  // Agregar un log de depuración para verificar la estructura de mantencionData
-  console.log('mantencionData:', mantencionData);
-
-  // Verificar si las propiedades están presentes y asignar valores predeterminados si no
   const descripcion = mantencionData?.descripcion || 'Descripción no disponible';
   const estado = mantencionData?.estado || 'Estado no disponible';
   const fecha = mantencionData?.fecha || 'Fecha no disponible';
