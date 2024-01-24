@@ -287,14 +287,37 @@ const Patente = () => {
                   <TouchableOpacity onPress={tomarTarea} style={styles.tomarTarea}>
                     <Text style={styles.textTomarTarea}>Tomar Tarea</Text>
                   </TouchableOpacity>
+
+                  <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={confirmModalVisible}
+                    onRequestClose={() => setConfirmModalVisible(!confirmModalVisible)}
+                  >
+                    <View style={styles.modalContainer}>
+                      <Text style={styles.modalText}>
+                        ¿Estás seguro de tomar esta tarea?
+                      </Text>
+                      <View style={styles.modalButtons}>
+                        <TouchableOpacity
+                          onPress={() => setConfirmModalVisible(!confirmModalVisible)}
+                          style={[styles.closeModal, { backgroundColor: "#FF3333" }]}
+                        >
+                          <Text style={styles.closeText}>Cancelar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={confirmTomarTarea} style={styles.closeModal}>
+                          <Text style={styles.closeText}>Confirmar</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </Modal>
                 </View>
               </TouchableWithoutFeedback>
             )}
           </View>
         </ScrollView>
 
-        {/* Modal for "Tarea Tomada" */}
-        <Modal
+        {/* <Modal
           animationType="slide"
           transparent={true}
           visible={confirmModalVisible}
@@ -316,7 +339,7 @@ const Patente = () => {
               </TouchableOpacity>
             </View>
           </View>
-        </Modal>
+        </Modal> */}
       </View>
     </TouchableWithoutFeedback>
   );
@@ -406,6 +429,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingBottom: 100, // Ajusta este valor según sea necesario
+    borderRadius: 10,
   },
   tomarTarea: {
     backgroundColor: "#4CAF50", // Color de fondo del botón
