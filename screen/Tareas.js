@@ -19,6 +19,8 @@ import {
   doc,
 } from "firebase/firestore";
 import { Octicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const Tareas = () => {
   const [tareasTomadas, setTareasTomadas] = useState([]);
@@ -26,10 +28,26 @@ const Tareas = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
+  const navigation = useNavigation();
 
   useEffect(() => {
     cargarTareasTomadas();
   }, []);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <MaterialCommunityIcons
+          name="update"
+          size={26}
+          color="#0077B6"
+          onPress={handleRefresh}  
+          style={{ marginRight: 20 }} 
+        />
+      ),
+    });
+  }, [navigation]);
+
 
   const cargarTareasTomadas = async () => {
     try {
@@ -148,7 +166,6 @@ const Tareas = () => {
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {

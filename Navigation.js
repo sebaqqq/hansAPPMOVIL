@@ -101,7 +101,6 @@ export default function Navigation () {
           component={Tareas}
           options={{
             tabBarLabel: 'Tareas',
-            headerShown: false,
             tabBarIcon: ({ color, size }) => (
               <FontAwesome5 name="tasks" size={size} color={color} />
             ),

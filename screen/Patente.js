@@ -47,13 +47,13 @@ const Patente = () => {
         <View style={{ flexDirection: "row", marginRight: 20 }}>
           <MaterialIcons
             name="inventory"
-            size={26}
+            size={24}
             color="#0077B6"
             onPress={() => navigation.navigate("Inventario")}
           />
           <FontAwesome5
             name="history"
-            size={26}
+            size={24}
             style={{ marginLeft: 20 }}
             color="#0077B6"
             onPress={() => navigation.navigate("Historial Patente")}
@@ -85,7 +85,6 @@ const Patente = () => {
         ...doc.data(),
       }));
 
-      // Filtrar las patentes en proceso
       const patentesFiltradas = nuevasPatentes.filter(
         (patente) => patente.estado !== "en proceso"
       );
@@ -316,30 +315,6 @@ const Patente = () => {
             )}
           </View>
         </ScrollView>
-
-        {/* <Modal
-          animationType="slide"
-          transparent={true}
-          visible={confirmModalVisible}
-          onRequestClose={() => setConfirmModalVisible(!confirmModalVisible)}
-        >
-          <View style={styles.modalContainer}>
-            <Text style={styles.modalText}>
-              ¿Estás seguro de tomar esta tarea?
-            </Text>
-            <View style={styles.modalButtons}>
-              <TouchableOpacity
-                onPress={() => setConfirmModalVisible(!confirmModalVisible)}
-                style={[styles.closeModal, { backgroundColor: "#FF3333" }]}
-              >
-                <Text style={styles.closeText}>Cancelar</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={confirmTomarTarea} style={styles.closeModal}>
-                <Text style={styles.closeText}>Confirmar</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal> */}
       </View>
     </TouchableWithoutFeedback>
   );
