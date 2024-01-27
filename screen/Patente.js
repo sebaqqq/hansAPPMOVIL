@@ -170,11 +170,9 @@ const Patente = () => {
       if (identifyUser) {
         const patenteRef = doc(db, "mantenciones", selectedPatente.id);
 
-        // Obtiene la tarea actualizada antes de tomarla
         const patenteSnapshot = await getDoc(patenteRef);
         const patenteData = patenteSnapshot.data();
 
-        // Verifica si la tarea ya ha sido tomada por alguien más
         if (patenteData.personaTomadora) {
           Alert.alert(
             "Tarea ya Tomada",
@@ -183,7 +181,6 @@ const Patente = () => {
           return;
         }
 
-        // Verifica si la tarea ya está marcada como "terminado"
         if (patenteData.estado === "terminado") {
           Alert.alert(
             "Tarea Terminada",
@@ -192,7 +189,6 @@ const Patente = () => {
           return;
         }
 
-        // Actualiza la tarea seleccionada con la información de la persona que toma la tarea
         await updateDoc(patenteRef, {
           personaTomadora: identifyUser.uid,
           estado: "en proceso", // Cambia el estado a "En proceso"
@@ -217,10 +213,8 @@ const Patente = () => {
 
   const confirmTomarTarea = async () => {
     setConfirmModalVisible(false);
-    // Call your existing tomarTarea function here
     await tomarTarea();
   };
-  
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -319,7 +313,6 @@ const Patente = () => {
     </TouchableWithoutFeedback>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
