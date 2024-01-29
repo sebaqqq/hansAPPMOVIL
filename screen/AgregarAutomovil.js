@@ -12,6 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { db } from "../firebase";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { Picker } from '@react-native-picker/picker'; 
+import Modal from 'react-native-modal'
 
 function AgregarAutomovil({ route }) {
   const [marca, setMarca] = useState("");
@@ -21,6 +22,7 @@ function AgregarAutomovil({ route }) {
   const [kilometraje, setKilometraje] = useState("");
   const [numchasis,  setNumChasis] = useState("");
   const [patente, setPatente] = useState("");
+  const [isConfirmationModalVisible, setConfirmationModalVisible] = useState(false)
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -28,6 +30,19 @@ function AgregarAutomovil({ route }) {
       setPatente(route.params.patente);
     }
   }, [route.params]);
+
+  const showConfirmationModal = () => {
+    setConfirmationModalVisible(true);
+  };
+
+  const hideConfirmationModal = () => {
+    setConfirmationModalVisible(false);
+  };
+
+  const handleConfirmationAndSave = () => {
+    hideConfirmationModal();
+    handleSaveMantencion();
+  };
 
   const agregarAutomovil = async () => {
     try {
@@ -179,6 +194,22 @@ function AgregarAutomovil({ route }) {
         <TouchableOpacity style={styles.button} onPress={agregarAutomovil}>
           <Text style={styles.buttonText}>Agregar Automóvil</Text>
         </TouchableOpacity>
+        <Modal
+          isVisible={isConfirmationModalVisible}
+          onBackdropPress={hideConfirmationModal}
+        >
+          <View style={styles.confirmationModal}>
+            <Text style={styles.confirmationModalText}>
+              ¿Estás seguro de que deseas guardar esta Automóvil?
+            </Text>
+            <TouchableOpacity onPress={handleConfirmationAndSave}>
+              <Text style={styles.confirmationModalButton}>Sí, Guardar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={hideConfirmationModal}>
+              <Text style={styles.confirmationModalButton}>Cancelar</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
       </View>
     </ScrollView>
   );
@@ -230,6 +261,23 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#fff",
     fontSize: 16,
+  },
+  confirmationModal: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  confirmationModalText: {
+    fontSize: 18,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  confirmationModalButton: {
+    fontSize: 16,
+    color: 'blue',
+    marginVertical: 10,
+    textAlign: 'center',
   },
 });
 
