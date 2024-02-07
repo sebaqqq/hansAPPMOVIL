@@ -29,7 +29,6 @@ const Login = () => {
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      Alert.alert("Bienvenido");
     })
     .catch(error => {
       console.log(error);
