@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
+import { DatosEscaneadosStyles } from '../styles/DatosEscaneadosEstilo';
 
 export default function DatosEscaneadosScreen({ route }) {
   const { mantencionData } = route.params;
@@ -11,55 +12,23 @@ export default function DatosEscaneadosScreen({ route }) {
   const productos = mantencionData?.productos || [];
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Datos Escaneados</Text>
-      <View style={styles.dataContainer}>
-        <Text style={styles.dataItem}>{`Descripción: ${descripcion}`}</Text>
-        <Text style={styles.dataItem}>{`Estado: ${estado}`}</Text>
-        <Text style={styles.dataItem}>{`Fecha: ${fecha}`}</Text>
-        <Text style={styles.dataItem}>{`Kilometraje de Mantención: ${kilometrajeMantencion}`}</Text>
-        <Text style={styles.dataItem}>{`Tipo de Mantención: ${tipoMantencion}`}</Text>
+    <View style={DatosEscaneadosStyles.container}>
+      <Text style={DatosEscaneadosStyles.title}>Datos Escaneados</Text>
+      <View style={DatosEscaneadosStyles.dataContainer}>
+        <Text style={DatosEscaneadosStyles.dataItem}>{`Descripción: ${descripcion}`}</Text>
+        <Text style={DatosEscaneadosStyles.dataItem}>{`Estado: ${estado}`}</Text>
+        <Text style={DatosEscaneadosStyles.dataItem}>{`Fecha: ${fecha}`}</Text>
+        <Text style={DatosEscaneadosStyles.dataItem}>{`Kilometraje de Mantención: ${kilometrajeMantencion}`}</Text>
+        <Text style={DatosEscaneadosStyles.dataItem}>{`Tipo de Mantención: ${tipoMantencion}`}</Text>
       </View>
-      
-      {/* Mostrar productos si están presentes */}
       {productos.length > 0 && (
-        <View style={styles.productContainer}>
-          <Text style={styles.productTitle}>Productos:</Text>
+        <View style={DatosEscaneadosStyles.productContainer}>
+          <Text style={DatosEscaneadosStyles.productTitle}>Productos:</Text>
           {productos.map((producto, index) => (
-            <Text style={styles.productItem} key={index}>{`- ${producto.nombreProducto}`}</Text>
+            <Text style={DatosEscaneadosStyles.productItem} key={index}>{`- ${producto.nombreProducto}`}</Text>
           ))}
         </View>
       )}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  dataContainer: {
-    marginBottom: 20,
-  },
-  dataItem: {
-    fontSize: 16,
-    marginBottom: 10,
-  },
-  productContainer: {
-    marginBottom: 20,
-  },
-  productTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  productItem: {
-    fontSize: 16,
-  },
-});

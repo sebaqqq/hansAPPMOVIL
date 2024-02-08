@@ -4,7 +4,6 @@ import {
   Text, 
   TextInput, 
   TouchableOpacity, 
-  StyleSheet, 
   ScrollView, 
   Alert
 } from "react-native";
@@ -13,6 +12,7 @@ import { db } from "../firebase";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { Picker } from '@react-native-picker/picker'; 
 import Modal from 'react-native-modal'
+import { AgregarAutomovilStyles } from "../styles/AgregarAutomovilEstilo";
 
 function AgregarAutomovil({ route }) {
   const [marca, setMarca] = useState("");
@@ -41,7 +41,7 @@ function AgregarAutomovil({ route }) {
 
   const handleConfirmationAndSave = () => {
     hideConfirmationModal();
-    handleSaveMantencion();
+    agregarAutomovil();
   };
 
   const agregarAutomovil = async () => {
@@ -88,12 +88,12 @@ function AgregarAutomovil({ route }) {
 
   return (
     <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.nombreCategoria}>Marca</Text>
+      <View style={AgregarAutomovilStyles.container}>
+        <Text style={AgregarAutomovilStyles.nombreCategoria}>Marca</Text>
         <Picker
           selectedValue={marca}
           onValueChange={(itemValue) => setMarca(itemValue)}
-          style={styles.picker}
+          style={AgregarAutomovilStyles.picker}
         >
           <Picker.Item label="Seleccione una marca" value="" />
           <Picker.Item label="Toyota" value="Toyota" />
@@ -143,70 +143,70 @@ function AgregarAutomovil({ route }) {
           <Picker.Item label="BAIC" value="BAIC" />
           <Picker.Item label="Brilliance" value="Brilliance" />
         </Picker>
-        <Text style={styles.nombreCategoria}>Modelo</Text>
+        <Text style={AgregarAutomovilStyles.nombreCategoria}>Modelo</Text>
         <TextInput
-          style={styles.input}
+          style={AgregarAutomovilStyles.input}
           placeholder="Modelo"
           value={modelo}
           onChangeText={(text) => setModelo(text)}
         />
-        <Text style={styles.nombreCategoria}>Año</Text>
+        <Text style={AgregarAutomovilStyles.nombreCategoria}>Año</Text>
         <TextInput
-          style={styles.input}
+          style={AgregarAutomovilStyles.input}
           placeholder="Año"
           value={ano}
           keyboardType="numeric"
           onChangeText={(text) => setAno(text)}
         />
-        <Text style={styles.nombreCategoria}>Color</Text>
+        <Text style={AgregarAutomovilStyles.nombreCategoria}>Color</Text>
         <TextInput
-          style={styles.input}
+          style={AgregarAutomovilStyles.input}
           placeholder="Color"
           value={color}
           onChangeText={(text) => setColor(text)}
         />
-        <Text style={styles.nombreCategoria}>Patente</Text>
+        <Text style={AgregarAutomovilStyles.nombreCategoria}>Patente</Text>
         <TextInput
-          style={styles.input}
+          style={AgregarAutomovilStyles.input}
           placeholder="Patente"
           autoCapitalize="characters" // Convertir automáticamente a mayúsculas
           keyboardType="ascii-capable"
           value={patente}
           onChangeText={(text) => setPatente(text)}
         />
-        <Text style={styles.nombreCategoria}>Número de Chasis</Text>
+        <Text style={AgregarAutomovilStyles.nombreCategoria}>Número de Chasis</Text>
         <TextInput
-          style={styles.input}
+          style={AgregarAutomovilStyles.input}
           placeholder="Número de Chasis"
           autoCapitalize="characters" // Convertir automáticamente a mayúsculas
           keyboardType="ascii-capable"
           value={numchasis}
           onChangeText={(text) => setNumChasis(text)}
         />
-        <Text style={styles.nombreCategoria}>Kilometraje</Text>
+        <Text style={AgregarAutomovilStyles.nombreCategoria}>Kilometraje</Text>
         <TextInput
-          style={styles.input}
+          style={AgregarAutomovilStyles.input}
           placeholder="Kilometraje"
           value={kilometraje}
           onChangeText={(text) => setKilometraje(text)}
           keyboardType="numeric"
         />
-        <TouchableOpacity style={styles.button} onPress={agregarAutomovil}>
-          <Text style={styles.buttonText}>Agregar Automóvil</Text>
+        <TouchableOpacity style={AgregarAutomovilStyles.button} onPress={showConfirmationModal}>
+          <Text style={AgregarAutomovilStyles.buttonText}>Agregar Automóvil</Text>
         </TouchableOpacity>
         <Modal
           isVisible={isConfirmationModalVisible}
           onBackdropPress={hideConfirmationModal}
         >
-          <View style={styles.confirmationModal}>
-            <Text style={styles.confirmationModalText}>
+          <View style={AgregarAutomovilStyles.confirmationModal}>
+            <Text style={AgregarAutomovilStyles.confirmationModalText}>
               ¿Estás seguro de que deseas guardar esta Automóvil?
             </Text>
             <TouchableOpacity onPress={handleConfirmationAndSave}>
-              <Text style={styles.confirmationModalButton}>Sí, Guardar</Text>
+              <Text style={AgregarAutomovilStyles.confirmationModalButton}>Sí, Guardar</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={hideConfirmationModal}>
-              <Text style={styles.confirmationModalButton}>Cancelar</Text>
+              <Text style={AgregarAutomovilStyles.confirmationModalButton}>Cancelar</Text>
             </TouchableOpacity>
           </View>
         </Modal>
@@ -214,71 +214,5 @@ function AgregarAutomovil({ route }) {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 16,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#bbb",
-    borderRadius: 8,
-    padding: 8,
-    margin: 8,
-    width: 200,
-  },
-  button: {
-    backgroundColor: "#0077B6",
-    padding: 10,
-    borderRadius: 8,
-    marginTop: 10,
-  },
-  titulo: {
-    fontSize: 28,
-    marginBottom: 12,
-  },
-  nombreCategoria: {
-    fontSize: 18,
-    marginBottom: 4,
-  },
-  pickerContainer: {
-    borderColor: '#999',
-    borderWidth: 1,
-    borderRadius: 8,
-    width: '80%',
-    overflow: 'hidden',
-    marginBottom: 12,
-  },
-  picker: {
-    height: 40,
-    width: '80%',
-    color: '#333',
-    textAlign: 'center', 
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-  },
-  confirmationModal: {
-    backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  confirmationModalText: {
-    fontSize: 18,
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  confirmationModalButton: {
-    fontSize: 16,
-    color: 'blue',
-    marginVertical: 10,
-    textAlign: 'center',
-  },
-});
 
 export default AgregarAutomovil;

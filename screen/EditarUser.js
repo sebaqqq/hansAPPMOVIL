@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { 
   View, 
   Text, 
-  StyleSheet, 
   TextInput, 
   TouchableOpacity, 
   ActivityIndicator, 
@@ -16,6 +15,7 @@ import {
 } from "firebase/firestore";
 import { db, auth } from "../firebase";
 import { updatePassword as updateFirebasePassword } from "firebase/auth";
+import { EditarUserStyles } from "../styles/EditarUserEstilo";
 
 const EditarUser = () => {
   const [userData, setUserData] = useState(null);
@@ -77,114 +77,58 @@ const EditarUser = () => {
 
   if (loading) {
     return (
-      <View style={styles.loadingContainer}>
+      <View style={EditarUserStyles.loadingContainer}>
         <ActivityIndicator size="large" color="#0077B6" />
-        <Text style={styles.loadingText}>Cargando...</Text>
+        <Text style={EditarUserStyles.loadingText}>Cargando...</Text>
       </View>
     );
   }
 
   return (
     <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.textTitle}>Editar Usuario</Text>
-        <Text style={styles.text}>Nombre</Text>
+      <View style={EditarUserStyles.container}>
+        <Text style={EditarUserStyles.textTitle}>Editar Usuario</Text>
+        <Text style={EditarUserStyles.text}>Nombre</Text>
         <TextInput
-          style={styles.input}
+          style={EditarUserStyles.input}
           placeholder="Nombre"
           value={newName}
           onChangeText={(text) => setNewName(text)}
         />
-        <Text style={styles.text}>Apellido</Text>
+        <Text style={EditarUserStyles.text}>Apellido</Text>
         <TextInput
-          style={styles.input}
+          style={EditarUserStyles.input}
           placeholder="Apellido"
           value={newApellido}
           onChangeText={(text) => setNewApellido(text)}
         />
-        <Text style={styles.text}>Contraseña</Text>
+        <Text style={EditarUserStyles.text}>Contraseña</Text>
         <TextInput
-          style={styles.input}
+          style={EditarUserStyles.input}
           placeholder="Contraseña"
           value={newPassword}
           onChangeText={(text) => setNewPassword(text)}
         />
-        <Text style={styles.text}>Teléfono</Text>
+        <Text style={EditarUserStyles.text}>Teléfono</Text>
         <TextInput
-          style={styles.input}
+          style={EditarUserStyles.input}
           placeholder="Teléfono"
           value={newTelefono}
           onChangeText={(text) => setNewTelefono(text)}
         />
-        <Text style={styles.text}>Dirección</Text>
+        <Text style={EditarUserStyles.text}>Dirección</Text>
         <TextInput
-          style={styles.input}
+          style={EditarUserStyles.input}
           placeholder="Dirección"
           value={newDireccion}
           onChangeText={(text) => setNewDireccion(text)}
         />
-        <TouchableOpacity onPress={actualizarDatosUsuario} style={styles.boton}>
-          <Text style={styles.botonText}>Actualizar Datos</Text>
+        <TouchableOpacity onPress={actualizarDatosUsuario} style={EditarUserStyles.boton}>
+          <Text style={EditarUserStyles.botonText}>Actualizar Datos</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16,
-  },
-  textTitle: {
-    fontSize: 34,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  text: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  userData: {
-    marginBottom: 20,
-  },
-  userDataText: {
-    fontSize: 16,
-    marginBottom: 10,
-  },
-  input: {
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    marginBottom: 20,
-    padding: 10,
-    width: "100%",
-    borderRadius: 8,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  loadingText: {
-    marginTop: 10,
-    fontSize: 16,
-    color: "#333333",
-  },
-  boton: {
-    backgroundColor: "#0077B6",
-    padding: 10,
-    borderRadius: 8,
-    width: "100%",
-    alignItems: "center",
-  },
-  botonText: {
-    color: "#fff",
-    fontWeight: "bold",
-  },
-});
 
 export default EditarUser;

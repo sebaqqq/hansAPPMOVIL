@@ -3,7 +3,6 @@ import {
   View, 
   TextInput, 
   Text, 
-  StyleSheet,
   TouchableOpacity, 
   Alert,
 } from 'react-native';
@@ -22,6 +21,7 @@ import {
 import { db } from "../firebase";
 import { Picker } from '@react-native-picker/picker';
 import Modal from 'react-native-modal';
+import { AgregarMantencionStyles } from '../styles/AgregarMantencionEstilo';
 
 function AgrergarMantencion() {
   const [patente, setPatente] = useState('');
@@ -79,7 +79,6 @@ function AgrergarMantencion() {
 
   const handleCheckPatente = async (text) => {
     try {
-      // Verify if the text is a non-empty string
       if (typeof text !== 'string' || text.trim() === '') {
         setErrorMessage('La patente no es válida.');
         return;
@@ -148,7 +147,6 @@ function AgrergarMantencion() {
     }
   };
   
-
   const showConfirmationModal = () => {
     setConfirmationModalVisible(true);
   };
@@ -163,12 +161,12 @@ function AgrergarMantencion() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.textTitle}>Agregar Mantención</Text>
-      <View style={styles.inputContainer}>
-        <Icon name="car" size={20} color="black" style={styles.icon} />
+    <View style={AgregarMantencionStyles.container}>
+      <Text style={AgregarMantencionStyles.textTitle}>Agregar Mantención</Text>
+      <View style={AgregarMantencionStyles.inputContainer}>
+        <Icon name="car" size={20} color="black" style={AgregarMantencionStyles.icon} />
         <TextInput
-          style={styles.input}
+          style={AgregarMantencionStyles.input}
           placeholder="Patente del auto"
           value={patente}
           autoCapitalize="characters" // Convertir automáticamente a mayúsculas
@@ -176,14 +174,13 @@ function AgrergarMantencion() {
           onChangeText={(text) => handleCheckPatente(text)}
         />
       </View>
-      {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
-
-      <View style={styles.inputContainer}>
-        <Icon name="wrench" size={20} color="black" style={styles.icon} />
+      {errorMessage ? <Text style={AgregarMantencionStyles.errorText}>{errorMessage}</Text> : null}
+      <View style={AgregarMantencionStyles.inputContainer}>
+        <Icon name="wrench" size={20} color="black" style={AgregarMantencionStyles.icon} />
         <Picker
           selectedValue={tipoMantencion}
           onValueChange={(itemValue) => setTipoMantencion(itemValue)}
-          style={styles.picker}
+          style={AgregarMantencionStyles.picker}
         >
           <Picker.Item label="Todas las Categorías" value="" />
           <Picker.Item label="Sistema de Suspensión" value="Sistema de Suspensión" />
@@ -199,21 +196,20 @@ function AgrergarMantencion() {
           <Picker.Item label='Sistema de Transmisión' value="Sistema de Transmisión" />
         </Picker>
       </View>
-
-      <View style={styles.inputContainer}>
-        <Icon name="list" size={20} color="black" style={styles.icon} />
+      <View style={AgregarMantencionStyles.inputContainer}>
+        <Icon name="list" size={20} color="black" style={AgregarMantencionStyles.icon} />
         {productos && productos.length > 0 ? (
           <Picker
             selectedValue={productos.length > 0 ? productos[0]?.nombreProducto : ""}
             onValueChange={(itemValue) => setProductos(itemValue !== "" ? [{ nombreProducto: itemValue }] : [])}
-            style={styles.picker}
+            style={AgregarMantencionStyles.picker}
           >
             <Picker.Item label="Seleccione el producto a utilizar" value="" />
             {productos.map((item) => (
               <Picker.Item
                 label={item.nombreProducto}
                 value={item.nombreProducto}
-                key={item.nombreProducto} // Use the product name as the key
+                key={item.nombreProducto} 
               />
             ))}
           </Picker>
@@ -221,12 +217,12 @@ function AgrergarMantencion() {
           <Text>No hay productos disponibles.</Text>
         )}
       </View>
-      <View style={styles.inputContainer}>
-        <Icon name="check" size={20} color="black" style={styles.icon} />
+      <View style={AgregarMantencionStyles.inputContainer}>
+        <Icon name="check" size={20} color="black" style={AgregarMantencionStyles.icon} />
         <Picker
           selectedValue={estado}
           onValueChange={(itemValue) => setEstado(itemValue)}
-          style={styles.picker}
+          style={AgregarMantencionStyles.picker}
         >
           <Picker.Item label="Seleccione el estado de la mantención" value="" />
           <Picker.Item label="Pendiente" value="pendiente" />
@@ -234,127 +230,46 @@ function AgrergarMantencion() {
           <Picker.Item label="Atención Especial" value="atencion especial" />
         </Picker>
       </View>
-      <View style={styles.inputContainer}>
-        <Icon name="tachometer" size={20} color="black" style={styles.icon} />
+      <View style={AgregarMantencionStyles.inputContainer}>
+        <Icon name="tachometer" size={20} color="black" style={AgregarMantencionStyles.icon} />
         <TextInput
-          style={styles.input}
+          style={AgregarMantencionStyles.input}
           placeholder="Kilometraje de la mantención"
           keyboardType='numeric'
           value={kilometrajeMantencion}
           onChangeText={(text) => setKilometrajeMantencion(text)}
         />
       </View>
-      <View style={styles.inputContainer}>
-        <Icon name="comment" size={20} color="black" style={styles.icon} />
+      <View style={AgregarMantencionStyles.inputContainer}>
+        <Icon name="comment" size={20} color="black" style={AgregarMantencionStyles.icon} />
         <TextInput
-          style={styles.input}
+          style={AgregarMantencionStyles.input}
           placeholder="Descripción de la mantención"
           value={descripcion}
           onChangeText={(text) => setDescripcion(text)}
         />
       </View>
-      <TouchableOpacity style={styles.button} onPress={showConfirmationModal}>
-        <Text style={styles.botonTexto}>Guardar Mantención</Text>
+      <TouchableOpacity style={AgregarMantencionStyles.button} onPress={showConfirmationModal}>
+        <Text style={AgregarMantencionStyles.botonTexto}>Guardar Mantención</Text>
       </TouchableOpacity>
       <Modal
         isVisible={isConfirmationModalVisible}
         onBackdropPress={hideConfirmationModal}
       >
-        <View style={styles.confirmationModal}>
-          <Text style={styles.confirmationModalText}>
+        <View style={AgregarMantencionStyles.confirmationModal}>
+          <Text style={AgregarMantencionStyles.confirmationModalText}>
             ¿Estás seguro de que deseas guardar esta mantención?
           </Text>
           <TouchableOpacity onPress={handleConfirmationAndSave}>
-            <Text style={styles.confirmationModalButton}>Sí, Guardar</Text>
+            <Text style={AgregarMantencionStyles.confirmationModalButton}>Sí, Guardar</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={hideConfirmationModal}>
-            <Text style={styles.confirmationModalButton}>Cancelar</Text>
+            <Text style={AgregarMantencionStyles.confirmationModalButton}>Cancelar</Text>
           </TouchableOpacity>
         </View>
       </Modal>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  input: {
-    height: 40,
-    width: '80%',
-    paddingHorizontal: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: 'black',
-  },
-  icon: {
-    marginRight: 10,
-  },
-  errorText: {
-    color: 'red',
-    marginTop: 5,
-  },
-  label: {
-    fontSize: 16,
-    marginRight: 10,
-    color: '#333',
-  },
-  pickerContainer: {
-    borderColor: '#999',
-    borderWidth: 1,
-    borderRadius: 8,
-    width: '80%',
-    overflow: 'hidden',
-    marginBottom: 12,
-  },
-  picker: {
-    height: 40,
-    width: '80%',
-    color: '#333',
-    textAlign: 'center', 
-  },
-  button: {
-    marginTop: 20,
-    backgroundColor: '#0077B6',
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-  },
-  botonTexto: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  textTitle: {
-    fontSize: 34,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  confirmationModal: {
-    backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  confirmationModalText: {
-    fontSize: 18,
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  confirmationModalButton: {
-    fontSize: 16,
-    color: 'blue',
-    marginVertical: 10,
-    textAlign: 'center',
-  },
-});
 
 export default AgrergarMantencion;
