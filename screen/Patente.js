@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
-  StyleSheet,
   TouchableOpacity,
   ScrollView,
   Alert,
@@ -26,6 +25,7 @@ import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { PatenteStyles } from "../styles/PatenteEstilo";
 
 const Patente = () => {
   const [loading, setLoading] = useState(true);
@@ -128,12 +128,12 @@ const Patente = () => {
 
     return (
       <TouchableOpacity
-        style={styles.patenteItem}
+        style={PatenteStyles.patenteItem}
         onPress={() => selectPatente(item)}
       >
-        <Text style={styles.patenteText}>Patente: {item.id}</Text>
-        <View style={styles.statusContainer}>
-          <Text style={styles.status}>
+        <Text style={PatenteStyles.patenteText}>Patente: {item.id}</Text>
+        <View style={PatenteStyles.statusContainer}>
+          <Text style={PatenteStyles.status}>
             <Foundation name="clock" size={24} left={45} color="#FFFFFF" />
             {item.estado}
           </Text>
@@ -218,11 +218,11 @@ const Patente = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <View style={styles.container}>
+      <View style={PatenteStyles.container}>
         <Picker
           selectedValue={selectedCategory}
           onValueChange={(itemValue) => setSelectedCategory(itemValue)}
-          style={styles.filterInput}
+          style={PatenteStyles.filterInput}
         >
           <Picker.Item label="Seleccione una categoría" value="" />
           <Picker.Item label="Pendiente" value="pendiente" />
@@ -232,7 +232,7 @@ const Patente = () => {
           <Picker.Item label="Terminado" value="terminado" />
         </Picker>
         <TextInput
-          style={styles.input}
+          style={PatenteStyles.input}
           onChangeText={setFiltroPatente}
           value={filtroPatente}
           placeholder="Filtrar por patente"
@@ -240,21 +240,21 @@ const Patente = () => {
           keyboardType="ascii-capable"
         />
         <ScrollView
-          contentContainerStyle={styles.scrollContent}
+          contentContainerStyle={PatenteStyles.scrollContent}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
         >
-          <View style={styles.content}>
+          <View style={PatenteStyles.content}>
             {filteredPatentes.map((item) => (
               <TouchableOpacity
                 key={item.id}
-                style={styles.patenteItem}
+                style={PatenteStyles.patenteItem}
                 onPress={() => selectPatente(item)}
               >
-                <Text style={styles.patenteText}>{item.id}</Text>
-                <View style={styles.statusContainer}>
-                  <Text style={styles.status}>
+                <Text style={PatenteStyles.patenteText}>{item.id}</Text>
+                <View style={PatenteStyles.statusContainer}>
+                  <Text style={PatenteStyles.status}>
                     <Foundation
                       name="clock"
                       size={24}
@@ -268,38 +268,37 @@ const Patente = () => {
             ))}
             {selectedPatente && (
               <TouchableWithoutFeedback onPress={hideTarjeta}>
-                <View style={[styles.overlay, styles.tarjeta]}>
-                  <Text style={styles.status}>{selectedPatente.estado}</Text>
-                  <Text style={styles.info}>
+                <View style={[PatenteStyles.overlay, PatenteStyles.tarjeta]}>
+                  <Text style={PatenteStyles.status}>{selectedPatente.estado}</Text>
+                  <Text style={PatenteStyles.info}>
                     Mantención: {selectedPatente.tipoMantencion}
                   </Text>
-                  <Text style={styles.info}>Fecha: {selectedPatente.fecha}</Text>
-                  <Text style={styles.info}>
+                  <Text style={PatenteStyles.info}>Fecha: {selectedPatente.fecha}</Text>
+                  <Text style={PatenteStyles.info}>
                     Descripción: {selectedPatente.descripcion}
                   </Text>
-                  <TouchableOpacity onPress={tomarTarea} style={styles.tomarTarea}>
-                    <Text style={styles.textTomarTarea}>Tomar Tarea</Text>
+                  <TouchableOpacity onPress={tomarTarea} style={PatenteStyles.tomarTarea}>
+                    <Text style={PatenteStyles.textTomarTarea}>Tomar Tarea</Text>
                   </TouchableOpacity>
-
                   <Modal
                     animationType="slide"
                     transparent={true}
                     visible={confirmModalVisible}
                     onRequestClose={() => setConfirmModalVisible(!confirmModalVisible)}
                   >
-                    <View style={styles.modalContainer}>
-                      <Text style={styles.modalText}>
+                    <View style={PatenteStyles.modalContainer}>
+                      <Text style={PatenteStyles.modalText}>
                         ¿Estás seguro de tomar esta tarea?
                       </Text>
-                      <View style={styles.modalButtons}>
+                      <View style={PatenteStyles.modalButtons}>
                         <TouchableOpacity
                           onPress={() => setConfirmModalVisible(!confirmModalVisible)}
-                          style={[styles.closeModal, { backgroundColor: "#FF3333" }]}
+                          style={[PatenteStyles.closeModal, { backgroundColor: "#FF3333" }]}
                         >
-                          <Text style={styles.closeText}>Cancelar</Text>
+                          <Text style={PatenteStyles.closeText}>Cancelar</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={confirmTomarTarea} style={styles.closeModal}>
-                          <Text style={styles.closeText}>Confirmar</Text>
+                        <TouchableOpacity onPress={confirmTomarTarea} style={PatenteStyles.closeModal}>
+                          <Text style={PatenteStyles.closeText}>Confirmar</Text>
                         </TouchableOpacity>
                       </View>
                     </View>
@@ -313,126 +312,5 @@ const Patente = () => {
     </TouchableWithoutFeedback>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: "#fff",
-  },
-  title: {
-    fontSize: 34,
-    fontWeight: "bold",
-    marginBottom: 10,
-    color: "#333",
-  },
-  filterInput: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 16,
-    paddingLeft: 8,
-    borderRadius: 8,
-  },
-  content: {
-    marginTop: 8,
-  },
-  patenteItem: {
-    padding: 16,
-    marginBottom: 8,
-    backgroundColor: "#0077B6",
-    borderRadius: 8,
-  },
-  patenteText: {
-    fontSize: 26,
-    color: "#fff",
-  },
-  statusContainer: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  loadingText: {
-    marginTop: 10,
-    fontSize: 16,
-    color: "#333333",
-  },
-  status: {
-    fontSize: 14,
-    padding: 8,
-    backgroundColor: "#0077B6",
-    borderRadius: 8,
-    color: "#fff",
-    right: 12
-  },
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.7)",
-    zIndex: 1,
-  },
-  tarjeta: {
-    padding: 20,
-    zIndex: 2,
-    elevation: 5,
-    backgroundColor: "#fff",
-    borderRadius: 20,
-  },
-  info: {
-    fontSize: 20,
-    marginBottom: 10,
-    color: "#333",
-  },
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 10,
-    padding: 8,
-    borderRadius: 8,
-  },
-  scrollContent: {
-    paddingBottom: 100, // Ajusta este valor según sea necesario
-    borderRadius: 10,
-  },
-  tomarTarea: {
-    backgroundColor: "#4CAF50", // Color de fondo del botón
-    padding: 10,
-    borderRadius: 8,
-    marginTop: 10,
-    alignItems: "center",
-  },
-  textTomarTarea: {
-    color: "#fff", // Color del texto del botón
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.7)",
-  },
-  modalText: {
-    fontSize: 24,
-    color: "#fff",
-    marginBottom: 20,
-  },
-  closeModal: {
-    backgroundColor: "#4CAF50",
-    padding: 10,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  closeText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-});
 
 export default Patente;

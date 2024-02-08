@@ -4,6 +4,7 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useNavigation } from '@react-navigation/native';
+import { TexTScannerStyles } from '../styles/TexTScannerEstilo';
 
 export default function Scanner() {
   const navigation = useNavigation();
@@ -58,7 +59,7 @@ export default function Scanner() {
       handleCheckPatente();
     }, 10000);
     return () => clearInterval(intervalId);
-  }, [refresh]); // Agrega refresh a las dependencias del useEffect
+  }, [refresh]); 
 
   const resetScanner = () => {
     setIsScanning(true);
@@ -74,50 +75,19 @@ export default function Scanner() {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={TexTScannerStyles.container}>
       <BarCodeScanner
         key={refresh}
         onBarCodeScanned={handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
-      <View style={styles.overlay}>
-        <Text style={styles.label}>Escanea el código QR</Text>
-        <TouchableOpacity onPress={resetScanner} style={styles.button}>
-          <Text style={styles.buttonText}>Reiniciar Escaneo</Text>
+      <View style={TexTScannerStyles.overlay}>
+        <Text style={TexTScannerStyles.label}>Escanea el código QR</Text>
+        <TouchableOpacity onPress={resetScanner} style={TexTScannerStyles.button}>
+          <Text style={TexTScannerStyles.buttonText}>Reiniciar Escaneo</Text>
         </TouchableOpacity>
       </View>
-      {errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null}
+      {errorMessage ? <Text style={TexTScannerStyles.errorMessage}>{errorMessage}</Text> : null}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  overlay: {
-    flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 16,
-  },
-  label: {
-    fontSize: 18,
-    color: 'white',
-  },
-  errorMessage: {
-    color: 'red',
-    marginTop: 10,
-  },
-  button: {
-    padding: 16,
-    borderRadius: 8,
-    backgroundColor: '#0077B6',
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-  },
-});

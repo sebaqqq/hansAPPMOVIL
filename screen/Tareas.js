@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
-  StyleSheet,
   FlatList,
   TouchableOpacity,
   RefreshControl,
@@ -21,6 +20,7 @@ import {
 import { Octicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { TareasStyles } from "../styles/TareasEstilo";
 
 const Tareas = () => {
   const [tareasTomadas, setTareasTomadas] = useState([]);
@@ -47,7 +47,6 @@ const Tareas = () => {
       ),
     });
   }, [navigation]);
-
 
   const cargarTareasTomadas = async () => {
     try {
@@ -113,15 +112,15 @@ const Tareas = () => {
 
   if (loading) {
     return (
-      <View style={styles.loadingContainer}>
-        <Text style={styles.loadingText}>Cargando tareas tomadas...</Text>
+      <View style={TareasStyles.loadingContainer}>
+        <Text style={TareasStyles.loadingText}>Cargando tareas tomadas...</Text>
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tareas Tomadas</Text>
+    <View style={TareasStyles.container}>
+      <Text style={TareasStyles.title}>Tareas Tomadas</Text>
       {tareasTomadas.length === 0 ? (
         <Text>No has tomado ninguna tarea.</Text>
       ) : (
@@ -129,12 +128,12 @@ const Tareas = () => {
           data={tareasTomadas}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View style={styles.tareaTomadaItem}>
-              <View style={styles.tareaTomadaTextContainer}>
-                <Text style={styles.tareaTomadaText}>Patente: {item.id}</Text>
-                <Text style={styles.tareaTomadaText}>Estado: {item.estado}</Text>
-                <Text style={styles.tareaTomadaText}>Mantención: {item.tipoMantencion}</Text>
-                <Text style={styles.tareaTomadaText}>Descripción: {item.descripcion}</Text>
+            <View style={TareasStyles.tareaTomadaItem}>
+              <View style={TareasStyles.tareaTomadaTextContainer}>
+                <Text style={TareasStyles.tareaTomadaText}>Patente: {item.id}</Text>
+                <Text style={TareasStyles.tareaTomadaText}>Estado: {item.estado}</Text>
+                <Text style={TareasStyles.tareaTomadaText}>Mantención: {item.tipoMantencion}</Text>
+                <Text style={TareasStyles.tareaTomadaText}>Descripción: {item.descripcion}</Text>
               </View>
               <TouchableOpacity onPress={() => finalizarTarea(item.id)}>
                 <Octicons name="tasklist" size={24} color="white" />
@@ -146,85 +145,24 @@ const Tareas = () => {
           }
         />
       )}
-
       <Modal
         transparent={true}
         visible={modalVisible}
         animationType="slide"
         onRequestClose={() => setModalVisible(false)}
       >
-        <View style={styles.confirmationModal}>
-          <Text style={styles.confirmationModalText}>¿Estás seguro de finalizar la tarea?</Text>
+        <View style={TareasStyles.confirmationModal}>
+          <Text style={TareasStyles.confirmationModalText}>¿Estás seguro de finalizar la tarea?</Text>
           <TouchableOpacity onPress={handleConfirm}>
-            <Text style={styles.confirmationModalButton}>Confirmar</Text>
+            <Text style={TareasStyles.confirmationModalButton}>Confirmar</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={handleCancel}>
-            <Text style={styles.confirmationModalButton}>Cancelar</Text>
+            <Text style={TareasStyles.confirmationModalButton}>Cancelar</Text>
           </TouchableOpacity>
         </View>
       </Modal>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: "#fff",
-  },
-  title: {
-    fontSize: 34,
-    fontWeight: "bold",
-    marginBottom: 10,
-    color: "#333",
-  },
-  tareaTomadaItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 16,
-    marginBottom: 8,
-    backgroundColor: "#0077B6",
-    borderRadius: 8,
-  },
-  tareaTomadaTextContainer: {
-    flex: 1,
-  },
-  tareaTomadaText: {
-    fontSize: 16,
-    color: "#fff",
-    marginBottom: 8,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  loadingText: {
-    marginTop: 10,
-    fontSize: 16,
-    color: "#333333",
-  },
-  confirmationModal: {
-    backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center', // Añadido para centrar verticalmente
-    flex: 1, // Añadido para ocupar todo el espacio disponible
-  },
-  confirmationModalText: {
-    fontSize: 18,
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  confirmationModalButton: {
-    fontSize: 16,
-    color: 'blue',
-    marginVertical: 10,
-    textAlign: 'center',
-  },
-});
 
 export default Tareas;

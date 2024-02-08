@@ -8,13 +8,13 @@ import {
   KeyboardAvoidingView,
   Platform,
   Image,
-  StyleSheet,
   Alert
 } from "react-native";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { LoginStyles } from "../styles/LoginEstilo";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -48,31 +48,31 @@ const Login = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
+      style={LoginStyles.container}
     >
       <ScrollView
-        contentContainerStyle={styles.scrollViewContainer}
+        contentContainerStyle={LoginStyles.scrollViewContainer}
         keyboardShouldPersistTaps="handled"
       >
-        <View style={styles.centeredContainer}>
-          <Text style={styles.title}>Hans Motors</Text>
+        <View style={LoginStyles.centeredContainer}>
+          <Text style={LoginStyles.title}>Hans Motors</Text>
           <Image
             source={require("../images/AutoSinFondo.png")}
-            style={styles.logoImage}
+            style={LoginStyles.logoImage}
           />
-          <Text style={styles.headerText}>Iniciar Sesión</Text>
-          <View style={styles.inputContainer}>
-            <View style={styles.inputWrapper}>
+          <Text style={LoginStyles.headerText}>Iniciar Sesión</Text>
+          <View style={LoginStyles.inputContainer}>
+            <View style={LoginStyles.inputWrapper}>
               <Icon
                 name="envelope"
                 size={20}
                 color="#A0A0A0"
-                style={styles.icon}
+                style={LoginStyles.icon}
               />
               <TextInput
                 placeholder=""
                 style={[
-                  styles.input,
+                  LoginStyles.input,
                   {
                     borderBottomColor: emailFocused || email.length > 0 ? "#525FE1" : "#000",
                   },
@@ -83,10 +83,10 @@ const Login = () => {
                 onFocus={() => setEmailFocused(true)}
                 onBlur={() => setEmailFocused(false)}
               />
-              <View style={styles.labelContainer}>
+              <View style={LoginStyles.labelContainer}>
                 <Text
                   style={[
-                    styles.labelText,
+                    LoginStyles.labelText,
                     {
                       top: emailFocused || email.length > 0 ? -10 : 8,
                       left: 40,
@@ -98,12 +98,12 @@ const Login = () => {
                 </Text>
               </View>
             </View>
-            <View style={styles.inputWrapper}>
-              <Icon name="lock" size={20} color="#A0A0A0" style={styles.icon} />
+            <View style={LoginStyles.inputWrapper}>
+              <Icon name="lock" size={20} color="#A0A0A0" style={LoginStyles.icon} />
               <TextInput
                 placeholder=""
                 style={[
-                  styles.input,
+                  LoginStyles.input,
                   {
                     borderBottomColor: passwordFocused || password.length > 0 ? "#525FE1" : "#000",
                   },
@@ -116,7 +116,7 @@ const Login = () => {
                 onBlur={() => setPasswordFocused(false)}
               />
               <TouchableOpacity
-                style={styles.showPasswordButton}
+                style={LoginStyles.showPasswordButton}
                 onPress={() => setShowPassword(!showPassword)}
               >
                 <Icon
@@ -125,10 +125,10 @@ const Login = () => {
                   color="#A0A0A0"
                 />
               </TouchableOpacity>
-              <View style={styles.labelContainer}>
+              <View style={LoginStyles.labelContainer}>
                 <Text
                   style={[
-                    styles.labelText,
+                    LoginStyles.labelText,
                     {
                       top: passwordFocused || password.length > 0 ? -10 : 8,
                       left: 40,
@@ -141,105 +141,18 @@ const Login = () => {
             </View>
           </View>
           {errorMessage !== "" && (
-            <Text style={styles.errorText}>{errorMessage}</Text>
+            <Text style={LoginStyles.errorText}>{errorMessage}</Text>
           )}
           <TouchableOpacity
-            style={styles.loginButton}
+            style={LoginStyles.loginButton}
             onPress={handleLogin}
           >
-            <Text style={styles.buttonText}>Iniciar Sesión</Text>
+            <Text style={LoginStyles.buttonText}>Iniciar Sesión</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    paddingHorizontal: 20,
-  },
-  scrollViewContainer: {
-    flexGrow: 1,
-    justifyContent: "center",
-  },
-  centeredContainer: {
-    alignItems: "center",
-  },
-  title: {
-    fontSize: 36,
-    fontWeight: "bold",
-    marginBottom: 40,
-    color: "#0077B6",
-  },
-  logoImage: {
-    width: 300,
-    height: 57,
-    marginBottom: 40,
-  },
-  headerText: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 40,
-    color: "#0077B6",
-  },
-  inputContainer: {
-    width: "100%",
-    marginBottom: 20,
-  },
-  inputWrapper: {
-    position: "relative",
-    marginBottom: 30,
-  },
-  icon: {
-    position: "absolute",
-    left: 8,
-    top: 12,
-    zIndex: 1,
-  },
-  labelContainer: {
-    position: "absolute",
-    top: 0,
-    left: 4,
-    zIndex: 1,
-  },
-  labelText: {
-    fontSize: 14,
-  },
-  input: {
-    marginBottom:30,
-    borderBottomWidth: 1,
-    borderBottomColor: "#000",
-    paddingVertical: 8,
-    paddingLeft: 40,
-    color: "#333",
-  },
-  errorText: {
-    color: "red",
-    marginBottom: 10,
-  },
-  loginButton: {
-    backgroundColor: "#0077B6",
-    borderRadius: 20,
-    paddingVertical: 12,
-    width: "80%",
-    alignItems: "center",
-    marginTop: 20,
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 14,
-    fontWeight: "bold",
-  },
-  showPasswordButton: {
-    position: "absolute",
-    right: 8, 
-    top: 12,
-    zIndex: 1,
-  },
-});
 
 export default Login;

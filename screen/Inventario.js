@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   FlatList,
   Alert,
   TextInput,
@@ -11,6 +10,7 @@ import {
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { Picker } from '@react-native-picker/picker';
+import { InventarioStyles } from '../styles/InventarioEstilo';
 
 const Inventario = () => {
   const [loading, setLoading] = useState(false);
@@ -47,20 +47,20 @@ const Inventario = () => {
   const renderItem = ({ item }) => {
     let cantidadStyle;
     if (item.cantidad < 10) {
-      cantidadStyle = styles.cantidadBaja;
+      cantidadStyle = InventarioStyles.cantidadBaja;
     } else if (item.cantidad >= 10 && item.cantidad <= 20) {
-      cantidadStyle = styles.cantidadMedia;
+      cantidadStyle = InventarioStyles.cantidadMedia;
     } else {
-      cantidadStyle = styles.cantidadNormal;
+      cantidadStyle = InventarioStyles.cantidadNormal;
     }
 
     return (
-      <View style={[styles.inventarioItem, cantidadStyle]}>
-        <Text style={styles.itemText}>Marca: {item.marca}</Text>
-        <Text style={styles.itemText}>Nombre Producto: {item.nombreProducto}</Text>
-        <Text style={styles.itemText}>Categoría: {item.categoria}</Text>
-        <Text style={[styles.itemText, cantidadStyle]}>Cantidad: {item.cantidad}</Text>
-        <Text style={styles.itemText}>Precio: {item.costo}</Text>
+      <View style={[InventarioStyles.inventarioItem, cantidadStyle]}>
+        <Text style={InventarioStyles.itemText}>Marca: {item.marca}</Text>
+        <Text style={InventarioStyles.itemText}>Nombre Producto: {item.nombreProducto}</Text>
+        <Text style={InventarioStyles.itemText}>Categoría: {item.categoria}</Text>
+        <Text style={[InventarioStyles.itemText, cantidadStyle]}>Cantidad: {item.cantidad}</Text>
+        <Text style={InventarioStyles.itemText}>Precio: {item.costo}</Text>
       </View>
     );
   };
@@ -81,11 +81,11 @@ const Inventario = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={InventarioStyles.container}>
       <Picker
         selectedValue={selectedCategory}
         onValueChange={(itemValue) => setSelectedCategory(itemValue)}
-        style={styles.filterInput}
+        style={InventarioStyles.filterInput}
       >
         <Picker.Item label="Todas las Categorías" value="" />
         <Picker.Item label="Sistema de Suspensión" value="Sistema de Suspensión" />
@@ -102,7 +102,7 @@ const Inventario = () => {
       </Picker>
 
       <TextInput
-        style={styles.filterInput}
+        style={InventarioStyles.filterInput}
         placeholder="Buscar Producto"
         value={filter}
         onChangeText={(text) => setFilter(text)}
@@ -118,57 +118,5 @@ const Inventario = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: "#f4f4f4",
-  },
-  title: {
-    fontSize: 34,
-    fontWeight: "bold",
-    marginBottom: 10,
-    color: "#333333",
-  },
-  inventarioItem: {
-    padding: 16,
-    marginBottom: 8,
-    backgroundColor: "#ffffff",
-    borderRadius: 8,
-    elevation: 2,
-  },
-  itemText: {
-    fontSize: 15,
-    color: "#333333",
-  },
-  filterInput: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 16,
-    paddingLeft: 8,
-    borderRadius: 8,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  loadingText: {
-    marginTop: 10,
-    fontSize: 16,
-    color: "#333333",
-  },
-  cantidadBaja: {
-    color: 'red',
-  },
-  cantidadMedia:{
-    color: 'orange'
-  },
-  cantidadNormal: {
-    color: '#333333',
-  },
-});
 
 export default Inventario;
