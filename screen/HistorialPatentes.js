@@ -7,7 +7,6 @@ import {
   Alert,
   TextInput,
   RefreshControl,
-  StyleSheet,
   TouchableWithoutFeedback,
   Keyboard
 } from "react-native";
