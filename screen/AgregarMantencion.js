@@ -6,6 +6,7 @@ import {
   TouchableOpacity, 
   Alert,
   FlatList,
+  ScrollView
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from "@react-navigation/native";
@@ -99,12 +100,12 @@ function AgregarMantencion() {
         setErrorMessage('Por favor, complete todos los campos.');
         return;
       }
-
+  
       if (typeof patente !== 'string' || patente.trim() === '') {
         setErrorMessage('La patente no es válida.');
         return;
       }
-  
+    
       const mantencionData = {
         tipoMantencion: tipoMantencion,
         descripcion: descripcion,
@@ -113,9 +114,14 @@ function AgregarMantencion() {
         kilometrajeMantencion: kilometrajeMantencion,
         productos: productos,
       };
+    
+      // Guardar la mantención con la patente como identificador
+      const mantencionDocRef = doc(db, 'mantenciones', patente);
+      setDoc(mantencionDocRef, mantencionData);
   
       setMantencionesPendientes([...mantencionesPendientes, mantencionData]);
-
+  
+      // Limpiar los campos
       setPatente('');
       setTipoMantencion('');
       setDescripcion('');
@@ -123,13 +129,14 @@ function AgregarMantencion() {
       setKilometrajeMantencion('');
       setProductos([]);
       setErrorMessage('');
-
+  
       Alert.alert("Mantención agregada a la lista de pendientes");
     } catch (error) {
       console.error('Error saving maintenance:', error.message);
       setErrorMessage('Error al guardar la mantención. Inténtelo de nuevo.');
     }
   };
+  
   
   const showConfirmationModal = () => {
     setConfirmationModalVisible(true);
@@ -156,131 +163,133 @@ function AgregarMantencion() {
   };
 
   return (
-    <View style={AgregarMantencionStyles.container}>
-      <Text style={AgregarMantencionStyles.textTitle}>Agregar Mantención</Text>
-      <View style={AgregarMantencionStyles.inputContainer}>
-        <Icon name="car" size={20} color="black" style={AgregarMantencionStyles.icon} />
-        <TextInput
-          style={AgregarMantencionStyles.input}
-          placeholder="Patente del auto"
-          value={patente}
-          autoCapitalize="characters"
-          keyboardType="ascii-capable"
-          onChangeText={(text) => handleCheckPatente(text)}
-        />
-      </View>
-      {errorMessage ? <Text style={AgregarMantencionStyles.errorText}>{errorMessage}</Text> : null}
-      <View style={AgregarMantencionStyles.inputContainer}>
-        <Icon name="wrench" size={20} color="black" style={AgregarMantencionStyles.icon} />
-        <Picker
-          selectedValue={tipoMantencion}
-          onValueChange={(itemValue) => setTipoMantencion(itemValue)}
-          style={AgregarMantencionStyles.picker}
-        >
-          <Picker.Item label="Todas las Categorías" value="" />
-          <Picker.Item label="Sistema de Suspensión" value="Sistema de Suspensión" />
-          <Picker.Item label="Afinación del Motor" value="Afinación del Motor" />
-          <Picker.Item label="Sistema de Inyección Electrónica" value="Sistema de Inyección Electrónica" />
-          <Picker.Item label='Sistema de Escape' value="Sistema de Escape" />
-          <Picker.Item label='Sistema de Climatización' value="Sistema de Climatización" />
-          <Picker.Item label='Sistema de Lubricación' value="Sistema de Lubricación" />
-          <Picker.Item label='Sistema de Dirección' value="Sistema de Dirección" />
-          <Picker.Item label='Sistema de Frenos' value="Sistema de Frenos" />
-          <Picker.Item label='Sistema de Encendido' value="Sistema de Encendido" />
-          <Picker.Item label='Inspección de Carrocería y Pintura' value="Inspección de Carrocería y Pintura" />
-          <Picker.Item label='Sistema de Transmisión' value="Sistema de Transmisión" />
-        </Picker>
-      </View>
-      <View style={AgregarMantencionStyles.inputContainer}>
-        <Icon name="list" size={20} color="black" style={AgregarMantencionStyles.icon} />
-        {productos && productos.length > 0 ? (
+    <ScrollView>
+      <View style={AgregarMantencionStyles.container}>
+        <Text style={AgregarMantencionStyles.textTitle}>Agregar Mantención</Text>
+        <View style={AgregarMantencionStyles.inputContainer}>
+          <Icon name="car" size={20} color="black" style={AgregarMantencionStyles.icon} />
+          <TextInput
+            style={AgregarMantencionStyles.input}
+            placeholder="Patente del auto"
+            value={patente}
+            autoCapitalize="characters"
+            keyboardType="ascii-capable"
+            onChangeText={(text) => handleCheckPatente(text)}
+          />
+        </View>
+        {errorMessage ? <Text style={AgregarMantencionStyles.errorText}>{errorMessage}</Text> : null}
+        <View style={AgregarMantencionStyles.inputContainer}>
+          <Icon name="wrench" size={20} color="black" style={AgregarMantencionStyles.icon} />
           <Picker
-            selectedValue={productos.length > 0 ? productos[0]?.nombreProducto : ""}
-            onValueChange={(itemValue) => setProductos(itemValue !== "" ? [{ nombreProducto: itemValue }] : [])}
+            selectedValue={tipoMantencion}
+            onValueChange={(itemValue) => setTipoMantencion(itemValue)}
             style={AgregarMantencionStyles.picker}
           >
-            <Picker.Item label="Seleccione el producto a utilizar" value="" />
-            {productos.map((item) => (
-              <Picker.Item
-                label={item.nombreProducto}
-                value={item.nombreProducto}
-                key={item.nombreProducto} 
-              />
-            ))}
+            <Picker.Item label="Todas las Categorías" value="" />
+            <Picker.Item label="Sistema de Suspensión" value="Sistema de Suspensión" />
+            <Picker.Item label="Afinación del Motor" value="Afinación del Motor" />
+            <Picker.Item label="Sistema de Inyección Electrónica" value="Sistema de Inyección Electrónica" />
+            <Picker.Item label='Sistema de Escape' value="Sistema de Escape" />
+            <Picker.Item label='Sistema de Climatización' value="Sistema de Climatización" />
+            <Picker.Item label='Sistema de Lubricación' value="Sistema de Lubricación" />
+            <Picker.Item label='Sistema de Dirección' value="Sistema de Dirección" />
+            <Picker.Item label='Sistema de Frenos' value="Sistema de Frenos" />
+            <Picker.Item label='Sistema de Encendido' value="Sistema de Encendido" />
+            <Picker.Item label='Inspección de Carrocería y Pintura' value="Inspección de Carrocería y Pintura" />
+            <Picker.Item label='Sistema de Transmisión' value="Sistema de Transmisión" />
           </Picker>
-        ) : (
-          <Text>No hay productos disponibles.</Text>
-        )}
-      </View>
-      <View style={AgregarMantencionStyles.inputContainer}>
-        <Icon name="check" size={20} color="black" style={AgregarMantencionStyles.icon} />
-        <Picker
-          selectedValue={estado}
-          onValueChange={(itemValue) => setEstado(itemValue)}
-          style={AgregarMantencionStyles.picker}
-        >
-          <Picker.Item label="Seleccione el estado de la mantención" value="" />
-          <Picker.Item label="Pendiente" value="pendiente" />
-          <Picker.Item label="Prioridad" value="prioridad" />
-          <Picker.Item label="Atención Especial" value="atencion especial" />
-        </Picker>
-      </View>
-      <View style={AgregarMantencionStyles.inputContainer}>
-        <Icon name="tachometer" size={20} color="black" style={AgregarMantencionStyles.icon} />
-        <TextInput
-          style={AgregarMantencionStyles.input}
-          placeholder="Kilometraje de la mantención"
-          keyboardType='numeric'
-          value={kilometrajeMantencion}
-          onChangeText={(text) => setKilometrajeMantencion(text)}
-        />
-      </View>
-      <View style={AgregarMantencionStyles.inputContainer}>
-        <Icon name="comment" size={20} color="black" style={AgregarMantencionStyles.icon} />
-        <TextInput
-          style={AgregarMantencionStyles.input}
-          placeholder="Descripción de la mantención"
-          value={descripcion}
-          onChangeText={(text) => setDescripcion(text)}
-        />
-      </View>
-      <TouchableOpacity style={AgregarMantencionStyles.button} onPress={handleAddMantencion}>
-        <Text style={AgregarMantencionStyles.botonTexto}>Agregar Mantención</Text>
-      </TouchableOpacity>
-      <FlatList
-        data={mantencionesPendientes}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <View style={AgregarMantencionStyles.mantencionItem}>
-            <Text>Tipo: {item.tipoMantencion}</Text>
-            <Text>Descripción: {item.descripcion}</Text>
-            <Text>Fecha: {item.fecha}</Text>
-            <Text>Estado: {item.estado}</Text>
-            <Text>Kilometraje: {item.kilometrajeMantencion}</Text>
-            <Text>Productos: {item.productos.map((producto) => producto.nombreProducto).join(", ")}</Text>
-          </View>
-        )}
-      />
-      <TouchableOpacity style={AgregarMantencionStyles.button} onPress={showConfirmationModal}>
-        <Text style={AgregarMantencionStyles.botonTexto}>Guardar Mantenciones</Text>
-      </TouchableOpacity>
-      <Modal
-        isVisible={isConfirmationModalVisible}
-        onBackdropPress={hideConfirmationModal}
-      >
-        <View style={AgregarMantencionStyles.confirmationModal}>
-          <Text style={AgregarMantencionStyles.confirmationModalText}>
-            ¿Estás seguro de que deseas guardar estas mantenciones?
-          </Text>
-          <TouchableOpacity onPress={handleConfirmationAndSave}>
-            <Text style={AgregarMantencionStyles.confirmationModalButton}>Sí, Guardar</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={hideConfirmationModal}>
-            <Text style={AgregarMantencionStyles.confirmationModalButton}>Cancelar</Text>
-          </TouchableOpacity>
         </View>
-      </Modal>
-    </View>
+        <View style={AgregarMantencionStyles.inputContainer}>
+          <Icon name="list" size={20} color="black" style={AgregarMantencionStyles.icon} />
+          {productos && productos.length > 0 ? (
+            <Picker
+              selectedValue={productos.length > 0 ? productos[0]?.nombreProducto : ""}
+              onValueChange={(itemValue) => setProductos(itemValue !== "" ? [{ nombreProducto: itemValue }] : [])}
+              style={AgregarMantencionStyles.picker}
+            >
+              <Picker.Item label="Seleccione el producto a utilizar" value="" />
+              {productos.map((item) => (
+                <Picker.Item
+                  label={item.nombreProducto}
+                  value={item.nombreProducto}
+                  key={item.nombreProducto} 
+                />
+              ))}
+            </Picker>
+          ) : (
+            <Text>No hay productos disponibles.</Text>
+          )}
+        </View>
+        <View style={AgregarMantencionStyles.inputContainer}>
+          <Icon name="check" size={20} color="black" style={AgregarMantencionStyles.icon} />
+          <Picker
+            selectedValue={estado}
+            onValueChange={(itemValue) => setEstado(itemValue)}
+            style={AgregarMantencionStyles.picker}
+          >
+            <Picker.Item label="Seleccione el estado de la mantención" value="" />
+            <Picker.Item label="Pendiente" value="pendiente" />
+            <Picker.Item label="Prioridad" value="prioridad" />
+            <Picker.Item label="Atención Especial" value="atencion especial" />
+          </Picker>
+        </View>
+        <View style={AgregarMantencionStyles.inputContainer}>
+          <Icon name="tachometer" size={20} color="black" style={AgregarMantencionStyles.icon} />
+          <TextInput
+            style={AgregarMantencionStyles.input}
+            placeholder="Kilometraje de la mantención"
+            keyboardType='numeric'
+            value={kilometrajeMantencion}
+            onChangeText={(text) => setKilometrajeMantencion(text)}
+          />
+        </View>
+        <View style={AgregarMantencionStyles.inputContainer}>
+          <Icon name="comment" size={20} color="black" style={AgregarMantencionStyles.icon} />
+          <TextInput
+            style={AgregarMantencionStyles.input}
+            placeholder="Descripción de la mantención"
+            value={descripcion}
+            onChangeText={(text) => setDescripcion(text)}
+          />
+        </View>
+        <TouchableOpacity style={AgregarMantencionStyles.button} onPress={handleAddMantencion}>
+          <Text style={AgregarMantencionStyles.botonTexto}>Agregar Mantención</Text>
+        </TouchableOpacity>
+        <FlatList
+          data={mantencionesPendientes}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <View style={AgregarMantencionStyles.mantencionItem}>
+              <Text>Tipo: {item.tipoMantencion}</Text>
+              <Text>Descripción: {item.descripcion}</Text>
+              <Text>Fecha: {item.fecha}</Text>
+              <Text>Estado: {item.estado}</Text>
+              <Text>Kilometraje: {item.kilometrajeMantencion}</Text>
+              <Text>Productos: {item.productos.map((producto) => producto.nombreProducto).join(", ")}</Text>
+            </View>
+          )}
+        />
+        <TouchableOpacity style={AgregarMantencionStyles.button} onPress={showConfirmationModal}>
+          <Text style={AgregarMantencionStyles.botonTexto}>Guardar Mantenciones</Text>
+        </TouchableOpacity>
+        <Modal
+          isVisible={isConfirmationModalVisible}
+          onBackdropPress={hideConfirmationModal}
+        >
+          <View style={AgregarMantencionStyles.confirmationModal}>
+            <Text style={AgregarMantencionStyles.confirmationModalText}>
+              ¿Estás seguro de que deseas guardar estas mantenciones?
+            </Text>
+            <TouchableOpacity onPress={handleConfirmationAndSave}>
+              <Text style={AgregarMantencionStyles.confirmationModalButton}>Sí, Guardar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={hideConfirmationModal}>
+              <Text style={AgregarMantencionStyles.confirmationModalButton}>Cancelar</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+      </View>
+    </ScrollView>
   );
 }
 
