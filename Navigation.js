@@ -17,6 +17,7 @@ import EditarUser from './screen/EditarUser';
 import Loading from './Loading';
 import Tareas from './screen/Tareas';
 import HistorialPatente from './screen/HistorialPatentes';
+import ForgotPassword from './screen/RecuperarContrasena';
 
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons'; 
@@ -64,6 +65,7 @@ export default function Navigation () {
           options={{
             headerShown: false
           }}/>
+          <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
           <Stack.Screen name="Agregar Automovil" component={AgregarAutomovil}/>
           <Stack.Screen name="Editar Usuario" component={EditarUser}/>
           <Stack.Screen name="Datos Escaneados" component={DatosEscaneados}/>

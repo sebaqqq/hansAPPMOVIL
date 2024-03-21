@@ -149,6 +149,12 @@ const Login = () => {
           >
             <Text style={LoginStyles.buttonText}>Iniciar Sesión</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={LoginStyles.buttonText}
+            onPress={() => navigation.navigate("ForgotPassword")}
+          >
+            <Text style={LoginStyles.forgotPasswordText}>¿Olvidaste tu contraseña?</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
