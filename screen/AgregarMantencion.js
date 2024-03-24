@@ -77,6 +77,7 @@ function AgregarMantencion() {
     try {
       if (typeof text !== 'string' || text.trim() === '') {
         setErrorMessage('La patente no es válida.');
+        setPatente('');
         return;
       }
   
