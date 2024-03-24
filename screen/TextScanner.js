@@ -28,7 +28,7 @@ export default function Scanner() {
         return;
       }
 
-      const mantencionDocRef = doc(db, 'mantenciones', text);
+      const mantencionDocRef = doc(db, 'historialMantencion', text);
       const mantencionDocSnapshot = await getDoc(mantencionDocRef);
 
       if (mantencionDocSnapshot.exists()) {
