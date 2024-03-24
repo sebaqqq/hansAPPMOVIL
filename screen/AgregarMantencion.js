@@ -95,7 +95,7 @@ function AgregarMantencion() {
     }
   };
 
-  const handleAddMantencion = () => {
+  const handleAddMantencion = async () => {
     try {
       if (!patente || !tipoMantencion || !descripcion || !estado || !kilometrajeMantencion || !productoSeleccionado) {
         setErrorMessage('Por favor, complete todos los campos.');
@@ -106,6 +106,8 @@ function AgregarMantencion() {
         setErrorMessage('La patente no es válida.');
         return;
       }
+
+      await handleCheckPatente(patente); 
   
       const mantencionData = {
         patente: patente, 
