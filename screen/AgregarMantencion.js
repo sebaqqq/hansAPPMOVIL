@@ -11,7 +11,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
-import { doc, getDoc, collection, getDocs, query, where, setDoc } from "firebase/firestore";
+import { doc, getDoc, collection, getDocs, query, where, writeBatch } from "firebase/firestore";
 import { db } from '../firebase';
 import { Picker } from '@react-native-picker/picker';
 import Modal from 'react-native-modal';
@@ -27,6 +27,7 @@ function AgregarMantencion() {
   const [productos, setProductos] = useState([]);
   const [mantencionesPendientes, setMantencionesPendientes] = useState([]);
   const [isConfirmationModalVisible, setConfirmationModalVisible] = useState(false);
+  const [productoSeleccionado, setProductoSeleccionado] = useState('');
   const navigation = useNavigation();
   
   React.useLayoutEffect(() => {
@@ -96,7 +97,7 @@ function AgregarMantencion() {
 
   const handleAddMantencion = () => {
     try {
-      if (!patente || !tipoMantencion || !descripcion || !estado || !kilometrajeMantencion || !productos) {
+      if (!patente || !tipoMantencion || !descripcion || !estado || !kilometrajeMantencion || !productoSeleccionado) {
         setErrorMessage('Por favor, complete todos los campos.');
         return;
       }
@@ -105,30 +106,18 @@ function AgregarMantencion() {
         setErrorMessage('La patente no es válida.');
         return;
       }
-    
+  
       const mantencionData = {
+        patente: patente, 
         tipoMantencion: tipoMantencion,
         descripcion: descripcion,
         fecha: new Date().toISOString(),
         estado: estado,
         kilometrajeMantencion: kilometrajeMantencion,
-        productos: productos,
+        productos: [{ nombreProducto: productoSeleccionado }],
       };
-    
-      // Guardar la mantención con la patente como identificador
-      const mantencionDocRef = doc(db, 'mantenciones', patente);
-      setDoc(mantencionDocRef, mantencionData);
   
       setMantencionesPendientes([...mantencionesPendientes, mantencionData]);
-  
-      // Limpiar los campos
-      setPatente('');
-      setTipoMantencion('');
-      setDescripcion('');
-      setEstado('');
-      setKilometrajeMantencion('');
-      setProductos([]);
-      setErrorMessage('');
   
       Alert.alert("Mantención agregada a la lista de pendientes");
     } catch (error) {
@@ -137,22 +126,28 @@ function AgregarMantencion() {
     }
   };
   
-  
-  const showConfirmationModal = () => {
-    setConfirmationModalVisible(true);
-  };
-
-  const hideConfirmationModal = () => {
-    setConfirmationModalVisible(false);
-  };
-
   const handleConfirmationAndSave = async () => {
     hideConfirmationModal();
     try {
+      const batch = writeBatch(db);
+      let tareaCount = 1;
+  
       for (const mantencion of mantencionesPendientes) {
-        const mantencionDocRef = doc(db, 'mantenciones', `${mantencion.patente}-${new Date().toISOString()}`);
-        await setDoc(mantencionDocRef, mantencion);
+        const tareaId = `Tarea-${tareaCount}`;
+        const mantencionDocRef = doc(db, 'mantenciones', `${mantencion.patente}-${tareaId}`);
+        batch.set(mantencionDocRef, mantencion);
+        tareaCount++;
       }
+  
+      await batch.commit();
+  
+      setPatente('');
+      setTipoMantencion('');
+      setDescripcion('');
+      setEstado('');
+      setKilometrajeMantencion('');
+      setProductoSeleccionado('');
+      setErrorMessage('');
   
       setMantencionesPendientes([]);
       Alert.alert("Mantenciones guardadas correctamente");
@@ -160,6 +155,14 @@ function AgregarMantencion() {
       console.error('Error saving mantenciones:', error.message);
       setErrorMessage('Error al guardar las mantenciones. Inténtelo de nuevo.');
     }
+  };
+  
+  const showConfirmationModal = () => {
+    setConfirmationModalVisible(true);
+  };
+
+  const hideConfirmationModal = () => {
+    setConfirmationModalVisible(false);
   };
 
   return (
@@ -203,8 +206,8 @@ function AgregarMantencion() {
           <Icon name="list" size={20} color="black" style={AgregarMantencionStyles.icon} />
           {productos && productos.length > 0 ? (
             <Picker
-              selectedValue={productos.length > 0 ? productos[0]?.nombreProducto : ""}
-              onValueChange={(itemValue) => setProductos(itemValue !== "" ? [{ nombreProducto: itemValue }] : [])}
+              selectedValue={productoSeleccionado}
+              onValueChange={(itemValue) => setProductoSeleccionado(itemValue)}
               style={AgregarMantencionStyles.picker}
             >
               <Picker.Item label="Seleccione el producto a utilizar" value="" />
@@ -212,7 +215,7 @@ function AgregarMantencion() {
                 <Picker.Item
                   label={item.nombreProducto}
                   value={item.nombreProducto}
-                  key={item.nombreProducto} 
+                  key={item.nombreProducto}
                 />
               ))}
             </Picker>
@@ -253,7 +256,7 @@ function AgregarMantencion() {
           />
         </View>
         <TouchableOpacity style={AgregarMantencionStyles.button} onPress={handleAddMantencion}>
-          <Text style={AgregarMantencionStyles.botonTexto}>Agregar Mantención</Text>
+          <Text style={AgregarMantencionStyles.botonTexto}>Agregar Mantención a Lista</Text>
         </TouchableOpacity>
         <FlatList
           data={mantencionesPendientes}
