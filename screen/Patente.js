@@ -91,7 +91,7 @@ const Patente = () => {
 
       const patentesOrdenadas = patentesFiltradas.sort((a, b) => {
         if (a.estado === "pendiente" && b.estado !== "pendiente") {
-          return -1; // Colocar "pendiente" antes que otras
+          return -1;
         } else if (a.estado !== "pendiente" && b.estado === "pendiente") {
           return 1;
         } else {
@@ -191,7 +191,7 @@ const Patente = () => {
 
         await updateDoc(patenteRef, {
           personaTomadora: identifyUser.uid,
-          estado: "en proceso", // Cambia el estado a "En proceso"
+          estado: "en proceso", 
         });
 
         await recargarDatos();

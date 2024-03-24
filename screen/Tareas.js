@@ -17,7 +17,7 @@ import {
   updateDoc,
   doc,
   getDoc,
-  addDoc
+  setDoc
 } from "firebase/firestore";
 import { Octicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -79,23 +79,6 @@ const Tareas = () => {
     setModalVisible(true);
   };
 
-  // const handleConfirm = async () => {
-  //   try {
-  //     const taskRef = doc(db, "mantenciones", selectedTaskId);
-  //     await updateDoc(taskRef, { estado: "terminado", personaTomadora: null });
-
-  //     setTareasTomadas((prevTareas) =>
-  //       prevTareas.filter((tarea) => tarea.id !== selectedTaskId && tarea.estado !== "terminado")
-  //     );
-
-  //     Alert.alert("Tarea Terminada con Éxito");
-  //   } catch (error) {
-  //     console.error("Error al finalizar la tarea:", error);
-  //   } finally {
-  //     setModalVisible(false);
-  //   }
-  // };
-
   const handleConfirm = async () => {
     try {
       const taskRef = doc(db, "mantenciones", selectedTaskId);
@@ -104,10 +87,9 @@ const Tareas = () => {
   
       await updateDoc(taskRef, { estado: "terminado", personaTomadora: null });
   
-      // Guardar la tarea finalizada en la colección historialMantencion
-      await addDoc(collection(db, "historialMantencion"), {
+      await setDoc(doc(db, "historialMantencion", taskData.patente), {
         ...taskData,
-        fechaTerminado: new Date().toISOString(), // Agregar la fecha de finalización
+        fechaTerminado: new Date().toISOString(), 
       });
   
       setTareasTomadas((prevTareas) =>
@@ -120,8 +102,7 @@ const Tareas = () => {
     } finally {
       setModalVisible(false);
     }
-  };
-  
+  };  
 
   const handleCancel = () => {
     setModalVisible(false);
