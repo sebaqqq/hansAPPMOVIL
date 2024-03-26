@@ -203,6 +203,9 @@ function AgregarMantencion() {
             <Picker.Item label='Sistema de Encendido' value="Sistema de Encendido" />
             <Picker.Item label='Inspección de Carrocería y Pintura' value="Inspección de Carrocería y Pintura" />
             <Picker.Item label='Sistema de Transmisión' value="Sistema de Transmisión" />
+            <Picker.Item label='Herramientas y Equipos' value="Herramientas y Equipos" />
+            <Picker.Item label='Sistema de Refrigeración' value="Sistema de Refrigeración" />
+            <Picker.Item label='Accesorios y Personalización' value="Accesorios y Personalización" />
           </Picker>
         </View>
         <View style={AgregarMantencionStyles.inputContainer}>
