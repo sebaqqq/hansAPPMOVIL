@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { 
-  View, 
-  Text, 
-  TouchableOpacity, 
-  ActivityIndicator, 
-  Alert, 
-  Image 
-} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+  Alert,
+  Image,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { CuentaStyles } from "../styles/CuentaEstilo";
 import { auth, db } from "../firebase";
 import { onSnapshot, doc } from "firebase/firestore";
-import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
 
 function Perfil() {
   const navigation = useNavigation();
@@ -51,7 +51,7 @@ function Perfil() {
   return (
     <View style={CuentaStyles.container}>
       <View style={CuentaStyles.header}>
-        <Text style={CuentaStyles.logo}>Hans Motors</Text>
+        <Text style={CuentaStyles.logo}>Settore</Text>
         <View style={CuentaStyles.buttonContainer}>
           <TouchableOpacity
             style={CuentaStyles.iconButton}
@@ -59,7 +59,10 @@ function Perfil() {
           >
             <MaterialIcons name="settings" size={24} color="#FFFFFF" />
           </TouchableOpacity>
-          <TouchableOpacity style={CuentaStyles.iconButton} onPress={handleSignOut}>
+          <TouchableOpacity
+            style={CuentaStyles.iconButton}
+            onPress={handleSignOut}
+          >
             <MaterialIcons name="exit-to-app" size={24} color="#FFFFFF" />
           </TouchableOpacity>
         </View>

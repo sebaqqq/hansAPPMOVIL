@@ -8,7 +8,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Image,
-  Alert
+  Alert,
 } from "react-native";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
@@ -27,13 +27,13 @@ const Login = () => {
 
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-    })
-    .catch(error => {
-      console.log(error);
-      Alert.alert('Correo o Contraseña incorrectos');
-    });
+      .then((userCredential) => {
+        const user = userCredential.user;
+      })
+      .catch((error) => {
+        console.log(error);
+        Alert.alert("Correo o Contraseña incorrectos");
+      });
   };
 
   useEffect(() => {
@@ -55,7 +55,7 @@ const Login = () => {
         keyboardShouldPersistTaps="handled"
       >
         <View style={LoginStyles.centeredContainer}>
-          <Text style={LoginStyles.title}>Hans Motors</Text>
+          <Text style={LoginStyles.title}>Settore</Text>
           <Image
             source={require("../images/AutoSinFondo.png")}
             style={LoginStyles.logoImage}
@@ -74,7 +74,8 @@ const Login = () => {
                 style={[
                   LoginStyles.input,
                   {
-                    borderBottomColor: emailFocused || email.length > 0 ? "#525FE1" : "#000",
+                    borderBottomColor:
+                      emailFocused || email.length > 0 ? "#525FE1" : "#000",
                   },
                 ]}
                 placeholderTextColor="#A0A0A0"
@@ -90,7 +91,10 @@ const Login = () => {
                     {
                       top: emailFocused || email.length > 0 ? -10 : 8,
                       left: 40,
-                      color: emailFocused || email.length > 0 ? "#525FE1" : "#A0A0A0",
+                      color:
+                        emailFocused || email.length > 0
+                          ? "#525FE1"
+                          : "#A0A0A0",
                     },
                   ]}
                 >
@@ -99,13 +103,21 @@ const Login = () => {
               </View>
             </View>
             <View style={LoginStyles.inputWrapper}>
-              <Icon name="lock" size={20} color="#A0A0A0" style={LoginStyles.icon} />
+              <Icon
+                name="lock"
+                size={20}
+                color="#A0A0A0"
+                style={LoginStyles.icon}
+              />
               <TextInput
                 placeholder=""
                 style={[
                   LoginStyles.input,
                   {
-                    borderBottomColor: passwordFocused || password.length > 0 ? "#525FE1" : "#000",
+                    borderBottomColor:
+                      passwordFocused || password.length > 0
+                        ? "#525FE1"
+                        : "#000",
                   },
                 ]}
                 secureTextEntry={!showPassword}
@@ -132,7 +144,11 @@ const Login = () => {
                     {
                       top: passwordFocused || password.length > 0 ? -10 : 8,
                       left: 40,
-                      color: passwordFocused || password.length > 0 ? "#525FE1" : "#A0A0A0",},
+                      color:
+                        passwordFocused || password.length > 0
+                          ? "#525FE1"
+                          : "#A0A0A0",
+                    },
                   ]}
                 >
                   Contraseña
@@ -153,7 +169,9 @@ const Login = () => {
             style={LoginStyles.buttonText}
             onPress={() => navigation.navigate("ForgotPassword")}
           >
-            <Text style={LoginStyles.forgotPasswordText}>¿Olvidaste tu contraseña?</Text>
+            <Text style={LoginStyles.forgotPasswordText}>
+              ¿Olvidaste tu contraseña?
+            </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
