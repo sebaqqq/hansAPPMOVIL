@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 export const LoginStyles = StyleSheet.create({
   container: {
@@ -22,7 +22,7 @@ export const LoginStyles = StyleSheet.create({
   },
   logoImage: {
     width: 300,
-    height: 57,
+    height: 120,
     marginBottom: 40,
   },
   headerText: {
@@ -32,30 +32,30 @@ export const LoginStyles = StyleSheet.create({
     color: "#0077B6",
   },
   inputContainer: {
-    width: "100%",
+    width: "80%",
     marginBottom: 20,
   },
   inputWrapper: {
     position: "relative",
-    marginBottom: 30,
+    marginTop: 20,
+    marginBottom: 20,
   },
   icon: {
     position: "absolute",
     left: 8,
     top: 12,
-    zIndex: 1,
   },
   labelContainer: {
     position: "absolute",
     top: 0,
     left: 4,
-    zIndex: 1,
   },
   labelText: {
     fontSize: 14,
   },
   input: {
-    marginBottom:30,
+    width: "100%",
+    backgroundColor: "#ffff",
     borderBottomWidth: 1,
     borderBottomColor: "#000",
     paddingVertical: 8,
@@ -68,7 +68,7 @@ export const LoginStyles = StyleSheet.create({
   },
   loginButton: {
     backgroundColor: "#0077B6",
-    borderRadius: 20,
+    borderRadius: 10,
     paddingVertical: 12,
     width: "80%",
     alignItems: "center",
@@ -81,8 +81,13 @@ export const LoginStyles = StyleSheet.create({
   },
   showPasswordButton: {
     position: "absolute",
-    right: 8, 
+    right: 8,
     top: 12,
     zIndex: 1,
+  },
+  forgotPasswordText: {
+    color: "#1C2120",
+    marginTop: 10,
+    fontSize: 14,
   },
 });
