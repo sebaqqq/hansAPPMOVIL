@@ -4,45 +4,87 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Alert
+  Alert,
+  ActivityIndicator,
+  Image,
 } from "react-native";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../firebase";
-import { LoginStyles } from "../styles/LoginEstilo";
+import { RecuperarContrasenaEstilo } from "../styles/recuperarContrasenaEstilo";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [emailSent, setEmailSent] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleForgotPassword = () => {
+    if (!email) {
+      Alert.alert("Error", "Por favor, introduce tu correo electrónico.");
+      return;
+    }
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      Alert.alert(
+        "Error",
+        "Por favor, introduce un correo electrónico válido."
+      );
+      return;
+    }
+    setLoading(true);
     sendPasswordResetEmail(auth, email)
       .then(() => {
+        setLoading(false);
         setEmailSent(true);
+        setEmail("");
       })
       .catch((error) => {
-        Alert.alert("Error", "No se pudo enviar el correo electrónico de restablecimiento de contraseña.");
+        setLoading(false);
+        let errorMessage =
+          "No se pudo enviar el correo electrónico de restablecimiento de contraseña.";
+        if (error.code === "auth/user-not-found") {
+          errorMessage =
+            "No se encontró una cuenta con ese correo electrónico.";
+        } else if (error.code === "auth/invalid-email") {
+          errorMessage = "El correo electrónico no es válido.";
+        }
+        Alert.alert("Error", errorMessage);
       });
   };
 
   return (
-    <View style={LoginStyles.container}>
-      <Text style={LoginStyles.title}>Hans Motors</Text>
-      <Text style={LoginStyles.headerText}>Olvidé mi contraseña</Text>
+    <View style={RecuperarContrasenaEstilo.container}>
+      <Image
+        source={require("../images/LogoSinFondo.png")}
+        style={RecuperarContrasenaEstilo.logoImage}
+      />
+      <Text style={RecuperarContrasenaEstilo.headerText}>
+        Olvidé mi contraseña
+      </Text>
       <TextInput
         placeholder="Correo electrónico"
-        style={LoginStyles.input}
+        style={RecuperarContrasenaEstilo.input}
         onChangeText={(text) => setEmail(text)}
         value={email}
         keyboardType="email-address"
       />
       <TouchableOpacity
-        style={LoginStyles.loginButton}
+        style={RecuperarContrasenaEstilo.loginButton}
         onPress={handleForgotPassword}
+        disabled={loading}
       >
-        <Text style={LoginStyles.buttonText}>Restablecer contraseña</Text>
+        {loading ? (
+          <ActivityIndicator color="#fff" />
+        ) : (
+          <Text style={RecuperarContrasenaEstilo.buttonText}>
+            Restablecer contraseña
+          </Text>
+        )}
       </TouchableOpacity>
       {emailSent && (
-        <Text style={LoginStyles.successText}>Se ha enviado un correo electrónico de restablecimiento de contraseña a {email}. Por favor, revisa tu bandeja de entrada.</Text>
+        <Text style={RecuperarContrasenaEstilo.successText}>
+          Se ha enviado un correo electrónico de restablecimiento de contraseña
+          a {email}. Por favor, revisa tu bandeja de entrada.
+        </Text>
       )}
     </View>
   );
