@@ -1,6 +1,4 @@
-import { StyleSheet, Dimensions } from "react-native";
-
-const windowHeight = Dimensions.get("window").height;
+import { StyleSheet } from "react-native";
 
 export const PatenteStyles = StyleSheet.create({
   container: {
@@ -30,15 +28,20 @@ export const PatenteStyles = StyleSheet.create({
     marginBottom: 8,
     backgroundColor: "#0077B6",
     borderRadius: 8,
+    height: 88,
+    justifyContent: "center",
   },
   patenteText: {
-    fontSize: 26,
+    fontSize: 25,
     color: "#fff",
+    textAlign: "center",
+    marginBottom: -3,
   },
   statusContainer: {
     position: "absolute",
     top: 0,
-    right: 0,
+    right: 6,
+    marginTop: 6,
   },
   loadingContainer: {
     flex: 1,
@@ -52,39 +55,38 @@ export const PatenteStyles = StyleSheet.create({
   },
   status: {
     fontSize: 14,
-    padding: 8,
-    backgroundColor: "#0077B6",
-    borderRadius: 8,
     color: "#fff",
-    right: 12,
+    marginLeft: 8,
+    backgroundColor: "#0077B6",
+  },
+  statusSelectPatente: {
+    fontSize: 16,
+    backgroundColor: "#0077B6",
+    height: 24,
+    textAlign: "center",
+    color: "#fff",
+    borderRadius: 8,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: "rgba(0,0,0,0.7)",
     zIndex: 1,
     height: "100%",
+    flex: 1,
   },
-  // tarjeta: {
-  //   padding: 20,
-  //   zIndex: 2,
-  //   elevation: 6,
-  //   backgroundColor: "#fff",
-  //   borderRadius: 10,
-  //   height: "100%",
-  // },
   tarjeta: {
     padding: 20,
     zIndex: 2,
     elevation: 6,
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    // height: windowHeight, // Utiliza la altura de la ventana
+    backgroundColor: "#ECE8E7",
+    borderRadius: 12,
+    height: "97%",
     flex: 1,
   },
   info: {
-    fontSize: 20,
-    marginBottom: 10,
-    color: "#333",
+    fontSize: 15,
+    marginBottom: 4,
+    color: "black",
   },
   input: {
     height: 40,
@@ -95,30 +97,37 @@ export const PatenteStyles = StyleSheet.create({
     borderRadius: 8,
   },
   scrollContent: {
-    paddingBottom: 100, // Ajusta este valor según sea necesario
+    paddingBottom: 100,
     borderRadius: 10,
   },
   tomarTarea: {
-    backgroundColor: "#4CAF50", // Color de fondo del botón
+    backgroundColor: "#4CAF50",
     padding: 10,
     borderRadius: 8,
     marginTop: 10,
     alignItems: "center",
   },
   textTomarTarea: {
-    color: "#fff", // Color del texto del botón
+    color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
   },
   modalContainer: {
-    flex: 1,
-    justifyContent: "center",
+    // flex: 1,
+    // justifyContent: "center",
+    // alignItems: "center",
+    // backgroundColor: "#fff",
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
     alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.7)",
+    justifyContent: "center",
+    width: "92%",
+    justifyContent: "center",
   },
   modalText: {
     fontSize: 24,
-    color: "#fff",
+    color: "black",
     marginBottom: 20,
   },
   closeModal: {
@@ -126,6 +135,7 @@ export const PatenteStyles = StyleSheet.create({
     padding: 10,
     borderRadius: 8,
     alignItems: "center",
+    marginBottom: 8,
   },
   closeText: {
     color: "#fff",

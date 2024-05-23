@@ -227,16 +227,16 @@ const Patente = () => {
         </Text>
         <View style={PatenteStyles.modalButtons}>
           <TouchableOpacity
-            onPress={() => setConfirmModalVisible(!confirmModalVisible)}
-            style={[PatenteStyles.closeModal, { backgroundColor: "#FF3333" }]}
-          >
-            <Text style={PatenteStyles.closeText}>Cancelar</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
             onPress={confirmTomarTarea}
             style={PatenteStyles.closeModal}
           >
             <Text style={PatenteStyles.closeText}>Confirmar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setConfirmModalVisible(!confirmModalVisible)}
+            style={[PatenteStyles.closeModal, { backgroundColor: "#FF3333" }]}
+          >
+            <Text style={PatenteStyles.closeText}>Cancelar</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -285,7 +285,7 @@ const Patente = () => {
             {selectedPatente && (
               <TouchableWithoutFeedback onPress={hideTarjeta}>
                 <View style={[PatenteStyles.overlay, PatenteStyles.tarjeta]}>
-                  <Text style={PatenteStyles.status}>
+                  <Text style={PatenteStyles.statusSelectPatente}>
                     {selectedPatente.estado}
                   </Text>
                   <Text style={PatenteStyles.info}>
@@ -294,7 +294,6 @@ const Patente = () => {
                   <Text style={PatenteStyles.info}>
                     Fecha: {formatDate(new Date(selectedPatente.fecha))}
                   </Text>
-
                   <Text style={PatenteStyles.info}>
                     Descripción: {selectedPatente.descripcion}
                   </Text>
