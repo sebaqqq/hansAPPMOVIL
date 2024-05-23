@@ -8,13 +8,10 @@ import {
   TextInput,
   RefreshControl,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
 } from "react-native";
 import { db } from "../firebase";
-import { 
-  collection, 
-  getDocs, 
-} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
 import { HistorialPatentesStyles } from "../styles/HistorialPatentesEstilo";
 
@@ -25,13 +22,13 @@ const HistorialPatente = () => {
   const [filtroPatente, setFiltroPatente] = useState("");
   const [refreshing, setRefreshing] = useState(false);
   const [selectedPatente, setSelectedPatente] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState("");
   const navigation = useNavigation();
 
   const recargarDatos = async () => {
     setLoading(true);
     setError(null);
-  
+
     try {
       const patentesSnapshot = await getDocs(collection(db, "mantenciones"));
       const nuevasPatentes = patentesSnapshot.docs.map((doc) => ({
@@ -42,17 +39,17 @@ const HistorialPatente = () => {
       const patentesFiltradas = nuevasPatentes.filter(
         (patente) => patente.estado !== "en proceso"
       );
-  
+
       const patentesOrdenadas = patentesFiltradas.sort((a, b) => {
         if (a.estado === "pendiente" && b.estado !== "pendiente") {
           return -1; // Colocar "pendiente" antes que otras
         } else if (a.estado !== "pendiente" && b.estado === "pendiente") {
-          return 1; 
+          return 1;
         } else {
-          return 0; 
+          return 0;
         }
       });
-  
+
       setPatentes(patentesOrdenadas);
       setLoading(false);
     } catch (error) {
@@ -62,7 +59,7 @@ const HistorialPatente = () => {
       Alert.alert("Error", "Hubo un error al obtener las patentes.");
     }
   };
-  
+
   useEffect(() => {
     recargarDatos();
   }, []);
@@ -85,7 +82,9 @@ const HistorialPatente = () => {
         style={HistorialPatentesStyles.patenteItem}
         onPress={() => selectPatente(item)}
       >
-        <Text style={HistorialPatentesStyles.patenteText}>Patente: {item.id}</Text>
+        <Text style={HistorialPatentesStyles.patenteText}>
+          Patente: {item.id}
+        </Text>
       </TouchableOpacity>
     );
   };
@@ -93,7 +92,8 @@ const HistorialPatente = () => {
   const filteredPatentes = patentes.filter(
     (item) =>
       item.id.toLowerCase().includes(filtroPatente.toLowerCase()) &&
-      (!selectedCategory || item.estado.toLowerCase() === selectedCategory.toLowerCase())
+      (!selectedCategory ||
+        item.estado.toLowerCase() === selectedCategory.toLowerCase())
   );
 
   const onRefresh = async () => {
@@ -106,6 +106,14 @@ const HistorialPatente = () => {
     setSelectedPatente(null);
   };
 
+  const formatDate = (date) => {
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear().toString().slice(-2);
+
+    return `${day}/${month}/${year}`;
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={HistorialPatentesStyles.container}>
@@ -114,7 +122,7 @@ const HistorialPatente = () => {
           onChangeText={setFiltroPatente}
           value={filtroPatente}
           placeholder="Filtrar por patente"
-          autoCapitalize="characters" 
+          autoCapitalize="characters"
           keyboardType="ascii-capable"
         />
         <ScrollView
@@ -130,16 +138,25 @@ const HistorialPatente = () => {
                 style={HistorialPatentesStyles.patenteItem}
                 onPress={() => selectPatente(item)}
               >
-                <Text style={HistorialPatentesStyles.patenteText}>{item.id}</Text>
+                <Text style={HistorialPatentesStyles.patenteText}>
+                  {item.id}
+                </Text>
               </TouchableOpacity>
             ))}
             {selectedPatente && (
               <TouchableWithoutFeedback onPress={hideTarjeta}>
-                <View style={[HistorialPatentesStyles.overlay, HistorialPatentesStyles.tarjeta]}>
+                <View
+                  style={[
+                    HistorialPatentesStyles.overlay,
+                    HistorialPatentesStyles.tarjeta,
+                  ]}
+                >
                   <Text style={HistorialPatentesStyles.info}>
                     Mantención: {selectedPatente.tipoMantencion}
                   </Text>
-                  <Text style={HistorialPatentesStyles.info}>Fecha: {selectedPatente.fecha}</Text>
+                  <Text style={HistorialPatentesStyles.info}>
+                    Fecha:{formatDate(new Date(selectedPatente.fecha))}
+                  </Text>
                   <Text style={HistorialPatentesStyles.info}>
                     Descripción: {selectedPatente.descripcion}
                   </Text>

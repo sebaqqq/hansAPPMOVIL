@@ -1,4 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from "react-native";
+
+const windowHeight = Dimensions.get("window").height;
 
 export const PatenteStyles = StyleSheet.create({
   container: {
@@ -14,7 +16,7 @@ export const PatenteStyles = StyleSheet.create({
   },
   filterInput: {
     height: 40,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderWidth: 1,
     marginBottom: 16,
     paddingLeft: 8,
@@ -34,14 +36,14 @@ export const PatenteStyles = StyleSheet.create({
     color: "#fff",
   },
   statusContainer: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     right: 0,
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   loadingText: {
     marginTop: 10,
@@ -54,19 +56,30 @@ export const PatenteStyles = StyleSheet.create({
     backgroundColor: "#0077B6",
     borderRadius: 8,
     color: "#fff",
-    right: 12
+    right: 12,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: "rgba(0,0,0,0.7)",
     zIndex: 1,
+    height: "100%",
   },
+  // tarjeta: {
+  //   padding: 20,
+  //   zIndex: 2,
+  //   elevation: 6,
+  //   backgroundColor: "#fff",
+  //   borderRadius: 10,
+  //   height: "100%",
+  // },
   tarjeta: {
     padding: 20,
     zIndex: 2,
-    elevation: 5,
+    elevation: 6,
     backgroundColor: "#fff",
-    borderRadius: 20,
+    borderRadius: 10,
+    // height: windowHeight, // Utiliza la altura de la ventana
+    flex: 1,
   },
   info: {
     fontSize: 20,
@@ -75,7 +88,7 @@ export const PatenteStyles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderWidth: 1,
     marginBottom: 10,
     padding: 8,
