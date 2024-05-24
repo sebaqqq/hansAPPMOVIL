@@ -39,6 +39,7 @@ const Patente = () => {
   const [hideTimeout, setHideTimeout] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
+  const [productos, setProductos] = useState([]);
   const navigation = useNavigation();
 
   React.useLayoutEffect(() => {
@@ -297,6 +298,18 @@ const Patente = () => {
                   <Text style={PatenteStyles.info}>
                     Descripción: {selectedPatente.descripcion}
                   </Text>
+                  <Text style={PatenteStyles.info}>
+                    Kilometraje de Mantencion:{" "}
+                    {selectedPatente.kilometrajeMantencion}
+                  </Text>
+                  <Text style={PatenteStyles.info}>Producto:</Text>
+                  {selectedPatente.productos && (
+                    <View style={PatenteStyles.productContainer}>
+                      {selectedPatente.productos.map((producto, index) => (
+                        <Text key={index}> - {producto.nombreProducto}</Text>
+                      ))}
+                    </View>
+                  )}
                   <TouchableOpacity
                     onPress={tomarTarea}
                     style={PatenteStyles.tomarTarea}
