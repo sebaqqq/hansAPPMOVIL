@@ -123,6 +123,7 @@ export default function Navigation() {
           component={Scanner}
           options={{
             tabBarLabel: "Scanner",
+            headerShown: false,
             tabBarIcon: ({ color, size }) => (
               <AntDesign name="scan1" size={size} color={color} />
             ),

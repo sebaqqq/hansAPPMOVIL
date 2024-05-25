@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 export const TareasStyles = StyleSheet.create({
   container: {
@@ -13,9 +13,9 @@ export const TareasStyles = StyleSheet.create({
     color: "#333",
   },
   tareaTomadaItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 16,
     marginBottom: 8,
     backgroundColor: "#0077B6",
@@ -39,23 +39,25 @@ export const TareasStyles = StyleSheet.create({
     fontSize: 16,
     color: "#333333",
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   confirmationModal: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 20,
     borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center', // Añadido para centrar verticalmente
-    flex: 1, // Añadido para ocupar todo el espacio disponible
   },
   confirmationModalText: {
     fontSize: 18,
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
   confirmationModalButton: {
     fontSize: 16,
-    color: 'blue',
+    color: "blue",
     marginVertical: 10,
-    textAlign: 'center',
+    textAlign: "center",
   },
 });

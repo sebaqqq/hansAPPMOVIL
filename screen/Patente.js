@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -39,7 +39,6 @@ const Patente = () => {
   const [hideTimeout, setHideTimeout] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
-  const [productos, setProductos] = useState([]);
   const navigation = useNavigation();
 
   React.useLayoutEffect(() => {
@@ -75,7 +74,7 @@ const Patente = () => {
     }
   }, []);
 
-  const recargarDatos = async () => {
+  const recargarDatos = useCallback(async () => {
     setLoading(true);
     setError(null);
 
@@ -101,18 +100,18 @@ const Patente = () => {
       });
 
       setPatentes(patentesOrdenadas);
-      setLoading(false);
     } catch (error) {
       console.error("Error al obtener patentes:", error);
       setError(error);
-      setLoading(false);
       Alert.alert("Error", "Hubo un error al obtener las patentes.");
+    } finally {
+      setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     recargarDatos();
-  }, []);
+  }, [recargarDatos]);
 
   const handleContainerPress = () => {
     setSelectedPatente(null);
@@ -196,7 +195,6 @@ const Patente = () => {
         await recargarDatos();
 
         setModalVisible(true);
-        setConfirmModalVisible(true);
 
         const timeoutId = setTimeout(() => {
           hideTarjeta();
@@ -220,25 +218,27 @@ const Patente = () => {
       animationType="slide"
       transparent={true}
       visible={confirmModalVisible}
-      onRequestClose={() => setConfirmModalVisible(!confirmModalVisible)}
+      onRequestClose={() => setConfirmModalVisible(false)}
     >
       <View style={PatenteStyles.modalContainer}>
-        <Text style={PatenteStyles.modalText}>
-          ¿Estás seguro de tomar esta tarea?
-        </Text>
-        <View style={PatenteStyles.modalButtons}>
-          <TouchableOpacity
-            onPress={confirmTomarTarea}
-            style={PatenteStyles.closeModal}
-          >
-            <Text style={PatenteStyles.closeText}>Confirmar</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => setConfirmModalVisible(!confirmModalVisible)}
-            style={[PatenteStyles.closeModal, { backgroundColor: "#FF3333" }]}
-          >
-            <Text style={PatenteStyles.closeText}>Cancelar</Text>
-          </TouchableOpacity>
+        <View style={PatenteStyles.modalContent}>
+          <Text style={PatenteStyles.modalText}>
+            ¿Estás seguro de tomar esta tarea?
+          </Text>
+          <View style={PatenteStyles.modalButtons}>
+            <TouchableOpacity
+              onPress={confirmTomarTarea}
+              style={PatenteStyles.closeModal}
+            >
+              <Text style={PatenteStyles.closeText}>Confirmar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => setConfirmModalVisible(false)}
+              style={[PatenteStyles.closeModal, { backgroundColor: "#FF3333" }]}
+            >
+              <Text style={PatenteStyles.closeText}>Cancelar</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </Modal>
@@ -290,6 +290,9 @@ const Patente = () => {
                     {selectedPatente.estado}
                   </Text>
                   <Text style={PatenteStyles.info}>
+                    Patente: {selectedPatente.id}
+                  </Text>
+                  <Text style={PatenteStyles.info}>
                     Mantención: {selectedPatente.tipoMantencion}
                   </Text>
                   <Text style={PatenteStyles.info}>
@@ -311,7 +314,7 @@ const Patente = () => {
                     </View>
                   )}
                   <TouchableOpacity
-                    onPress={tomarTarea}
+                    onPress={() => setConfirmModalVisible(true)}
                     style={PatenteStyles.tomarTarea}
                   >
                     <Text style={PatenteStyles.textTomarTarea}>
