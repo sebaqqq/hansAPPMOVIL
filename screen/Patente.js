@@ -140,11 +140,28 @@ const Patente = () => {
         <View style={PatenteStyles.statusContainer}>
           <Text style={PatenteStyles.status}>
             <Foundation name="clock" size={24} color="#FFFFFF" />
-            {item.estado}
+            {translateEstado(item.estado)}
           </Text>
         </View>
       </TouchableOpacity>
     );
+  };
+
+  const translateEstado = (estado) => {
+    switch (estado) {
+      case "atencion_especial":
+        return "Atención Especial";
+      case "pendiente":
+        return "Pendiente";
+      case "prioridad":
+        return "Prioridad";
+      case "en proceso":
+        return "En Proceso";
+      case "terminado":
+        return "Terminado";
+      default:
+        return estado;
+    }
   };
 
   const onRefresh = async () => {
@@ -263,7 +280,7 @@ const Patente = () => {
           <Picker.Item label="Seleccione una categoría" value="" />
           <Picker.Item label="Pendiente" value="pendiente" />
           <Picker.Item label="Prioridad" value="prioridad" />
-          <Picker.Item label="Atención Especial" value="atencion especial" />
+          <Picker.Item label="Atención Especial" value="atencion_especial" />
           <Picker.Item label="En proceso" value="en proceso" />
           <Picker.Item label="Terminado" value="terminado" />
         </Picker>
@@ -287,7 +304,7 @@ const Patente = () => {
               <TouchableWithoutFeedback onPress={hideTarjeta}>
                 <View style={[PatenteStyles.overlay, PatenteStyles.tarjeta]}>
                   <Text style={PatenteStyles.statusSelectPatente}>
-                    {selectedPatente.estado}
+                    {translateEstado(selectedPatente.estado)}
                   </Text>
                   <Text style={PatenteStyles.info}>
                     Patente: {selectedPatente.id}

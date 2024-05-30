@@ -198,6 +198,23 @@ function AgregarMantencion() {
     return `${day}/${month}/${year}`;
   };
 
+  const translateEstado = (estado) => {
+    switch (estado) {
+      case "atencion_especial":
+        return "Atención Especial";
+      case "pendiente":
+        return "Pendiente";
+      case "prioridad":
+        return "Prioridad";
+      case "en proceso":
+        return "En Proceso";
+      case "terminado":
+        return "Terminado";
+      default:
+        return estado;
+    }
+  };
+
   return (
     <ScrollView>
       <View style={AgregarMantencionStyles.container}>
@@ -332,7 +349,7 @@ function AgregarMantencion() {
             />
             <Picker.Item label="Pendiente" value="pendiente" />
             <Picker.Item label="Prioridad" value="prioridad" />
-            <Picker.Item label="Atención Especial" value="atencion especial" />
+            <Picker.Item label="Atención Especial" value="atencion_especial" />
           </Picker>
         </View>
         <View style={AgregarMantencionStyles.inputContainer}>
@@ -383,7 +400,7 @@ function AgregarMantencion() {
               <Text>Tipo: {item.tipoMantencion}</Text>
               <Text>Descripción: {item.descripcion}</Text>
               <Text>Fecha: {formatDate(new Date(item.fecha))}</Text>
-              <Text>Estado: {item.estado}</Text>
+              <Text>Estado: {translateEstado(item.estado)}</Text>
               <Text>Kilometraje: {item.kilometrajeMantencion}</Text>
               <Text>
                 Productos:{" "}

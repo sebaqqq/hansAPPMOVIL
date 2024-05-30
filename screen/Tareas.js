@@ -130,6 +130,23 @@ const Tareas = () => {
     );
   }
 
+  const translateEstado = (estado) => {
+    switch (estado) {
+      case "atencion_especial":
+        return "Atención Especial";
+      case "pendiente":
+        return "Pendiente";
+      case "prioridad":
+        return "Prioridad";
+      case "en proceso":
+        return "En Proceso";
+      case "terminado":
+        return "Terminado";
+      default:
+        return estado;
+    }
+  };
+
   return (
     <View style={TareasStyles.container}>
       <Text style={TareasStyles.title}>Tareas Tomadas</Text>
@@ -146,7 +163,7 @@ const Tareas = () => {
                   Patente: {item.id}
                 </Text>
                 <Text style={TareasStyles.tareaTomadaText}>
-                  Estado: {item.estado}
+                  Estado: {translateEstado(item.estado)}
                 </Text>
                 <Text style={TareasStyles.tareaTomadaText}>
                   Mantención: {item.tipoMantencion}
