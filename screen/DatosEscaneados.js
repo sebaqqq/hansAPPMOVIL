@@ -20,6 +20,10 @@ export default function DatosEscaneadosScreen({ route }) {
     }
   };
 
+  const formatoKilometraje = (amount) => {
+    return `${amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+  };
+
   const { mantencionData } = route.params;
   const descripcion =
     mantencionData?.descripcion || "Descripción no disponible";
@@ -44,7 +48,9 @@ export default function DatosEscaneadosScreen({ route }) {
         <Text style={DatosEscaneadosStyles.dataItem}>{`Fecha: ${fecha}`}</Text>
         <Text
           style={DatosEscaneadosStyles.dataItem}
-        >{`Kilometraje de Mantención: ${kilometrajeMantencion}`}</Text>
+        >{`Kilometraje de Mantención: ${formatoKilometraje(
+          kilometrajeMantencion
+        )}`}</Text>
         <Text
           style={DatosEscaneadosStyles.dataItem}
         >{`Tipo de Mantención: ${tipoMantencion}`}</Text>

@@ -215,6 +215,10 @@ function AgregarMantencion() {
     }
   };
 
+  const formatoKilometraje = (amount) => {
+    return `${amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+  };
+
   return (
     <ScrollView>
       <View style={AgregarMantencionStyles.container}>
@@ -401,7 +405,9 @@ function AgregarMantencion() {
               <Text>Descripción: {item.descripcion}</Text>
               <Text>Fecha: {formatDate(new Date(item.fecha))}</Text>
               <Text>Estado: {translateEstado(item.estado)}</Text>
-              <Text>Kilometraje: {item.kilometrajeMantencion}</Text>
+              <Text>
+                Kilometraje: {formatoKilometraje(item.kilometrajeMantencion)}
+              </Text>
               <Text>
                 Productos:{" "}
                 {item.productos

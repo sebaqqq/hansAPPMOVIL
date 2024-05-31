@@ -269,6 +269,10 @@ const Patente = () => {
     return `${day}/${month}/${year}`;
   };
 
+  const formatoKilometraje = (amount) => {
+    return `${amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={PatenteStyles.container}>
@@ -320,7 +324,7 @@ const Patente = () => {
                   </Text>
                   <Text style={PatenteStyles.info}>
                     Kilometraje de Mantencion:{" "}
-                    {selectedPatente.kilometrajeMantencion}
+                    {formatoKilometraje(selectedPatente.kilometrajeMantencion)}
                   </Text>
                   <Text style={PatenteStyles.info}>Producto:</Text>
                   {selectedPatente.productos && (
