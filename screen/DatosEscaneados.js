@@ -24,6 +24,14 @@ export default function DatosEscaneadosScreen({ route }) {
     return `${amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
   };
 
+  const formatDate = (date) => {
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear().toString().slice(-2);
+
+    return `${day}/${month}/${year}`;
+  };
+
   const { mantencionData } = route.params;
   const descripcion =
     mantencionData?.descripcion || "Descripción no disponible";
@@ -45,7 +53,9 @@ export default function DatosEscaneadosScreen({ route }) {
         <Text
           style={DatosEscaneadosStyles.dataItem}
         >{`Estado: ${translateEstado(estado)}`}</Text>
-        <Text style={DatosEscaneadosStyles.dataItem}>{`Fecha: ${fecha}`}</Text>
+        <Text style={DatosEscaneadosStyles.dataItem}>{`Fecha: ${formatDate(
+          new Date(fecha)
+        )}`}</Text>
         <Text
           style={DatosEscaneadosStyles.dataItem}
         >{`Kilometraje de Mantención: ${formatoKilometraje(
