@@ -20,6 +20,7 @@ export const AgregarAutomovilStyles = StyleSheet.create({
     padding: 10,
     borderRadius: 8,
     marginTop: 10,
+    width: 300,
   },
   titulo: {
     fontSize: 28,
@@ -46,6 +47,7 @@ export const AgregarAutomovilStyles = StyleSheet.create({
   buttonText: {
     color: "#fff",
     fontSize: 16,
+    textAlign: "center",
   },
   confirmationModal: {
     backgroundColor: "white",

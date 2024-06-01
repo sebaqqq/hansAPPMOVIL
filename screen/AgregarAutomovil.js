@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { 
-  View, 
-  Text, 
-  TextInput, 
-  TouchableOpacity, 
-  ScrollView, 
-  Alert
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { db } from "../firebase";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
-import { Picker } from '@react-native-picker/picker'; 
-import Modal from 'react-native-modal'
+import { Picker } from "@react-native-picker/picker";
+import Modal from "react-native-modal";
 import { AgregarAutomovilStyles } from "../styles/AgregarAutomovilEstilo";
 
 function AgregarAutomovil({ route }) {
@@ -20,9 +20,10 @@ function AgregarAutomovil({ route }) {
   const [ano, setAno] = useState("");
   const [color, setColor] = useState("");
   const [kilometraje, setKilometraje] = useState("");
-  const [numchasis,  setNumChasis] = useState("");
+  const [numchasis, setNumChasis] = useState("");
   const [patente, setPatente] = useState("");
-  const [isConfirmationModalVisible, setConfirmationModalVisible] = useState(false)
+  const [isConfirmationModalVisible, setConfirmationModalVisible] =
+    useState(false);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -169,16 +170,18 @@ function AgregarAutomovil({ route }) {
         <TextInput
           style={AgregarAutomovilStyles.input}
           placeholder="Patente"
-          autoCapitalize="characters" // Convertir automáticamente a mayúsculas
+          autoCapitalize="characters"
           keyboardType="ascii-capable"
           value={patente}
           onChangeText={(text) => setPatente(text)}
         />
-        <Text style={AgregarAutomovilStyles.nombreCategoria}>Número de Chasis</Text>
+        <Text style={AgregarAutomovilStyles.nombreCategoria}>
+          Número de Chasis
+        </Text>
         <TextInput
           style={AgregarAutomovilStyles.input}
           placeholder="Número de Chasis"
-          autoCapitalize="characters" // Convertir automáticamente a mayúsculas
+          autoCapitalize="characters"
           keyboardType="ascii-capable"
           value={numchasis}
           onChangeText={(text) => setNumChasis(text)}
@@ -191,8 +194,13 @@ function AgregarAutomovil({ route }) {
           onChangeText={(text) => setKilometraje(text)}
           keyboardType="numeric"
         />
-        <TouchableOpacity style={AgregarAutomovilStyles.button} onPress={showConfirmationModal}>
-          <Text style={AgregarAutomovilStyles.buttonText}>Agregar Automóvil</Text>
+        <TouchableOpacity
+          style={AgregarAutomovilStyles.button}
+          onPress={showConfirmationModal}
+        >
+          <Text style={AgregarAutomovilStyles.buttonText}>
+            Agregar Automóvil
+          </Text>
         </TouchableOpacity>
         <Modal
           isVisible={isConfirmationModalVisible}
@@ -203,10 +211,14 @@ function AgregarAutomovil({ route }) {
               ¿Estás seguro de que deseas guardar esta Automóvil?
             </Text>
             <TouchableOpacity onPress={handleConfirmationAndSave}>
-              <Text style={AgregarAutomovilStyles.confirmationModalButton}>Sí, Guardar</Text>
+              <Text style={AgregarAutomovilStyles.confirmationModalButton}>
+                Sí, Guardar
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={hideConfirmationModal}>
-              <Text style={AgregarAutomovilStyles.confirmationModalButton}>Cancelar</Text>
+              <Text style={AgregarAutomovilStyles.confirmationModalButton}>
+                Cancelar
+              </Text>
             </TouchableOpacity>
           </View>
         </Modal>
