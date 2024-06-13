@@ -37,6 +37,9 @@ function AgregarMantencion() {
   const [isConfirmationModalVisible, setConfirmationModalVisible] =
     useState(false);
   const [productoSeleccionado, setProductoSeleccionado] = useState("");
+  const [cantidadProducto, setCantidadProducto] = useState("");
+  const [codigoProducto, setCodigoProducto] = useState("");
+  const [precioProducto, setPrecioProducto] = useState("");
   const navigation = useNavigation();
 
   React.useLayoutEffect(() => {
@@ -52,6 +55,19 @@ function AgregarMantencion() {
       ),
     });
   }, [navigation]);
+
+  const limpiarCampos = () => {
+    setTipoMantencion("");
+    setDescripcion("");
+    setEstado("");
+    setKilometrajeMantencion("");
+    setProductoSeleccionado("");
+    setCantidadProducto("");
+    setCodigoProducto("");
+    setPrecioProducto("");
+    setErrorMessage("");
+    setSuccessMessage("");
+  };
 
   React.useEffect(() => {
     const cargarProductos = async () => {
@@ -115,7 +131,10 @@ function AgregarMantencion() {
         !descripcion ||
         !estado ||
         !kilometrajeMantencion ||
-        !productoSeleccionado
+        !productoSeleccionado ||
+        !cantidadProducto ||
+        !precioProducto ||
+        !codigoProducto
       ) {
         setErrorMessage("Por favor, complete todos los campos.");
         return;
@@ -135,12 +154,18 @@ function AgregarMantencion() {
         fecha: new Date().toISOString(),
         estado: estado,
         kilometrajeMantencion: kilometrajeMantencion,
-        productos: [{ nombreProducto: productoSeleccionado }],
+        productos: [
+          {
+            nombreProducto: productoSeleccionado,
+            cantidad: cantidadProducto,
+            precio: precioProducto,
+            codigoProducto: codigoProducto,
+          },
+        ],
       };
 
       setMantencionesPendientes([...mantencionesPendientes, mantencionData]);
-
-      Alert.alert("Mantención agregada a la lista de pendientes");
+      limpiarCampos();
     } catch (error) {
       console.error("Error saving maintenance:", error.message);
       setErrorMessage("Error al guardar la mantención. Inténtelo de nuevo.");
@@ -160,7 +185,15 @@ function AgregarMantencion() {
           "mantenciones",
           `${mantencion.patente}-${tareaId}`
         );
-        batch.set(mantencionDocRef, mantencion);
+
+        const costoTotal = mantencion.productos.reduce(
+          (total, producto) => total + producto.precio * producto.cantidad,
+          0
+        );
+
+        const mantencionConCosto = { ...mantencion, costoTotal };
+
+        batch.set(mantencionDocRef, mantencionConCosto);
         tareaCount++;
       }
 
@@ -172,14 +205,34 @@ function AgregarMantencion() {
       setEstado("");
       setKilometrajeMantencion("");
       setProductoSeleccionado("");
+      setPrecioProducto("");
+      setCantidadProducto("");
+      setCodigoProducto("");
       setErrorMessage("");
 
       setMantencionesPendientes([]);
-      Alert.alert("Mantenciones guardadas correctamente");
     } catch (error) {
       console.error("Error saving mantenciones:", error.message);
       setErrorMessage("Error al guardar las mantenciones. Inténtelo de nuevo.");
     }
+  };
+
+  const handleProductoSeleccionado = async (productoNombre) => {
+    const productoExistente = productos.find(
+      (p) => p.nombreProducto === productoNombre
+    );
+    if (productoExistente) {
+      setProductoSeleccionado(productoNombre);
+      setCantidadProducto(productoExistente.cantidad);
+      setPrecioProducto(productoExistente.costo);
+      setCodigoProducto(productoExistente.id);
+    } else {
+      console.error(
+        `El producto ${productoNombre} no existe en la lista de productos.`
+      );
+    }
+
+    console.log("Precio del producto seleccionado:", precioProducto);
   };
 
   const showConfirmationModal = () => {
@@ -335,6 +388,8 @@ function AgregarMantencion() {
             <Text>No hay productos disponibles.</Text>
           )}
         </View>
+        {codigoProducto && <Text>Codigo Producto: {codigoProducto}</Text>}
+        {precioProducto && <Text>Precio unitario: ${precioProducto}</Text>}
         <View style={AgregarMantencionStyles.inputContainer}>
           <Icon
             name="check"
