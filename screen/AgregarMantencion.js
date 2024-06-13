@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   TextInput,
   Text,
   TouchableOpacity,
-  Alert,
   FlatList,
   ScrollView,
 } from "react-native";
@@ -42,7 +41,7 @@ function AgregarMantencion() {
   const [precioProducto, setPrecioProducto] = useState("");
   const navigation = useNavigation();
 
-  React.useLayoutEffect(() => {
+  useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <MaterialCommunityIcons
@@ -66,10 +65,9 @@ function AgregarMantencion() {
     setCodigoProducto("");
     setPrecioProducto("");
     setErrorMessage("");
-    setSuccessMessage("");
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const cargarProductos = async () => {
       try {
         if (!tipoMantencion) {
@@ -145,8 +143,6 @@ function AgregarMantencion() {
         return;
       }
 
-      await handleCheckPatente(patente);
-
       const mantencionData = {
         patente: patente,
         tipoMantencion: tipoMantencion,
@@ -217,7 +213,7 @@ function AgregarMantencion() {
     }
   };
 
-  const handleProductoSeleccionado = async (productoNombre) => {
+  const handleProductoSeleccionado = (productoNombre) => {
     const productoExistente = productos.find(
       (p) => p.nombreProducto === productoNombre
     );
@@ -231,8 +227,6 @@ function AgregarMantencion() {
         `El producto ${productoNombre} no existe en la lista de productos.`
       );
     }
-
-    console.log("Precio del producto seleccionado:", precioProducto);
   };
 
   const showConfirmationModal = () => {
@@ -372,7 +366,7 @@ function AgregarMantencion() {
           {productos && productos.length > 0 ? (
             <Picker
               selectedValue={productoSeleccionado}
-              onValueChange={(itemValue) => setProductoSeleccionado(itemValue)}
+              onValueChange={(itemValue) => handleProductoSeleccionado(itemValue)}
               style={AgregarMantencionStyles.picker}
             >
               <Picker.Item label="Seleccione el producto a utilizar" value="" />
@@ -472,14 +466,16 @@ function AgregarMantencion() {
             </View>
           )}
         />
-        <TouchableOpacity
-          style={AgregarMantencionStyles.button}
-          onPress={showConfirmationModal}
-        >
-          <Text style={AgregarMantencionStyles.botonTexto}>
-            Guardar Mantenciones
-          </Text>
-        </TouchableOpacity>
+        {mantencionesPendientes.length > 0 && (
+          <TouchableOpacity
+            style={AgregarMantencionStyles.button}
+            onPress={showConfirmationModal}
+          >
+            <Text style={AgregarMantencionStyles.botonTexto}>
+              Guardar Mantenciones
+            </Text>
+          </TouchableOpacity>
+        )}
         <Modal
           isVisible={isConfirmationModalVisible}
           onBackdropPress={hideConfirmationModal}
