@@ -1,16 +1,9 @@
 import React, { useState } from "react";
-import {
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-  ActivityIndicator,
-  Image,
-} from "react-native";
+import { Text, View, Alert, ActivityIndicator, Image } from "react-native";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../firebase";
 import { RecuperarContrasenaEstilo } from "../styles/recuperarContrasenaEstilo";
+import { Button, TextInput } from "react-native-paper";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -61,14 +54,17 @@ const ForgotPassword = () => {
         Olvidé mi contraseña
       </Text>
       <TextInput
-        placeholder="Correo electrónico"
-        style={RecuperarContrasenaEstilo.input}
-        onChangeText={(text) => setEmail(text)}
+        label="Correo electrónico"
+        mode="flat"
         value={email}
+        onChangeText={(text) => setEmail(text)}
+        style={RecuperarContrasenaEstilo.input}
         keyboardType="email-address"
       />
-      <TouchableOpacity
-        style={RecuperarContrasenaEstilo.loginButton}
+      <Button
+        mode="contained"
+        style={{ width: 300, marginTop: 20, backgroundColor: "#0077B6" }}
+        // style={RecuperarContrasenaEstilo.loginButton}
         onPress={handleForgotPassword}
         disabled={loading}
       >
@@ -79,11 +75,11 @@ const ForgotPassword = () => {
             Restablecer contraseña
           </Text>
         )}
-      </TouchableOpacity>
+      </Button>
       {emailSent && (
         <Text style={RecuperarContrasenaEstilo.successText}>
-          Se ha enviado un correo electrónico de restablecimiento de contraseña
-          a {email}. Por favor, revisa tu bandeja de entrada.
+          Se ha enviado un correo electrónico de restablecimiento de contraseña.
+          Por favor, revisa tu bandeja de entrada.
         </Text>
       )}
     </View>
