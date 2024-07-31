@@ -333,52 +333,8 @@ const Patente = () => {
           <View style={PatenteStyles.content}>
             {patentes.map((item) => renderItem({ item }))}
             {selectedPatente && (
-              // <TouchableWithoutFeedback onPress={hideTarjeta}>
-              //   <View style={[PatenteStyles.overlay, PatenteStyles.tarjeta]}>
-              //     <Text style={PatenteStyles.statusSelectPatente}>
-              //       {translateEstado(selectedPatente.estado)}
-              //     </Text>
-              //     <Text style={PatenteStyles.info}>
-              //       Patente: {selectedPatente.id}
-              //     </Text>
-              //     <Text style={PatenteStyles.info}>
-              //       Mantención: {selectedPatente.tipoMantencion}
-              //     </Text>
-              //     <Text style={PatenteStyles.info}>
-              //       Fecha: {formatDate(new Date(selectedPatente.fecha))}
-              //     </Text>
-              //     <Text style={PatenteStyles.info}>
-              //       Descripción: {selectedPatente.descripcion}
-              //     </Text>
-              //     <Text style={PatenteStyles.info}>
-              //       Kilometraje de Mantencion:{" "}
-              //       {formatoKilometraje(selectedPatente.kilometrajeMantencion)}
-              //     </Text>
-              //     <Text style={PatenteStyles.info}>Producto:</Text>
-              //     {selectedPatente.productos && (
-              //       <View style={PatenteStyles.productContainer}>
-              //         {selectedPatente.productos.map((producto, index) => (
-              //           <Text key={index}> - {producto.nombreProducto}</Text>
-              //         ))}
-              //       </View>
-              //     )}
-              //     <TouchableOpacity
-              //       onPress={() => setConfirmModalVisible(true)}
-              //       style={PatenteStyles.tomarTarea}
-              //     >
-              //       <Text style={PatenteStyles.textTomarTarea}>
-              //         Tomar Tarea
-              //       </Text>
-              //     </TouchableOpacity>
-              //     {renderConfirmModal()}
-              //   </View>
-              // </TouchableWithoutFeedback>
-              <PaperProvider>
-                <Modal
-                  visible={modalVisible}
-                  onDismiss={() => setModalVisible(false)}
-                  contentContainerStyle={PatenteStyles.modalContainer}
-                >
+              <TouchableWithoutFeedback onPress={hideTarjeta}>
+                <View style={[PatenteStyles.overlay, PatenteStyles.tarjeta]}>
                   <Text style={PatenteStyles.statusSelectPatente}>
                     {translateEstado(selectedPatente.estado)}
                   </Text>
@@ -406,16 +362,17 @@ const Patente = () => {
                       ))}
                     </View>
                   )}
-                  <Button
-                    mode="contained"
-                    style={PatenteStyles.tomarTarea}
+                  <TouchableOpacity
                     onPress={() => setConfirmModalVisible(true)}
+                    style={PatenteStyles.tomarTarea}
                   >
-                    Tomar Tarea
-                  </Button>
+                    <Text style={PatenteStyles.textTomarTarea}>
+                      Tomar Tarea
+                    </Text>
+                  </TouchableOpacity>
                   {renderConfirmModal()}
-                </Modal>
-              </PaperProvider>
+                </View>
+              </TouchableWithoutFeedback>
             )}
           </View>
         </ScrollView>
