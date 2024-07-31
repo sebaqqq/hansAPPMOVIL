@@ -1,18 +1,12 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-  Alert,
-} from "react-native";
+import { View, Text, TouchableOpacity, ScrollView, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { db } from "../firebase";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { Picker } from "@react-native-picker/picker";
 import Modal from "react-native-modal";
 import { AgregarAutomovilStyles } from "../styles/AgregarAutomovilEstilo";
+import { Button, TextInput } from "react-native-paper";
 
 function AgregarAutomovil({ route }) {
   const [marca, setMarca] = useState("");
@@ -148,32 +142,40 @@ function AgregarAutomovil({ route }) {
         <TextInput
           style={AgregarAutomovilStyles.input}
           placeholder="Modelo"
+          label={"Modelo"}
           value={modelo}
           onChangeText={(text) => setModelo(text)}
+          mode="outlined"
         />
         <Text style={AgregarAutomovilStyles.nombreCategoria}>Año</Text>
         <TextInput
           style={AgregarAutomovilStyles.input}
           placeholder="Año"
+          label={"Año"}
           value={ano}
           keyboardType="numeric"
           onChangeText={(text) => setAno(text)}
+          mode="outlined"
         />
         <Text style={AgregarAutomovilStyles.nombreCategoria}>Color</Text>
         <TextInput
           style={AgregarAutomovilStyles.input}
           placeholder="Color"
+          label={"Color"}
           value={color}
           onChangeText={(text) => setColor(text)}
+          mode="outlined"
         />
         <Text style={AgregarAutomovilStyles.nombreCategoria}>Patente</Text>
         <TextInput
           style={AgregarAutomovilStyles.input}
           placeholder="Patente"
+          label={"Patente"}
           autoCapitalize="characters"
           keyboardType="ascii-capable"
           value={patente}
           onChangeText={(text) => setPatente(text)}
+          mode="outlined"
         />
         <Text style={AgregarAutomovilStyles.nombreCategoria}>
           Número de Chasis
@@ -181,27 +183,30 @@ function AgregarAutomovil({ route }) {
         <TextInput
           style={AgregarAutomovilStyles.input}
           placeholder="Número de Chasis"
+          label={"Número de Chasis"}
           autoCapitalize="characters"
           keyboardType="ascii-capable"
           value={numchasis}
           onChangeText={(text) => setNumChasis(text)}
+          mode="outlined"
         />
         <Text style={AgregarAutomovilStyles.nombreCategoria}>Kilometraje</Text>
         <TextInput
           style={AgregarAutomovilStyles.input}
           placeholder="Kilometraje"
+          label={"Kilometraje"}
           value={kilometraje}
           onChangeText={(text) => setKilometraje(text)}
           keyboardType="numeric"
+          mode="outlined"
         />
-        <TouchableOpacity
+        <Button
           style={AgregarAutomovilStyles.button}
           onPress={showConfirmationModal}
+          mode="contained"
         >
-          <Text style={AgregarAutomovilStyles.buttonText}>
-            Agregar Automóvil
-          </Text>
-        </TouchableOpacity>
+          Agregar Automóvil
+        </Button>
         <Modal
           isVisible={isConfirmationModalVisible}
           onBackdropPress={hideConfirmationModal}
