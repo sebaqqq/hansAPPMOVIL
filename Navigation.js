@@ -17,7 +17,6 @@ import DatosEscaneados from "./screen/DatosEscaneados";
 import EditarUser from "./screen/EditarUser";
 import Loading from "./Loading";
 import Tareas from "./screen/Tareas";
-import HistorialPatente from "./screen/HistorialPatentes";
 import ForgotPassword from "./screen/RecuperarContrasena";
 
 import { AntDesign } from "@expo/vector-icons";
@@ -70,7 +69,6 @@ export default function Navigation() {
           <Stack.Screen name="Editar Usuario" component={EditarUser} />
           <Stack.Screen name="Datos Escaneados" component={DatosEscaneados} />
           <Stack.Screen name="Inventario" component={Inventario} />
-          <Stack.Screen name="Historial Patente" component={HistorialPatente} />
         </Stack.Navigator>
       </>
     );

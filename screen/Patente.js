@@ -51,13 +51,6 @@ const Patente = () => {
             color="#0077B6"
             onPress={() => navigation.navigate("Inventario")}
           />
-          <FontAwesome5
-            name="history"
-            size={24}
-            style={{ marginLeft: 20 }}
-            color="#0077B6"
-            onPress={() => navigation.navigate("Historial Patente")}
-          />
         </View>
       ),
     });
