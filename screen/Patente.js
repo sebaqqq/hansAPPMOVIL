@@ -1,16 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import {
-  View,
-  // Text,
-  TouchableOpacity,
-  ScrollView,
-  Alert,
-  TextInput,
-  RefreshControl,
-  TouchableWithoutFeedback,
-  Keyboard,
-  // Modal,
-} from "react-native";
+import { View, ScrollView, Alert, RefreshControl } from "react-native";
 import { db, auth } from "../firebase";
 import {
   collection,
@@ -20,17 +9,17 @@ import {
   updateDoc,
   getDoc,
 } from "firebase/firestore";
-import { Foundation } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { PatenteStyles } from "../styles/PatenteEstilo";
+import PatenteStyles from "../styles/PatenteEstilo";
 import {
   Searchbar,
   Modal,
   Portal,
   Text,
   Button,
+  Card,
   PaperProvider,
 } from "react-native-paper";
 
@@ -85,9 +74,22 @@ const Patente = () => {
         ...doc.data(),
       }));
 
-      const patentesFiltradas = nuevasPatentes.filter(
+      let patentesFiltradas = nuevasPatentes;
+      if (selectedCategory) {
+        patentesFiltradas = patentesFiltradas.filter(
+          (patente) => patente.estado === selectedCategory
+        );
+      }
+
+      patentesFiltradas = patentesFiltradas.filter(
         (patente) => patente.estado !== "en proceso"
       );
+
+      if (filtroPatente) {
+        patentesFiltradas = patentesFiltradas.filter((patente) =>
+          patente.id.toLowerCase().includes(filtroPatente.toLowerCase())
+        );
+      }
 
       const patentesOrdenadas = patentesFiltradas.sort((a, b) => {
         if (a.estado === "pendiente" && b.estado !== "pendiente") {
@@ -107,45 +109,15 @@ const Patente = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [filtroPatente, selectedCategory]);
 
   useEffect(() => {
     recargarDatos();
   }, [recargarDatos]);
 
-  const handleContainerPress = () => {
-    setSelectedPatente(null);
-  };
-
-  const selectPatente = (patente) => {
-    setSelectedPatente(selectedPatente === patente ? null : patente);
-  };
-
-  const renderItem = ({ item }) => {
-    if (
-      (filtroPatente &&
-        !item.id.toLowerCase().includes(filtroPatente.toLowerCase())) ||
-      (selectedCategory &&
-        item.estado.toLowerCase() !== selectedCategory.toLowerCase())
-    ) {
-      return null;
-    }
-
-    return (
-      <TouchableOpacity
-        style={PatenteStyles.patenteItem}
-        onPress={() => selectPatente(item)}
-      >
-        <Text style={PatenteStyles.patenteText}>Patente: {item.id}</Text>
-        <View style={PatenteStyles.statusContainer}>
-          <Text style={PatenteStyles.status}>
-            <Foundation name="clock" size={24} color="#FFFFFF" />
-            {translateEstado(item.estado)}
-          </Text>
-        </View>
-      </TouchableOpacity>
-    );
-  };
+  useEffect(() => {
+    recargarDatos();
+  }, [recargarDatos]);
 
   const translateEstado = (estado) => {
     switch (estado) {
@@ -211,7 +183,7 @@ const Patente = () => {
 
         await recargarDatos();
 
-        setModalVisible(true);
+        setConfirmModalVisible(true);
 
         const timeoutId = setTimeout(() => {
           hideTarjeta();
@@ -225,70 +197,16 @@ const Patente = () => {
     }
   };
 
-  const confirmTomarTarea = async () => {
+  const handleCloseModal = () => {
     setConfirmModalVisible(false);
-    await tomarTarea();
+    setModalVisible(false);
   };
 
-  const renderConfirmModal = () => (
-    // <Modal
-    //   animationType="slide"
-    //   transparent={true}
-    //   visible={confirmModalVisible}
-    //   onRequestClose={() => setConfirmModalVisible(false)}
-    // >
-    //   <View style={PatenteStyles.modalContainer}>
-    //     <View style={PatenteStyles.modalContent}>
-    //       <Text style={PatenteStyles.modalText}>
-    //         ¿Estás seguro de tomar esta tarea?
-    //       </Text>
-    //       <View style={PatenteStyles.modalButtons}>
-    //         <TouchableOpacity
-    //           onPress={confirmTomarTarea}
-    //           style={PatenteStyles.closeModal}
-    //         >
-    //           <Text style={PatenteStyles.closeText}>Confirmar</Text>
-    //         </TouchableOpacity>
-    //         <TouchableOpacity
-    //           onPress={() => setConfirmModalVisible(false)}
-    //           style={[PatenteStyles.closeModal, { backgroundColor: "#FF3333" }]}
-    //         >
-    //           <Text style={PatenteStyles.closeText}>Cancelar</Text>
-    //         </TouchableOpacity>
-    //       </View>
-    //     </View>
-    //   </View>
-    // </Modal>
-    <PaperProvider>
-      <Portal>
-        <Modal
-          visible={confirmModalVisible}
-          onDismiss={() => setConfirmModalVisible(false)}
-          contentContainerStyle={PatenteStyles.modalContainer}
-        >
-          <Text style={PatenteStyles.modalText}>
-            ¿Estás seguro de tomar esta tarea?
-          </Text>
-          <View style={PatenteStyles.modalButtons}>
-            <Button
-              mode="contained"
-              style={PatenteStyles.closeModal}
-              onPress={confirmTomarTarea}
-            >
-              Confirmar
-            </Button>
-            <Button
-              mode="contained"
-              style={[PatenteStyles.closeModal, { backgroundColor: "#FF3333" }]}
-              onPress={() => setConfirmModalVisible(false)}
-            >
-              Cancelar
-            </Button>
-          </View>
-        </Modal>
-      </Portal>
-    </PaperProvider>
-  );
+  const handleConfirmModal = () => {
+    setConfirmModalVisible(false);
+    setModalVisible(false);
+    setSelectedPatente(null);
+  };
 
   const formatDate = (date) => {
     const day = date.getDate().toString().padStart(2, "0");
@@ -303,14 +221,13 @@ const Patente = () => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+    <PaperProvider>
       <View style={PatenteStyles.container}>
         <Searchbar
           placeholder="Buscar por patente"
-          onChangeText={setFiltroPatente}
+          onChangeText={(query) => setFiltroPatente(query)}
           value={filtroPatente}
           style={PatenteStyles.searchBar}
-          keyboardType="ascii-capable"
           autoCapitalize="characters"
         />
         <Picker
@@ -318,66 +235,101 @@ const Patente = () => {
           onValueChange={(itemValue) => setSelectedCategory(itemValue)}
           style={PatenteStyles.filterInput}
         >
-          <Picker.Item label="Seleccione una categoría" value="" />
-          <Picker.Item label="Pendiente" value="pendiente" />
+          <Picker.Item label="Todos" value="" />
+          <Picker.Item label="Pendientes" value="pendiente" />
+          <Picker.Item label="Prioridad" value="prioridad" />
           <Picker.Item label="Atención Especial" value="atencion_especial" />
-          <Picker.Item label="En proceso" value="en proceso" />
-          <Picker.Item label="Terminado" value="terminado" />
+          <Picker.Item label="Terminadas" value="terminado" />
         </Picker>
+
         <ScrollView
-          contentContainerStyle={PatenteStyles.scrollContent}
+          style={PatenteStyles.scrollContent}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
         >
-          <View style={PatenteStyles.content}>
-            {patentes.map((item) => renderItem({ item }))}
-            {selectedPatente && (
-              <TouchableWithoutFeedback onPress={hideTarjeta}>
-                <View style={[PatenteStyles.overlay, PatenteStyles.tarjeta]}>
-                  <Text style={PatenteStyles.statusSelectPatente}>
-                    {translateEstado(selectedPatente.estado)}
-                  </Text>
-                  <Text style={PatenteStyles.info}>
-                    Patente: {selectedPatente.id}
-                  </Text>
-                  <Text style={PatenteStyles.info}>
-                    Mantención: {selectedPatente.tipoMantencion}
-                  </Text>
-                  <Text style={PatenteStyles.info}>
-                    Fecha: {formatDate(new Date(selectedPatente.fecha))}
-                  </Text>
-                  <Text style={PatenteStyles.info}>
-                    Descripción: {selectedPatente.descripcion}
-                  </Text>
-                  <Text style={PatenteStyles.info}>
-                    Kilometraje de Mantencion:{" "}
-                    {formatoKilometraje(selectedPatente.kilometrajeMantencion)}
-                  </Text>
-                  <Text style={PatenteStyles.info}>Producto:</Text>
-                  {selectedPatente.productos && (
-                    <View style={PatenteStyles.productContainer}>
-                      {selectedPatente.productos.map((producto, index) => (
-                        <Text key={index}> - {producto.nombreProducto}</Text>
-                      ))}
-                    </View>
-                  )}
-                  <TouchableOpacity
-                    onPress={() => setConfirmModalVisible(true)}
-                    style={PatenteStyles.tomarTarea}
-                  >
-                    <Text style={PatenteStyles.textTomarTarea}>
-                      Tomar Tarea
-                    </Text>
-                  </TouchableOpacity>
-                  {renderConfirmModal()}
-                </View>
-              </TouchableWithoutFeedback>
-            )}
-          </View>
+          {patentes.map((patente) => (
+            <Card
+              key={patente.id}
+              style={[
+                PatenteStyles.patenteItem,
+                selectedPatente === patente ? PatenteStyles.selectedCard : null,
+              ]}
+            >
+              <Card.Content>
+                <Text style={PatenteStyles.cardTitle}>
+                  Patente: {patente.id}
+                </Text>
+                <Text style={PatenteStyles.infoText}>
+                  Estado: {translateEstado(patente.estado)}
+                </Text>
+                <Text style={PatenteStyles.infoText}>
+                  Tipo Mantención: {patente.tipoMantencion}
+                </Text>
+                <Text style={PatenteStyles.infoText}>
+                  Fecha: {formatDate(new Date(patente.fecha))}
+                </Text>
+                <Text style={PatenteStyles.infoText}>
+                  Descripción: {patente.descripcion}
+                </Text>
+                <Text style={PatenteStyles.infoText}>
+                  Kilometro de Mantención:{" "}
+                  {formatoKilometraje(patente.kilometrajeMantencion)}
+                </Text>
+              </Card.Content>
+              <Card.Actions style={PatenteStyles.tomarButton}>
+                <Button
+                  mode="contained"
+                  onPress={() => {
+                    setModalVisible(true);
+                    setSelectedPatente(patente);
+                  }}
+                >
+                  Tomar Tarea
+                </Button>
+              </Card.Actions>
+            </Card>
+          ))}
         </ScrollView>
+
+        <Portal>
+          <Modal
+            visible={modalVisible}
+            onDismiss={() => setModalVisible(false)}
+            contentContainerStyle={PatenteStyles.modalContainer}
+          >
+            <Text style={PatenteStyles.modalText}>
+              ¿Está seguro de que desea tomar esta tarea?
+            </Text>
+            <View style={PatenteStyles.modalButtons}>
+              <Button onPress={handleCloseModal}>Cancelar</Button>
+              <Button
+                mode="contained"
+                onPress={() => {
+                  tomarTarea();
+                  handleCloseModal();
+                }}
+              >
+                Confirmar
+              </Button>
+            </View>
+          </Modal>
+        </Portal>
+
+        <Portal>
+          <Modal
+            visible={confirmModalVisible}
+            onDismiss={handleCloseModal}
+            contentContainerStyle={PatenteStyles.modalContainer}
+          >
+            <Text style={PatenteStyles.modalText}>
+              Tarea tomada exitosamente.
+            </Text>
+            <Button onPress={handleConfirmModal}>Cerrar</Button>
+          </Modal>
+        </Portal>
       </View>
-    </TouchableWithoutFeedback>
+    </PaperProvider>
   );
 };
 

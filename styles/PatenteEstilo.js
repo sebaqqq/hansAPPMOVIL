@@ -1,145 +1,80 @@
 import { StyleSheet } from "react-native";
 
-export const PatenteStyles = StyleSheet.create({
+const PatenteStyles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    backgroundColor: "#fff",
+    backgroundColor: "#F5F5F5",
+    padding: 10,
   },
-  title: {
-    fontSize: 34,
-    fontWeight: "bold",
+  searchBar: {
     marginBottom: 10,
-    color: "#333",
   },
   filterInput: {
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    marginBottom: 16,
-    paddingLeft: 8,
-    borderRadius: 8,
+    marginBottom: 15,
   },
-  content: {
-    marginTop: 8,
+  scrollContent: {
+    paddingBottom: 20,
   },
   patenteItem: {
-    padding: 16,
-    marginBottom: 8,
-    backgroundColor: "#0077B6",
+    marginBottom: 10,
     borderRadius: 8,
-    height: 88,
-    justifyContent: "center",
+    backgroundColor: "#FFFFFF",
   },
-  patenteText: {
-    fontSize: 25,
-    color: "#fff",
-    textAlign: "center",
-    marginBottom: -3,
+  selectedPatente: {
+    borderWidth: 2,
+    borderColor: "#004080",
+  },
+  cardTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  cardContent: {
+    fontSize: 16,
+    color: "#000000",
+    marginBottom: 10,
+  },
+  infoText: {
+    fontSize: 14,
+    color: "#666666",
+    marginBottom: 5,
+  },
+  tomarButton: {
+    marginTop: 10,
+    alignSelf: "flex-end",
   },
   statusContainer: {
-    position: "absolute",
-    top: 0,
-    right: 6,
-    marginTop: 6,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
+    flexDirection: "row",
     alignItems: "center",
-  },
-  loadingText: {
-    marginTop: 10,
-    fontSize: 16,
-    color: "#333333",
+    marginBottom: 5,
   },
   status: {
     fontSize: 14,
-    color: "#fff",
-    marginLeft: 8,
-    backgroundColor: "#0077B6",
+    color: "#FFFFFF",
+    marginLeft: 5,
   },
-  statusSelectPatente: {
-    fontSize: 16,
-    backgroundColor: "#0077B6",
-    height: 24,
-    textAlign: "center",
-    color: "#fff",
-    borderRadius: 8,
-  },
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.7)",
-    zIndex: 1,
-    height: "auto%",
-    flex: 1,
-  },
-  tarjeta: {
-    padding: 20,
-    zIndex: 2,
-    elevation: 6,
-    backgroundColor: "#ECE8E7",
-    borderRadius: 12,
-    height: "0 auto",
-    flex: 1,
-  },
-  info: {
-    fontSize: 16,
-    marginBottom: 5,
-    color: "black",
-  },
-  input: {
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    marginBottom: 10,
-    padding: 8,
-    borderRadius: 8,
-  },
-  scrollContent: {
-    paddingBottom: 100,
-    borderRadius: 10,
-  },
-  tomarTarea: {
-    backgroundColor: "#4CAF50",
-    padding: 10,
-    borderRadius: 8,
-    marginTop: 10,
-    alignItems: "center",
-  },
-  textTomarTarea: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
+  selectedCard: {
+    backgroundColor: "#F5F5F5",
   },
   modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modalContent: {
     backgroundColor: "white",
     padding: 20,
+    marginHorizontal: 20,
     borderRadius: 10,
-    alignItems: "center",
-    width: "84%",
-    height: "30%",
   },
   modalText: {
-    fontSize: 19,
-    color: "black",
+    fontSize: 18,
     marginBottom: 20,
+    textAlign: "center",
+  },
+  modalButtons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   closeModal: {
-    backgroundColor: "#4CAF50",
-    padding: 10,
-    borderRadius: 8,
-    alignItems: "center",
-    marginBottom: 8,
-  },
-  closeText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
+    flex: 1,
+    marginHorizontal: 5,
   },
 });
+
+export default PatenteStyles;
