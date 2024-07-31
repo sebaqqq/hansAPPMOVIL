@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  TextInput,
   Text,
   TouchableOpacity,
   FlatList,
@@ -23,6 +22,7 @@ import { db } from "../firebase";
 import { Picker } from "@react-native-picker/picker";
 import Modal from "react-native-modal";
 import { AgregarMantencionStyles } from "../styles/AgregarMantencionEstilo";
+import { Button, TextInput, Card } from "react-native-paper";
 
 function AgregarMantencion() {
   const [patente, setPatente] = useState("");
@@ -269,9 +269,6 @@ function AgregarMantencion() {
   return (
     <ScrollView>
       <View style={AgregarMantencionStyles.container}>
-        <Text style={AgregarMantencionStyles.textTitle}>
-          Agregar Mantención
-        </Text>
         <View style={AgregarMantencionStyles.inputContainer}>
           <Icon
             name="car"
@@ -285,6 +282,8 @@ function AgregarMantencion() {
             value={patente}
             autoCapitalize="characters"
             keyboardType="ascii-capable"
+            mode="flat"
+            label={"Patente"}
             onChangeText={(text) => handleCheckPatente(text)}
           />
         </View>
@@ -366,7 +365,9 @@ function AgregarMantencion() {
           {productos && productos.length > 0 ? (
             <Picker
               selectedValue={productoSeleccionado}
-              onValueChange={(itemValue) => handleProductoSeleccionado(itemValue)}
+              onValueChange={(itemValue) =>
+                handleProductoSeleccionado(itemValue)
+              }
               style={AgregarMantencionStyles.picker}
             >
               <Picker.Item label="Seleccione el producto a utilizar" value="" />
@@ -382,8 +383,7 @@ function AgregarMantencion() {
             <Text>No hay productos disponibles.</Text>
           )}
         </View>
-        {codigoProducto && <Text>Codigo Producto: {codigoProducto}</Text>}
-        {precioProducto && <Text>Precio unitario: ${precioProducto}</Text>}
+        {precioProducto && <Text>Precio Producto: ${precioProducto}</Text>}
         <View style={AgregarMantencionStyles.inputContainer}>
           <Icon
             name="check"
@@ -414,8 +414,9 @@ function AgregarMantencion() {
           />
           <TextInput
             style={AgregarMantencionStyles.input}
-            placeholder="Kilometraje de la mantención"
             keyboardType="numeric"
+            mode="flat"
+            label={"Kilometro"}
             value={kilometrajeMantencion}
             onChangeText={(text) => setKilometrajeMantencion(text)}
           />
@@ -431,50 +432,48 @@ function AgregarMantencion() {
             style={AgregarMantencionStyles.input}
             placeholder="Descripción de la mantención"
             value={descripcion}
+            mode="flat"
+            label={"Descripción"}
             onChangeText={(text) => setDescripcion(text)}
           />
         </View>
-        <TouchableOpacity
+        <Button
+          mode="contained"
           style={AgregarMantencionStyles.button}
           onPress={handleAddMantencion}
         >
-          <Text style={AgregarMantencionStyles.botonTexto}>
-            Agregar Mantención a Lista
-          </Text>
-        </TouchableOpacity>
+          Agregar Mantención a Lista
+        </Button>
         <FlatList
-          style={{
-            marginBottom: 5,
-          }}
+          style={{ marginBottom: 5 }}
           data={mantencionesPendientes}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
-            <View style={AgregarMantencionStyles.mantencionItem}>
-              <Text>Tipo: {item.tipoMantencion}</Text>
-              <Text>Descripción: {item.descripcion}</Text>
-              <Text>Fecha: {formatDate(new Date(item.fecha))}</Text>
-              <Text>Estado: {translateEstado(item.estado)}</Text>
-              <Text>
-                Kilometraje: {formatoKilometraje(item.kilometrajeMantencion)}
-              </Text>
-              <Text>
-                Productos:{" "}
-                {item.productos
-                  .map((producto) => producto.nombreProducto)
-                  .join(", ")}
-              </Text>
-            </View>
+            <Card style={AgregarMantencionStyles.card}>
+              <Card.Content>
+                <Text style={AgregarMantencionStyles.cardTitle}>
+                  Tipo: {item.tipoMantencion}
+                </Text>
+                <Text>Descripción: {item.descripcion}</Text>
+                <Text>Fecha: {formatDate(new Date(item.fecha))}</Text>
+                <Text>Estado: {translateEstado(item.estado)}</Text>
+                <Text>
+                  Kilometraje: {formatoKilometraje(item.kilometrajeMantencion)}
+                </Text>
+                <Text>
+                  Productos:{" "}
+                  {item.productos
+                    .map((producto) => producto.nombreProducto)
+                    .join(", ")}
+                </Text>
+              </Card.Content>
+            </Card>
           )}
         />
         {mantencionesPendientes.length > 0 && (
-          <TouchableOpacity
-            style={AgregarMantencionStyles.button}
-            onPress={showConfirmationModal}
-          >
-            <Text style={AgregarMantencionStyles.botonTexto}>
-              Guardar Mantenciones
-            </Text>
-          </TouchableOpacity>
+          <Button mode="contained" onPress={showConfirmationModal}>
+            Guardar Mantenciones
+          </Button>
         )}
         <Modal
           isVisible={isConfirmationModalVisible}

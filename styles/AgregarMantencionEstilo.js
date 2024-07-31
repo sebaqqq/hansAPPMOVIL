@@ -3,87 +3,82 @@ import { StyleSheet } from "react-native";
 export const AgregarMantencionStyles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     padding: 16,
+    backgroundColor: "#fff",
+  },
+  textTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 16,
+    textAlign: "center",
   },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    marginBottom: 16,
+    paddingHorizontal: 8,
   },
   input: {
+    flex: 1,
     height: 40,
-    width: "80%",
-    paddingHorizontal: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: "black",
-  },
-  icon: {
-    marginRight: 10,
-  },
-  errorText: {
-    color: "red",
-    marginTop: 5,
-  },
-  label: {
-    fontSize: 16,
-    marginRight: 10,
-    color: "#333",
-  },
-  pickerContainer: {
-    borderColor: "#999",
+    borderColor: "#ddd",
     borderWidth: 1,
-    borderRadius: 8,
-    width: "80%",
-    overflow: "hidden",
-    marginBottom: 12,
+    paddingHorizontal: 8,
   },
   picker: {
-    height: 40,
-    width: "80%",
-    color: "#333",
-    textAlign: "center",
+    flex: 1,
   },
   button: {
-    marginTop: 20,
-    backgroundColor: "#0077B6",
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
+    marginBottom: 16,
   },
   botonTexto: {
     color: "#fff",
     fontSize: 16,
-    fontWeight: "bold",
   },
-  textTitle: {
-    fontSize: 25,
-    fontWeight: "bold",
-    marginBottom: 20,
+  errorText: {
+    color: "red",
+    marginVertical: 8,
   },
   mantencionItem: {
-    borderWidth: 1,
-    borderColor: "black",
-    borderRadius: 5,
-    marginBottom: 10,
-    width: "100%",
+    padding: 16,
+    marginBottom: 8,
+    borderRadius: 8,
+    backgroundColor: "#f9f9f9",
+    elevation: 2, // Sombra en Android
+    shadowColor: "#000", // Sombra en iOS
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  card: {
+    marginBottom: 16,
+    borderRadius: 8,
+    elevation: 2, // Sombra en Android
+    shadowColor: "#000", // Sombra en iOS
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  cardTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 8,
   },
   confirmationModal: {
     backgroundColor: "white",
     padding: 20,
-    borderRadius: 10,
+    borderRadius: 8,
     alignItems: "center",
   },
   confirmationModalText: {
-    fontSize: 18,
+    fontSize: 16,
     marginBottom: 20,
-    textAlign: "center",
   },
   confirmationModalButton: {
+    color: "#007BFF",
     fontSize: 16,
-    color: "blue",
-    marginVertical: 10,
-    textAlign: "center",
+    marginVertical: 5,
   },
 });
