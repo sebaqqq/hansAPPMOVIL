@@ -115,10 +115,6 @@ const Patente = () => {
     recargarDatos();
   }, [recargarDatos]);
 
-  useEffect(() => {
-    recargarDatos();
-  }, [recargarDatos]);
-
   const translateEstado = (estado) => {
     switch (estado) {
       case "atencion_especial":
@@ -224,7 +220,7 @@ const Patente = () => {
     <PaperProvider>
       <View style={PatenteStyles.container}>
         <Searchbar
-          placeholder="Buscar por patente"
+          placeholder="Buscar patente..."
           onChangeText={(query) => setFiltroPatente(query)}
           value={filtroPatente}
           style={PatenteStyles.searchBar}
@@ -239,7 +235,7 @@ const Patente = () => {
           <Picker.Item label="Pendientes" value="pendiente" />
           <Picker.Item label="Prioridad" value="prioridad" />
           <Picker.Item label="Atención Especial" value="atencion_especial" />
-          <Picker.Item label="Terminadas" value="terminado" />
+          <Picker.Item label="Terminado" value="terminado" />
         </Picker>
 
         <ScrollView
@@ -276,56 +272,64 @@ const Patente = () => {
                   Kilometro de Mantención:{" "}
                   {formatoKilometraje(patente.kilometrajeMantencion)}
                 </Text>
+                <Text style={PatenteStyles.info}>Producto:</Text>
+                {patente.productos && (
+                  <View style={PatenteStyles.productContainer}>
+                    {patente.productos.map((producto, index) => (
+                      <Text key={index}> - {producto.nombreProducto}</Text>
+                    ))}
+                  </View>
+                )}
               </Card.Content>
-              <Card.Actions style={PatenteStyles.tomarButton}>
-                <Button
-                  mode="contained"
-                  onPress={() => {
-                    setModalVisible(true);
-                    setSelectedPatente(patente);
-                  }}
-                >
-                  Tomar Tarea
-                </Button>
-              </Card.Actions>
+              {patente.estado !== "terminado" && (
+                <Card.Actions style={PatenteStyles.tomarButton}>
+                  <Button
+                    mode="contained"
+                    onPress={() => {
+                      setModalVisible(true);
+                      setSelectedPatente(patente);
+                    }}
+                  >
+                    Tomar Tarea
+                  </Button>
+                </Card.Actions>
+              )}
             </Card>
           ))}
         </ScrollView>
-
         <Portal>
           <Modal
             visible={modalVisible}
             onDismiss={() => setModalVisible(false)}
-            contentContainerStyle={PatenteStyles.modalContainer}
           >
-            <Text style={PatenteStyles.modalText}>
-              ¿Está seguro de que desea tomar esta tarea?
-            </Text>
-            <View style={PatenteStyles.modalButtons}>
-              <Button onPress={handleCloseModal}>Cancelar</Button>
-              <Button
-                mode="contained"
-                onPress={() => {
-                  tomarTarea();
-                  handleCloseModal();
-                }}
-              >
-                Confirmar
-              </Button>
-            </View>
+            <Card style={PatenteStyles.modalContainer}>
+              <Card.Title title="Confirmar Tarea" />
+              <Card.Content>
+                <Text>¿Estás seguro de que deseas tomar esta tarea?</Text>
+                {selectedPatente && (
+                  <Text style={{ marginTop: 10 }}>
+                    Patente: {selectedPatente.id}
+                  </Text>
+                )}
+              </Card.Content>
+              <Card.Actions>
+                <Button onPress={handleCloseModal}>Cancelar</Button>
+                <Button onPress={tomarTarea}>Confirmar</Button>
+              </Card.Actions>
+            </Card>
           </Modal>
-        </Portal>
-
-        <Portal>
-          <Modal
-            visible={confirmModalVisible}
-            onDismiss={handleCloseModal}
-            contentContainerStyle={PatenteStyles.modalContainer}
-          >
-            <Text style={PatenteStyles.modalText}>
-              Tarea tomada exitosamente.
-            </Text>
-            <Button onPress={handleConfirmModal}>Cerrar</Button>
+          <Modal visible={confirmModalVisible} onDismiss={handleConfirmModal}>
+            <Card style={PatenteStyles.modalContainer}>
+              <Card.Title title="Tarea Tomada" />
+              <Card.Content>
+                <Text>
+                  La tarea ha sido tomada con éxito y está en proceso.
+                </Text>
+              </Card.Content>
+              <Card.Actions>
+                <Button onPress={handleConfirmModal}>Aceptar</Button>
+              </Card.Actions>
+            </Card>
           </Modal>
         </Portal>
       </View>
