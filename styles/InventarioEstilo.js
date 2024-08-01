@@ -1,53 +1,32 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 export const InventarioStyles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    backgroundColor: "#f4f4f4",
-  },
-  title: {
-    fontSize: 34,
-    fontWeight: "bold",
-    marginBottom: 10,
-    color: "#333333",
+    backgroundColor: "#f5f5f5",
+    padding: 10,
   },
   inventarioItem: {
-    padding: 16,
-    marginBottom: 8,
-    backgroundColor: "#ffffff",
-    borderRadius: 8,
+    marginBottom: 10,
+    borderRadius: 10,
     elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
   },
   itemText: {
-    fontSize: 15,
-    color: "#333333",
-  },
-  filterInput: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 16,
-    paddingLeft: 8,
-    borderRadius: 8,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  loadingText: {
-    marginTop: 10,
     fontSize: 16,
-    color: "#333333",
+    color: "#333",
+    marginBottom: 5,
   },
   cantidadBaja: {
-    color: 'red',
+    color: "#e74c3c",
   },
-  cantidadMedia:{
-    color: 'orange'
+  cantidadMedia: {
+    color: "#f39c12",
   },
   cantidadNormal: {
-    color: '#333333',
+    color: "#2ecc71",
   },
 });

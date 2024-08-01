@@ -1,57 +1,36 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 export const EditarUserStyles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16,
+    padding: 20,
+    backgroundColor: "#f5f5f5",
   },
   textTitle: {
-    fontSize: 34,
+    fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
+    textAlign: "center",
+    color: "#0077B6",
   },
   text: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  userData: {
-    marginBottom: 20,
-  },
-  userDataText: {
     fontSize: 16,
-    marginBottom: 10,
+    marginBottom: 5,
+    color: "#333",
   },
   input: {
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    marginBottom: 20,
-    padding: 10,
-    width: "100%",
-    borderRadius: 8,
+    marginBottom: 15,
+    backgroundColor: "#fff",
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f5f5f5",
   },
   loadingText: {
     marginTop: 10,
-    fontSize: 16,
-    color: "#333333",
-  },
-  boton: {
-    backgroundColor: "#0077B6",
-    padding: 10,
-    borderRadius: 8,
-    width: "100%",
-    alignItems: "center",
-  },
-  botonText: {
-    color: "#fff",
-    fontWeight: "bold",
+    fontSize: 18,
+    color: "#333",
   },
 });

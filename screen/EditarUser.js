@@ -1,21 +1,18 @@
 import React, { useState } from "react";
-import { 
-  View, 
-  Text, 
-  TextInput, 
-  TouchableOpacity, 
-  ActivityIndicator, 
+import {
+  View,
+  Text,
+  // TextInput,
+  TouchableOpacity,
+  ActivityIndicator,
   Alert,
-  ScrollView
+  ScrollView,
 } from "react-native";
-import { 
-  doc, 
-  onSnapshot,
-  setDoc,
-} from "firebase/firestore";
+import { doc, onSnapshot, setDoc } from "firebase/firestore";
 import { db, auth } from "../firebase";
 import { updatePassword as updateFirebasePassword } from "firebase/auth";
 import { EditarUserStyles } from "../styles/EditarUserEstilo";
+import { Button, TextInput } from "react-native-paper";
 
 const EditarUser = () => {
   const [userData, setUserData] = useState(null);
@@ -28,7 +25,7 @@ const EditarUser = () => {
 
   React.useEffect(() => {
     const identifyUser = auth.currentUser;
-  
+
     if (identifyUser) {
       const userRef = doc(db, "users", identifyUser.uid);
       onSnapshot(userRef, (snapshot) => {
@@ -47,10 +44,10 @@ const EditarUser = () => {
   const actualizarDatosUsuario = async () => {
     try {
       const identifyUser = auth.currentUser;
-  
+
       if (identifyUser) {
         const userDocRef = doc(db, "users", identifyUser.uid);
-  
+
         const updatedUserData = {
           nombre: newName || userData.nombre,
           apellido: newApellido || userData.apellido,
@@ -58,14 +55,14 @@ const EditarUser = () => {
           direccion: newDireccion || userData.direccion,
           password: newPassword || userData.password,
         };
-  
+
         await setDoc(userDocRef, updatedUserData, { merge: true });
-  
+
         if (newPassword) {
           await updateFirebasePassword(identifyUser, newPassword);
           console.log("Contraseña actualizada con éxito");
         }
-  
+
         console.log("Datos del usuario actualizados con éxito");
         Alert.alert("Datos del usuario actualizados con éxito");
       }
@@ -90,42 +87,51 @@ const EditarUser = () => {
         <Text style={EditarUserStyles.textTitle}>Editar Usuario</Text>
         <Text style={EditarUserStyles.text}>Nombre</Text>
         <TextInput
-          style={EditarUserStyles.input}
-          placeholder="Nombre"
+          label="Nombre"
           value={newName}
           onChangeText={(text) => setNewName(text)}
+          style={EditarUserStyles.input}
+          mode="outlined"
         />
         <Text style={EditarUserStyles.text}>Apellido</Text>
         <TextInput
-          style={EditarUserStyles.input}
-          placeholder="Apellido"
+          label="Apellido"
           value={newApellido}
           onChangeText={(text) => setNewApellido(text)}
+          style={EditarUserStyles.input}
+          mode="outlined"
         />
         <Text style={EditarUserStyles.text}>Contraseña</Text>
         <TextInput
-          style={EditarUserStyles.input}
-          placeholder="Contraseña"
+          label="Contraseña"
           value={newPassword}
           onChangeText={(text) => setNewPassword(text)}
+          style={EditarUserStyles.input}
+          mode="outlined"
         />
         <Text style={EditarUserStyles.text}>Teléfono</Text>
         <TextInput
-          style={EditarUserStyles.input}
-          placeholder="Teléfono"
+          label="Teléfono"
           value={newTelefono}
           onChangeText={(text) => setNewTelefono(text)}
+          style={EditarUserStyles.input}
+          mode="outlined"
         />
         <Text style={EditarUserStyles.text}>Dirección</Text>
         <TextInput
-          style={EditarUserStyles.input}
-          placeholder="Dirección"
+          label="Dirección"
           value={newDireccion}
           onChangeText={(text) => setNewDireccion(text)}
+          style={EditarUserStyles.input}
+          mode="outlined"
         />
-        <TouchableOpacity onPress={actualizarDatosUsuario} style={EditarUserStyles.boton}>
-          <Text style={EditarUserStyles.botonText}>Actualizar Datos</Text>
-        </TouchableOpacity>
+        <Button
+          mode="contained"
+          onPress={actualizarDatosUsuario}
+          style={EditarUserStyles.boton}
+        >
+          Actualizar Datos
+        </Button>
       </View>
     </ScrollView>
   );
