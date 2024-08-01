@@ -120,7 +120,7 @@ export default function Navigation() {
           name="Scanner"
           component={Scanner}
           options={{
-            tabBarLabel: "Scanner",
+            tabBarLabel: "EscánerQR",
             headerShown: false,
             tabBarIcon: ({ color, size }) => (
               <AntDesign name="scan1" size={size} color={color} />
@@ -133,10 +133,10 @@ export default function Navigation() {
           }}
         />
         <Tab.Screen
-          name="Agregar Mantencion"
+          name="Agregar Mantención"
           component={AgrergarMantencion}
           options={{
-            tabBarLabel: "Mantencion",
+            tabBarLabel: "Mantención",
             tabBarIcon: ({ color, size }) => (
               <AntDesign name="pluscircleo" size={size} color={color} />
             ),
