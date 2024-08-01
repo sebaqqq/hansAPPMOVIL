@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  // TextInput,
-  TouchableOpacity,
-  ActivityIndicator,
-  Alert,
-  ScrollView,
-} from "react-native";
+import { View, Text, ActivityIndicator, Alert, ScrollView } from "react-native";
 import { doc, onSnapshot, setDoc } from "firebase/firestore";
 import { db, auth } from "../firebase";
 import { updatePassword as updateFirebasePassword } from "firebase/auth";

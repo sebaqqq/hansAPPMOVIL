@@ -1,46 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { BarCodeScanner } from 'expo-barcode-scanner';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../firebase';
-import { useNavigation } from '@react-navigation/native';
-import { TexTScannerStyles } from '../styles/TexTScannerEstilo';
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { BarCodeScanner } from "expo-barcode-scanner";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase";
+import { useNavigation } from "@react-navigation/native";
+import { TexTScannerStyles } from "../styles/TexTScannerEstilo";
+import { Button } from "react-native-paper";
 
 export default function Scanner() {
   const navigation = useNavigation();
 
   const [hasPermission, setHasPermission] = useState(null);
   const [isScanning, setIsScanning] = useState(true);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
+      setHasPermission(status === "granted");
     })();
   }, []);
 
   const handleCheckPatente = async (text) => {
     try {
-      if (typeof text !== 'string' || text.trim() === '') {
-        setErrorMessage('La patente no es válida.');
+      if (typeof text !== "string" || text.trim() === "") {
+        setErrorMessage("La patente no es válida.");
         return;
       }
 
-      const mantencionDocRef = doc(db, 'historialMantencion', text);
+      const mantencionDocRef = doc(db, "historialMantencion", text);
       const mantencionDocSnapshot = await getDoc(mantencionDocRef);
 
       if (mantencionDocSnapshot.exists()) {
         const mantencionData = mantencionDocSnapshot.data();
         console.log(mantencionData);
-        navigation.navigate('Datos Escaneados', { mantencionData });
+        navigation.navigate("Datos Escaneados", { mantencionData });
       } else {
-        setErrorMessage('No se encontró una mantención con esa patente');
+        setErrorMessage("No se encontró una mantención con esa patente");
       }
     } catch (error) {
-      console.error('Error al verificar la patente:', error.message);
-      setErrorMessage('Error al verificar la patente. Inténtelo de nuevo.');
+      console.error("Error al verificar la patente:", error.message);
+      setErrorMessage("Error al verificar la patente. Inténtelo de nuevo.");
     } finally {
       setIsScanning(true);
     }
@@ -59,11 +60,11 @@ export default function Scanner() {
       handleCheckPatente();
     }, 10000);
     return () => clearInterval(intervalId);
-  }, [refresh]); 
+  }, [refresh]);
 
   const resetScanner = () => {
     setIsScanning(true);
-    setErrorMessage('');
+    setErrorMessage("");
     setRefresh((prevRefresh) => !prevRefresh);
   };
 
@@ -83,11 +84,13 @@ export default function Scanner() {
       />
       <View style={TexTScannerStyles.overlay}>
         <Text style={TexTScannerStyles.label}>Escanea el código QR</Text>
-        <TouchableOpacity onPress={resetScanner} style={TexTScannerStyles.button}>
-          <Text style={TexTScannerStyles.buttonText}>Reiniciar Escaneo</Text>
-        </TouchableOpacity>
+        <Button mode="contained" onPress={resetScanner}>
+          Reiniciar Escaneo
+        </Button>
       </View>
-      {errorMessage ? <Text style={TexTScannerStyles.errorMessage}>{errorMessage}</Text> : null}
+      {errorMessage ? (
+        <Text style={TexTScannerStyles.errorMessage}>{errorMessage}</Text>
+      ) : null}
     </View>
   );
 }

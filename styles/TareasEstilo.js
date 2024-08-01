@@ -3,31 +3,57 @@ import { StyleSheet } from "react-native";
 export const TareasStyles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    backgroundColor: "#fff",
+    backgroundColor: "#f5f5f5",
+    padding: 10,
   },
   title: {
-    fontSize: 34,
+    fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 10,
-    color: "#333",
+    marginBottom: 20,
+    textAlign: "center",
   },
   tareaTomadaItem: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 16,
-    marginBottom: 8,
-    backgroundColor: "#0077B6",
-    borderRadius: 8,
+    marginBottom: 10,
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    elevation: 2,
   },
   tareaTomadaTextContainer: {
-    flex: 1,
+    padding: 10,
   },
   tareaTomadaText: {
     fontSize: 16,
+    marginVertical: 2,
+  },
+  productContainer: {
+    marginTop: 5,
+    paddingLeft: 10,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 20,
+    width: "80%",
+    maxHeight: "40%",
+  },
+  confirmationModal: {
+    width: "100%",
+  },
+  confirmationModalText: {
+    fontSize: 18,
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  confirmationModalButton: {
+    marginVertical: 5,
+    width: "100%",
     color: "#fff",
-    marginBottom: 8,
   },
   loadingContainer: {
     flex: 1,
@@ -35,29 +61,6 @@ export const TareasStyles = StyleSheet.create({
     alignItems: "center",
   },
   loadingText: {
-    marginTop: 10,
-    fontSize: 16,
-    color: "#333333",
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  confirmationModal: {
-    backgroundColor: "white",
-    padding: 20,
-    borderRadius: 10,
-  },
-  confirmationModalText: {
     fontSize: 18,
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  confirmationModalButton: {
-    fontSize: 16,
-    color: "blue",
-    marginVertical: 10,
-    textAlign: "center",
   },
 });

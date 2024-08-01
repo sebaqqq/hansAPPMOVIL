@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  RefreshControl,
-  Alert,
-  Modal,
-} from "react-native";
+import { View, Text, FlatList, RefreshControl, Alert } from "react-native";
 import { db, auth } from "../firebase";
 import {
   collection,
@@ -19,10 +11,16 @@ import {
   getDoc,
   setDoc,
 } from "firebase/firestore";
-import { Octicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { TareasStyles } from "../styles/TareasEstilo";
+import {
+  Card,
+  Title,
+  Paragraph,
+  Button,
+  Modal as PaperModal,
+} from "react-native-paper";
 
 const Tareas = () => {
   const [tareasTomadas, setTareasTomadas] = useState([]);
@@ -149,44 +147,39 @@ const Tareas = () => {
 
   return (
     <View style={TareasStyles.container}>
-      <Text style={TareasStyles.title}>Tareas Tomadas</Text>
       {tareasTomadas.length === 0 ? (
-        <Text>No has tomado ninguna tarea.</Text>
+        <Paragraph>No has tomado ninguna tarea.</Paragraph>
       ) : (
         <FlatList
           data={tareasTomadas}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View style={TareasStyles.tareaTomadaItem}>
-              <View style={TareasStyles.tareaTomadaTextContainer}>
-                <Text style={TareasStyles.tareaTomadaText}>
-                  Patente: {item.id}
-                </Text>
-                <Text style={TareasStyles.tareaTomadaText}>
-                  Estado: {translateEstado(item.estado)}
-                </Text>
-                <Text style={TareasStyles.tareaTomadaText}>
-                  Mantención: {item.tipoMantencion}
-                </Text>
-                <Text style={TareasStyles.tareaTomadaText}>
-                  Descripción: {item.descripcion}
-                </Text>
-                <Text style={TareasStyles.tareaTomadaText}>Producto:</Text>
+            <Card style={TareasStyles.tareaTomadaItem}>
+              <Card.Content>
+                <Title>{item.id}</Title>
+                <Paragraph>Estado: {translateEstado(item.estado)}</Paragraph>
+                <Paragraph>Mantención: {item.tipoMantencion}</Paragraph>
+                <Paragraph>Descripción: {item.descripcion}</Paragraph>
+                <Paragraph>Producto:</Paragraph>
                 {item.productos && (
                   <View style={TareasStyles.productContainer}>
                     {item.productos.map((producto, index) => (
-                      <Text style={TareasStyles.tareaTomadaText} key={index}>
-                        {" "}
+                      <Paragraph key={index}>
                         - {producto.nombreProducto}
-                      </Text>
+                      </Paragraph>
                     ))}
                   </View>
                 )}
-              </View>
-              <TouchableOpacity onPress={() => finalizarTarea(item.id)}>
-                <Octicons name="tasklist" size={24} color="white" />
-              </TouchableOpacity>
-            </View>
+              </Card.Content>
+              <Card.Actions>
+                <Button
+                  mode="contained"
+                  onPress={() => finalizarTarea(item.id)}
+                >
+                  Finalizar
+                </Button>
+              </Card.Actions>
+            </Card>
           )}
           refreshControl={
             <RefreshControl
@@ -197,28 +190,31 @@ const Tareas = () => {
           }
         />
       )}
-      <Modal
-        transparent={true}
+      <PaperModal
         visible={modalVisible}
-        animationType="slide"
-        onRequestClose={() => setModalVisible(false)}
+        onDismiss={handleCancel}
+        contentContainerStyle={TareasStyles.modalContainer}
       >
-        <View style={TareasStyles.modalContainer}>
-          <View style={TareasStyles.confirmationModal}>
-            <Text style={TareasStyles.confirmationModalText}>
-              ¿Estás seguro de finalizar la tarea?
-            </Text>
-            <TouchableOpacity onPress={handleConfirm}>
-              <Text style={TareasStyles.confirmationModalButton}>
-                Confirmar
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleCancel}>
-              <Text style={TareasStyles.confirmationModalButton}>Cancelar</Text>
-            </TouchableOpacity>
-          </View>
+        <View style={TareasStyles.modalContent}>
+          <Title style={TareasStyles.confirmationModalText}>
+            ¿Estás seguro de finalizar la tarea?
+          </Title>
+          <Button
+            mode="contained"
+            onPress={handleConfirm}
+            style={TareasStyles.confirmationModalButton}
+          >
+            Confirmar
+          </Button>
+          <Button
+            mode="contained"
+            onPress={handleCancel}
+            style={TareasStyles.confirmationModalButton}
+          >
+            Cancelar
+          </Button>
         </View>
-      </Modal>
+      </PaperModal>
     </View>
   );
 };

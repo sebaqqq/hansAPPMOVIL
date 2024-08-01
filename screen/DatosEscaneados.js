@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { ScrollView } from "react-native";
+import { Card, Title, Paragraph } from "react-native-paper";
 import { DatosEscaneadosStyles } from "../styles/DatosEscaneadosEstilo";
 
 export default function DatosEscaneadosScreen({ route }) {
@@ -44,38 +45,42 @@ export default function DatosEscaneadosScreen({ route }) {
   const productos = mantencionData?.productos || [];
 
   return (
-    <View style={DatosEscaneadosStyles.container}>
-      <Text style={DatosEscaneadosStyles.title}>Datos Escaneados</Text>
-      <View style={DatosEscaneadosStyles.dataContainer}>
-        <Text
-          style={DatosEscaneadosStyles.dataItem}
-        >{`Descripción: ${descripcion}`}</Text>
-        <Text
-          style={DatosEscaneadosStyles.dataItem}
-        >{`Estado: ${translateEstado(estado)}`}</Text>
-        <Text style={DatosEscaneadosStyles.dataItem}>{`Fecha: ${formatDate(
-          new Date(fecha)
-        )}`}</Text>
-        <Text
-          style={DatosEscaneadosStyles.dataItem}
-        >{`Kilometraje de Mantención: ${formatoKilometraje(
-          kilometrajeMantencion
-        )}`}</Text>
-        <Text
-          style={DatosEscaneadosStyles.dataItem}
-        >{`Tipo de Mantención: ${tipoMantencion}`}</Text>
-      </View>
+    <ScrollView style={DatosEscaneadosStyles.container}>
+      <Card>
+        <Card.Content>
+          <Title style={DatosEscaneadosStyles.title}>Datos Escaneados</Title>
+          <Paragraph
+            style={DatosEscaneadosStyles.dataItem}
+          >{`Descripción: ${descripcion}`}</Paragraph>
+          <Paragraph
+            style={DatosEscaneadosStyles.dataItem}
+          >{`Estado: ${translateEstado(estado)}`}</Paragraph>
+          <Paragraph
+            style={DatosEscaneadosStyles.dataItem}
+          >{`Fecha: ${formatDate(new Date(fecha))}`}</Paragraph>
+          <Paragraph
+            style={DatosEscaneadosStyles.dataItem}
+          >{`Kilometro de Mantención: ${formatoKilometraje(
+            kilometrajeMantencion
+          )}`}</Paragraph>
+          <Paragraph
+            style={DatosEscaneadosStyles.dataItem}
+          >{`Tipo de Mantención: ${tipoMantencion}`}</Paragraph>
+        </Card.Content>
+      </Card>
       {productos.length > 0 && (
-        <View style={DatosEscaneadosStyles.productContainer}>
-          <Text style={DatosEscaneadosStyles.productTitle}>Productos:</Text>
-          {productos.map((producto, index) => (
-            <Text
-              style={DatosEscaneadosStyles.productItem}
-              key={index}
-            >{`- ${producto.nombreProducto}`}</Text>
-          ))}
-        </View>
+        <Card style={DatosEscaneadosStyles.productContainer}>
+          <Card.Content>
+            <Title style={DatosEscaneadosStyles.productTitle}>Productos:</Title>
+            {productos.map((producto, index) => (
+              <Paragraph
+                style={DatosEscaneadosStyles.productItem}
+                key={index}
+              >{`- ${producto.nombreProducto}`}</Paragraph>
+            ))}
+          </Card.Content>
+        </Card>
       )}
-    </View>
+    </ScrollView>
   );
 }

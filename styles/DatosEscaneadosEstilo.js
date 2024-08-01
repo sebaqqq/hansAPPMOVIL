@@ -1,31 +1,35 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 export const DatosEscaneadosStyles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    backgroundColor: "#f5f5f5",
+    padding: 10,
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    fontWeight: "bold",
+    marginBottom: 10,
+    textAlign: "center",
   },
   dataContainer: {
     marginBottom: 20,
   },
   dataItem: {
     fontSize: 16,
-    marginBottom: 10,
+    marginVertical: 5,
   },
   productContainer: {
-    marginBottom: 20,
+    marginTop: 20,
+    padding: 10,
   },
   productTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 20,
+    fontWeight: "bold",
     marginBottom: 10,
   },
   productItem: {
     fontSize: 16,
+    marginVertical: 5,
   },
 });
