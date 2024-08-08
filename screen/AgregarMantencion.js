@@ -160,7 +160,10 @@ function AgregarMantencion() {
         ],
       };
 
-      setMantencionesPendientes([...mantencionesPendientes, mantencionData]);
+      setMantencionesPendientes((prevMantenciones) => [
+        ...prevMantenciones,
+        mantencionData,
+      ]);
       limpiarCampos();
     } catch (error) {
       console.error("Error saving maintenance:", error.message);
@@ -171,45 +174,57 @@ function AgregarMantencion() {
   const handleConfirmationAndSave = async () => {
     hideConfirmationModal();
     try {
-      const batch = writeBatch(db);
-      let tareaCount = 1;
+        const batch = writeBatch(db);
 
-      for (const mantencion of mantencionesPendientes) {
-        const tareaId = `Tarea-${tareaCount}`;
-        const mantencionDocRef = doc(
-          db,
-          "mantenciones",
-          `${mantencion.patente}-${tareaId}`
-        );
+        for (const mantencion of mantencionesPendientes) {
+            const mantencionRef = collection(db, "mantenciones");
+            const q = query(
+                mantencionRef,
+                where("patente", "==", mantencion.patente)
+            );
 
-        const costoTotal = mantencion.productos.reduce(
-          (total, producto) => total + producto.precio * producto.cantidad,
-          0
-        );
+            const mantencionesSnapshot = await getDocs(q);
+            const tareaIds = mantencionesSnapshot.docs.map((doc) =>
+                doc.id.split("-").pop()
+            );
 
-        const mantencionConCosto = { ...mantencion, costoTotal };
+            const highestTareaId = Math.max(...tareaIds.map(Number), 0);
+            const nextTareaId = highestTareaId + 1;
 
-        batch.set(mantencionDocRef, mantencionConCosto);
-        tareaCount++;
-      }
+            const tareaId = `Tarea-${nextTareaId}`;
+            const mantencionDocRef = doc(
+                db,
+                "mantenciones",
+                `${mantencion.patente}-${tareaId}`
+            );
 
-      await batch.commit();
+            const costoTotal = mantencion.productos.reduce(
+                (total, producto) => total + producto.precio * producto.cantidad,
+                0
+            );
 
-      setPatente("");
-      setTipoMantencion("");
-      setDescripcion("");
-      setEstado("");
-      setKilometrajeMantencion("");
-      setProductoSeleccionado("");
-      setPrecioProducto("");
-      setCantidadProducto("");
-      setCodigoProducto("");
-      setErrorMessage("");
+            const mantencionConCosto = { ...mantencion, costoTotal };
 
-      setMantencionesPendientes([]);
+            batch.set(mantencionDocRef, mantencionConCosto);
+        }
+
+        await batch.commit();
+
+        setPatente("");
+        setTipoMantencion("");
+        setDescripcion("");
+        setEstado("");
+        setKilometrajeMantencion("");
+        setProductoSeleccionado("");
+        setPrecioProducto("");
+        setCantidadProducto("");
+        setCodigoProducto("");
+        setErrorMessage("");
+
+        setMantencionesPendientes([]);
     } catch (error) {
-      console.error("Error saving mantenciones:", error.message);
-      setErrorMessage("Error al guardar las mantenciones. Inténtelo de nuevo.");
+        console.error("Error saving mantenciones:", error.message);
+        setErrorMessage("Error al guardar las mantenciones. Inténtelo de nuevo.");
     }
   };
 
