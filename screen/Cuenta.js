@@ -69,10 +69,9 @@ function Perfil() {
       </View>
 
       {!user ? (
-        <Text>No hay datos</Text>
+        <Text style={CuentaStyles.noDataText}>No hay datos</Text>
       ) : (
         <View style={CuentaStyles.profile}>
-          <Text style={CuentaStyles.subtitle}>Credencial de Usuario</Text>
           <Image
             source={require("../images/AutoSinFondo.png")}
             style={CuentaStyles.logoImage}
@@ -91,9 +90,7 @@ function Perfil() {
 
 const renderProfileInfo = (iconName, text) => (
   <View style={CuentaStyles.section}>
-    <View style={CuentaStyles.iconTextContainer}>
-      <FontAwesome name={iconName} size={20} color="#0077B6" />
-    </View>
+    <FontAwesome name={iconName} size={20} color="#0077B6" />
     <Text style={CuentaStyles.text}>{text}</Text>
   </View>
 );
