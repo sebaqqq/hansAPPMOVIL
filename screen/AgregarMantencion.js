@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, TouchableOpacity, FlatList, ScrollView } from "react-native";
+import { View, FlatList, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {
@@ -13,9 +13,16 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { Picker } from "@react-native-picker/picker";
-import Modal from "react-native-modal";
 import { AgregarMantencionStyles } from "../styles/AgregarMantencionEstilo";
-import { Button, TextInput, Card, Text } from "react-native-paper";
+import {
+  Button,
+  TextInput,
+  Card,
+  Text,
+  Modal,
+  PaperProvider,
+  Portal,
+} from "react-native-paper";
 
 function AgregarMantencion() {
   const [patente, setPatente] = useState("");
@@ -274,203 +281,235 @@ function AgregarMantencion() {
     return `${amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
   };
 
+  const handleKilometrajeChange = (text) => {
+    const numericValue = text.replace(/\./g, "");
+    setKilometrajeMantencion(formatoKilometraje(numericValue));
+  };
+
   return (
-    <ScrollView>
-      <View style={AgregarMantencionStyles.container}>
-        <Text variant="headlineSmall">Patente</Text>
-        <View>
-          <TextInput
-            style={AgregarMantencionStyles.input}
-            placeholder="Patente del auto"
-            value={patente}
-            autoCapitalize="characters"
-            keyboardType="ascii-capable"
-            mode="flat"
-            label={"Patente"}
-            onChangeText={(text) => handleCheckPatente(text)}
-          />
-        </View>
-        {errorMessage ? (
-          <Text style={AgregarMantencionStyles.errorText}>{errorMessage}</Text>
-        ) : null}
-        <Text variant="headlineSmall">Categoria</Text>
-        <View>
-          <Picker
-            selectedValue={tipoMantencion}
-            onValueChange={(itemValue) => setTipoMantencion(itemValue)}
-            style={AgregarMantencionStyles.picker}
-          >
-            <Picker.Item label="Todas las Categorías" value="" />
-            <Picker.Item
-              label="Sistema de Suspensión"
-              value="Sistema de Suspensión"
+    <PaperProvider>
+      <ScrollView>
+        <View style={AgregarMantencionStyles.container}>
+          <Text variant="headlineSmall">Patente</Text>
+          <View>
+            <TextInput
+              style={AgregarMantencionStyles.input}
+              placeholder="Patente del auto"
+              value={patente}
+              autoCapitalize="characters"
+              keyboardType="ascii-capable"
+              mode="outlined"
+              label={"Patente"}
+              onChangeText={(text) => handleCheckPatente(text)}
             />
-            <Picker.Item
-              label="Afinación del Motor"
-              value="Afinación del Motor"
-            />
-            <Picker.Item
-              label="Sistema de Inyección Electrónica"
-              value="Sistema de Inyección Electrónica"
-            />
-            <Picker.Item label="Sistema de Escape" value="Sistema de Escape" />
-            <Picker.Item
-              label="Sistema de Climatización"
-              value="Sistema de Climatización"
-            />
-            <Picker.Item
-              label="Sistema de Lubricación"
-              value="Sistema de Lubricación"
-            />
-            <Picker.Item
-              label="Sistema de Dirección"
-              value="Sistema de Dirección"
-            />
-            <Picker.Item label="Sistema de Frenos" value="Sistema de Frenos" />
-            <Picker.Item
-              label="Sistema de Encendido"
-              value="Sistema de Encendido"
-            />
-            <Picker.Item
-              label="Inspección de Carrocería y Pintura"
-              value="Inspección de Carrocería y Pintura"
-            />
-            <Picker.Item
-              label="Sistema de Transmisión"
-              value="Sistema de Transmisión"
-            />
-            <Picker.Item
-              label="Herramientas y Equipos"
-              value="Herramientas y Equipos"
-            />
-            <Picker.Item
-              label="Sistema de Refrigeración"
-              value="Sistema de Refrigeración"
-            />
-            <Picker.Item
-              label="Accesorios y Personalización"
-              value="Accesorios y Personalización"
-            />
-          </Picker>
-        </View>
-        <Text variant="headlineSmall">Producto</Text>
-        <View>
-          {productos && productos.length > 0 ? (
+          </View>
+          {errorMessage ? (
+            <Text style={AgregarMantencionStyles.errorText}>
+              {errorMessage}
+            </Text>
+          ) : null}
+          <Text variant="headlineSmall">Categoria</Text>
+          <View>
             <Picker
-              selectedValue={productoSeleccionado}
-              onValueChange={(itemValue) =>
-                handleProductoSeleccionado(itemValue)
-              }
+              selectedValue={tipoMantencion}
+              onValueChange={(itemValue) => setTipoMantencion(itemValue)}
               style={AgregarMantencionStyles.picker}
             >
-              <Picker.Item label="Seleccione el producto a utilizar" value="" />
-              {productos.map((item) => (
-                <Picker.Item
-                  label={item.nombreProducto}
-                  value={item.nombreProducto}
-                  key={item.nombreProducto}
-                />
-              ))}
+              <Picker.Item label="Todas las Categorías" value="" />
+              <Picker.Item
+                label="Sistema de Suspensión"
+                value="Sistema de Suspensión"
+              />
+              <Picker.Item
+                label="Afinación del Motor"
+                value="Afinación del Motor"
+              />
+              <Picker.Item
+                label="Sistema de Inyección Electrónica"
+                value="Sistema de Inyección Electrónica"
+              />
+              <Picker.Item
+                label="Sistema de Escape"
+                value="Sistema de Escape"
+              />
+              <Picker.Item
+                label="Sistema de Climatización"
+                value="Sistema de Climatización"
+              />
+              <Picker.Item
+                label="Sistema de Lubricación"
+                value="Sistema de Lubricación"
+              />
+              <Picker.Item
+                label="Sistema de Dirección"
+                value="Sistema de Dirección"
+              />
+              <Picker.Item
+                label="Sistema de Frenos"
+                value="Sistema de Frenos"
+              />
+              <Picker.Item
+                label="Sistema de Encendido"
+                value="Sistema de Encendido"
+              />
+              <Picker.Item
+                label="Inspección de Carrocería y Pintura"
+                value="Inspección de Carrocería y Pintura"
+              />
+              <Picker.Item
+                label="Sistema de Transmisión"
+                value="Sistema de Transmisión"
+              />
+              <Picker.Item
+                label="Herramientas y Equipos"
+                value="Herramientas y Equipos"
+              />
+              <Picker.Item
+                label="Sistema de Refrigeración"
+                value="Sistema de Refrigeración"
+              />
+              <Picker.Item
+                label="Accesorios y Personalización"
+                value="Accesorios y Personalización"
+              />
             </Picker>
-          ) : (
-            <Text>No hay productos disponibles.</Text>
-          )}
-        </View>
-        {precioProducto && <Text>Precio Producto: ${precioProducto}</Text>}
-        <Text variant="headlineSmall">Estado</Text>
-        <View>
-          <Picker
-            selectedValue={estado}
-            onValueChange={(itemValue) => setEstado(itemValue)}
-            style={AgregarMantencionStyles.picker}
-          >
-            <Picker.Item
-              label="Seleccione el estado de la mantención"
-              value=""
-            />
-            <Picker.Item label="Pendiente" value="pendiente" />
-            <Picker.Item label="Prioridad" value="prioridad" />
-            <Picker.Item label="Atención Especial" value="atencion_especial" />
-          </Picker>
-        </View>
-        <Text variant="headlineSmall">Kilometro </Text>
-        <View>
-          <TextInput
-            style={AgregarMantencionStyles.input}
-            keyboardType="numeric"
-            mode="flat"
-            label={"Kilometro"}
-            value={kilometrajeMantencion}
-            onChangeText={(text) => setKilometrajeMantencion(text)}
-          />
-        </View>
-        <Text variant="headlineSmall">Descripción</Text>
-        <View>
-          <TextInput
-            style={AgregarMantencionStyles.input}
-            placeholder="Descripción de la mantención"
-            value={descripcion}
-            mode="flat"
-            label={"Descripción"}
-            onChangeText={(text) => setDescripcion(text)}
-          />
-        </View>
-        <Button mode="contained" onPress={handleAddMantencion}>
-          Agregar Mantención a Lista
-        </Button>
-        <FlatList
-          style={{ marginBottom: 5 }}
-          data={mantencionesPendientes}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <Card style={AgregarMantencionStyles.card}>
-              <Card.Content>
-                <Text style={AgregarMantencionStyles.cardTitle}>
-                  Tipo: {item.tipoMantencion}
-                </Text>
-                <Text>Descripción: {item.descripcion}</Text>
-                <Text>Fecha: {formatDate(new Date(item.fecha))}</Text>
-                <Text>Estado: {translateEstado(item.estado)}</Text>
-                <Text>
-                  Kilometraje: {formatoKilometraje(item.kilometrajeMantencion)}
-                </Text>
-                <Text>
-                  Productos:{" "}
-                  {item.productos
-                    .map((producto) => producto.nombreProducto)
-                    .join(", ")}
-                </Text>
-              </Card.Content>
-            </Card>
-          )}
-        />
-        {mantencionesPendientes.length > 0 && (
-          <Button mode="contained" onPress={showConfirmationModal}>
-            Guardar Mantenciones
-          </Button>
-        )}
-        <Modal
-          isVisible={isConfirmationModalVisible}
-          onBackdropPress={hideConfirmationModal}
-        >
-          <View style={AgregarMantencionStyles.confirmationModal}>
-            <Text style={AgregarMantencionStyles.confirmationModalText}>
-              ¿Estás seguro de que deseas guardar estas mantenciones?
-            </Text>
-            <TouchableOpacity onPress={handleConfirmationAndSave}>
-              <Text style={AgregarMantencionStyles.confirmationModalButton}>
-                Sí, Guardar
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={hideConfirmationModal}>
-              <Text style={AgregarMantencionStyles.confirmationModalButton}>
-                Cancelar
-              </Text>
-            </TouchableOpacity>
           </View>
-        </Modal>
-      </View>
-    </ScrollView>
+          <Text variant="headlineSmall">Producto</Text>
+          <View>
+            {productos && productos.length > 0 ? (
+              <Picker
+                selectedValue={productoSeleccionado}
+                onValueChange={(itemValue) =>
+                  handleProductoSeleccionado(itemValue)
+                }
+                style={AgregarMantencionStyles.picker}
+              >
+                <Picker.Item
+                  label="Seleccione el producto a utilizar"
+                  value=""
+                />
+                {productos.map((item) => (
+                  <Picker.Item
+                    label={item.nombreProducto}
+                    value={item.nombreProducto}
+                    key={item.nombreProducto}
+                  />
+                ))}
+              </Picker>
+            ) : (
+              <Text>No hay productos disponibles.</Text>
+            )}
+          </View>
+          {precioProducto && <Text>Precio Producto: ${precioProducto}</Text>}
+          <Text variant="headlineSmall">Estado</Text>
+          <View>
+            <Picker
+              selectedValue={estado}
+              onValueChange={(itemValue) => setEstado(itemValue)}
+              style={AgregarMantencionStyles.picker}
+            >
+              <Picker.Item
+                label="Seleccione el estado de la mantención"
+                value=""
+              />
+              <Picker.Item label="Pendiente" value="pendiente" />
+              <Picker.Item label="Prioridad" value="prioridad" />
+              <Picker.Item
+                label="Atención Especial"
+                value="atencion_especial"
+              />
+            </Picker>
+          </View>
+          <Text variant="headlineSmall">Kilometro Mantención</Text>
+          <View>
+            <TextInput
+              style={AgregarMantencionStyles.input}
+              keyboardType="numeric"
+              mode="outlined"
+              label={"Kilometro"}
+              value={kilometrajeMantencion}
+              onChangeText={handleKilometrajeChange}
+            />
+          </View>
+          <Text variant="headlineSmall">Descripción</Text>
+          <View>
+            <TextInput
+              style={AgregarMantencionStyles.input}
+              placeholder="Descripción de la mantención"
+              value={descripcion}
+              mode="outlined"
+              label={"Descripción"}
+              onChangeText={(text) => setDescripcion(text)}
+            />
+          </View>
+          <Button mode="contained" onPress={handleAddMantencion}>
+            Agregar Mantención a Lista
+          </Button>
+          <FlatList
+            style={{ marginBottom: 5 }}
+            data={mantencionesPendientes}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <Card style={AgregarMantencionStyles.card}>
+                <Card.Content>
+                  <Text style={AgregarMantencionStyles.cardTitle}>
+                    Tipo: {item.tipoMantencion}
+                  </Text>
+                  <Text>Descripción: {item.descripcion}</Text>
+                  <Text>Fecha: {formatDate(new Date(item.fecha))}</Text>
+                  <Text>Estado: {translateEstado(item.estado)}</Text>
+                  <Text>
+                    Kilometraje:{" "}
+                    {formatoKilometraje(item.kilometrajeMantencion)}
+                  </Text>
+                  <Text>
+                    Productos:{" "}
+                    {item.productos
+                      .map((producto) => producto.nombreProducto)
+                      .join(", ")}
+                  </Text>
+                </Card.Content>
+              </Card>
+            )}
+          />
+          {mantencionesPendientes.length > 0 && (
+            <Button mode="contained" onPress={showConfirmationModal}>
+              Guardar Mantenciones
+            </Button>
+          )}
+          <Portal>
+            <Modal
+              visible={isConfirmationModalVisible}
+              onDismiss={hideConfirmationModal}
+              contentContainerStyle={AgregarMantencionStyles.modalContainer}
+            >
+              <Card>
+                <Card.Title title="Agregar Mantencion" />
+                <Card.Content>
+                  <Text style={AgregarMantencionStyles.modalText}>
+                    ¿Estás seguro de guardar esta mantención?
+                  </Text>
+                </Card.Content>
+                <Card.Actions
+                  style={AgregarMantencionStyles.modalButtonContainer}
+                >
+                  <Button
+                    mode="contained"
+                    onPress={handleConfirmationAndSave}
+                    style={AgregarMantencionStyles.buttonModal}
+                  >
+                    Confirmar
+                  </Button>
+                  <Button mode="outlined" onPress={hideConfirmationModal}>
+                    Cancelar
+                  </Button>
+                </Card.Actions>
+              </Card>
+            </Modal>
+          </Portal>
+        </View>
+      </ScrollView>
+    </PaperProvider>
   );
 }
 
