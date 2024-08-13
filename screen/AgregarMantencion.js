@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  FlatList,
-  ScrollView,
-} from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
+import { View, TouchableOpacity, FlatList, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {
@@ -22,7 +15,7 @@ import { db } from "../firebase";
 import { Picker } from "@react-native-picker/picker";
 import Modal from "react-native-modal";
 import { AgregarMantencionStyles } from "../styles/AgregarMantencionEstilo";
-import { Button, TextInput, Card } from "react-native-paper";
+import { Button, TextInput, Card, Text } from "react-native-paper";
 
 function AgregarMantencion() {
   const [patente, setPatente] = useState("");
@@ -174,57 +167,57 @@ function AgregarMantencion() {
   const handleConfirmationAndSave = async () => {
     hideConfirmationModal();
     try {
-        const batch = writeBatch(db);
+      const batch = writeBatch(db);
 
-        for (const mantencion of mantencionesPendientes) {
-            const mantencionRef = collection(db, "mantenciones");
-            const q = query(
-                mantencionRef,
-                where("patente", "==", mantencion.patente)
-            );
+      for (const mantencion of mantencionesPendientes) {
+        const mantencionRef = collection(db, "mantenciones");
+        const q = query(
+          mantencionRef,
+          where("patente", "==", mantencion.patente)
+        );
 
-            const mantencionesSnapshot = await getDocs(q);
-            const tareaIds = mantencionesSnapshot.docs.map((doc) =>
-                doc.id.split("-").pop()
-            );
+        const mantencionesSnapshot = await getDocs(q);
+        const tareaIds = mantencionesSnapshot.docs.map((doc) =>
+          doc.id.split("-").pop()
+        );
 
-            const highestTareaId = Math.max(...tareaIds.map(Number), 0);
-            const nextTareaId = highestTareaId + 1;
+        const highestTareaId = Math.max(...tareaIds.map(Number), 0);
+        const nextTareaId = highestTareaId + 1;
 
-            const tareaId = `Tarea-${nextTareaId}`;
-            const mantencionDocRef = doc(
-                db,
-                "mantenciones",
-                `${mantencion.patente}-${tareaId}`
-            );
+        const tareaId = `Tarea-${nextTareaId}`;
+        const mantencionDocRef = doc(
+          db,
+          "mantenciones",
+          `${mantencion.patente}-${tareaId}`
+        );
 
-            const costoTotal = mantencion.productos.reduce(
-                (total, producto) => total + producto.precio * producto.cantidad,
-                0
-            );
+        const costoTotal = mantencion.productos.reduce(
+          (total, producto) => total + producto.precio * producto.cantidad,
+          0
+        );
 
-            const mantencionConCosto = { ...mantencion, costoTotal };
+        const mantencionConCosto = { ...mantencion, costoTotal };
 
-            batch.set(mantencionDocRef, mantencionConCosto);
-        }
+        batch.set(mantencionDocRef, mantencionConCosto);
+      }
 
-        await batch.commit();
+      await batch.commit();
 
-        setPatente("");
-        setTipoMantencion("");
-        setDescripcion("");
-        setEstado("");
-        setKilometrajeMantencion("");
-        setProductoSeleccionado("");
-        setPrecioProducto("");
-        setCantidadProducto("");
-        setCodigoProducto("");
-        setErrorMessage("");
+      setPatente("");
+      setTipoMantencion("");
+      setDescripcion("");
+      setEstado("");
+      setKilometrajeMantencion("");
+      setProductoSeleccionado("");
+      setPrecioProducto("");
+      setCantidadProducto("");
+      setCodigoProducto("");
+      setErrorMessage("");
 
-        setMantencionesPendientes([]);
+      setMantencionesPendientes([]);
     } catch (error) {
-        console.error("Error saving mantenciones:", error.message);
-        setErrorMessage("Error al guardar las mantenciones. Inténtelo de nuevo.");
+      console.error("Error saving mantenciones:", error.message);
+      setErrorMessage("Error al guardar las mantenciones. Inténtelo de nuevo.");
     }
   };
 
@@ -284,13 +277,8 @@ function AgregarMantencion() {
   return (
     <ScrollView>
       <View style={AgregarMantencionStyles.container}>
-        <View style={AgregarMantencionStyles.inputContainer}>
-          <Icon
-            name="car"
-            size={20}
-            color="black"
-            style={AgregarMantencionStyles.icon}
-          />
+        <Text variant="headlineSmall">Patente</Text>
+        <View>
           <TextInput
             style={AgregarMantencionStyles.input}
             placeholder="Patente del auto"
@@ -305,13 +293,8 @@ function AgregarMantencion() {
         {errorMessage ? (
           <Text style={AgregarMantencionStyles.errorText}>{errorMessage}</Text>
         ) : null}
-        <View style={AgregarMantencionStyles.inputContainer}>
-          <Icon
-            name="wrench"
-            size={20}
-            color="black"
-            style={AgregarMantencionStyles.icon}
-          />
+        <Text variant="headlineSmall">Categoria</Text>
+        <View>
           <Picker
             selectedValue={tipoMantencion}
             onValueChange={(itemValue) => setTipoMantencion(itemValue)}
@@ -370,13 +353,8 @@ function AgregarMantencion() {
             />
           </Picker>
         </View>
-        <View style={AgregarMantencionStyles.inputContainer}>
-          <Icon
-            name="list"
-            size={20}
-            color="black"
-            style={AgregarMantencionStyles.icon}
-          />
+        <Text variant="headlineSmall">Producto</Text>
+        <View>
           {productos && productos.length > 0 ? (
             <Picker
               selectedValue={productoSeleccionado}
@@ -399,13 +377,8 @@ function AgregarMantencion() {
           )}
         </View>
         {precioProducto && <Text>Precio Producto: ${precioProducto}</Text>}
-        <View style={AgregarMantencionStyles.inputContainer}>
-          <Icon
-            name="check"
-            size={20}
-            color="black"
-            style={AgregarMantencionStyles.icon}
-          />
+        <Text variant="headlineSmall">Estado</Text>
+        <View>
           <Picker
             selectedValue={estado}
             onValueChange={(itemValue) => setEstado(itemValue)}
@@ -420,13 +393,8 @@ function AgregarMantencion() {
             <Picker.Item label="Atención Especial" value="atencion_especial" />
           </Picker>
         </View>
-        <View style={AgregarMantencionStyles.inputContainer}>
-          <Icon
-            name="tachometer"
-            size={20}
-            color="black"
-            style={AgregarMantencionStyles.icon}
-          />
+        <Text variant="headlineSmall">Kilometro </Text>
+        <View>
           <TextInput
             style={AgregarMantencionStyles.input}
             keyboardType="numeric"
@@ -436,13 +404,8 @@ function AgregarMantencion() {
             onChangeText={(text) => setKilometrajeMantencion(text)}
           />
         </View>
-        <View style={AgregarMantencionStyles.inputContainer}>
-          <Icon
-            name="comment"
-            size={20}
-            color="black"
-            style={AgregarMantencionStyles.icon}
-          />
+        <Text variant="headlineSmall">Descripción</Text>
+        <View>
           <TextInput
             style={AgregarMantencionStyles.input}
             placeholder="Descripción de la mantención"
@@ -452,11 +415,7 @@ function AgregarMantencion() {
             onChangeText={(text) => setDescripcion(text)}
           />
         </View>
-        <Button
-          mode="contained"
-          style={AgregarMantencionStyles.button}
-          onPress={handleAddMantencion}
-        >
+        <Button mode="contained" onPress={handleAddMantencion}>
           Agregar Mantención a Lista
         </Button>
         <FlatList
