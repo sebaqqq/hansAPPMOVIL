@@ -67,7 +67,7 @@ const EditarUser = () => {
   if (loading) {
     return (
       <View style={EditarUserStyles.loadingContainer}>
-        <ActivityIndicator size="large" color="#0077B6" />
+        <ActivityIndicator size="large" color="#4a7f8d" />
         <Text style={EditarUserStyles.loadingText}>Cargando...</Text>
       </View>
     );
@@ -77,45 +77,80 @@ const EditarUser = () => {
     <ScrollView>
       <View style={EditarUserStyles.container}>
         <Text style={EditarUserStyles.textTitle}>Editar Usuario</Text>
-        <Text style={EditarUserStyles.text}>Nombre</Text>
         <TextInput
           label="Nombre"
           value={newName}
           onChangeText={(text) => setNewName(text)}
           style={EditarUserStyles.input}
           mode="outlined"
+          theme={{
+            colors: {
+              primary: '#3a798b', // Color del borde y del texto cuando está enfocado
+              underlineColor: 'transparent', // Color de la línea subrayada
+              text: '#000000', // Color del texto
+              background: '#ffffff', // Color de fondo del input
+            }
+          }}
         />
-        <Text style={EditarUserStyles.text}>Apellido</Text>
         <TextInput
           label="Apellido"
           value={newApellido}
           onChangeText={(text) => setNewApellido(text)}
           style={EditarUserStyles.input}
           mode="outlined"
+          theme={{
+            colors: {
+              primary: '#3a798b', // Color del borde y del texto cuando está enfocado
+              underlineColor: 'transparent', // Color de la línea subrayada
+              text: '#000000', // Color del texto
+              background: '#ffffff', // Color de fondo del input
+            }
+          }}
         />
-        <Text style={EditarUserStyles.text}>Contraseña</Text>
         <TextInput
           label="Contraseña"
           value={newPassword}
           onChangeText={(text) => setNewPassword(text)}
           style={EditarUserStyles.input}
           mode="outlined"
+          theme={{
+            colors: {
+              primary: '#3a798b', // Color del borde y del texto cuando está enfocado
+              underlineColor: 'transparent', // Color de la línea subrayada
+              text: '#000000', // Color del texto
+              background: '#ffffff', // Color de fondo del input
+            }
+          }}
         />
-        <Text style={EditarUserStyles.text}>Teléfono</Text>
         <TextInput
           label="Teléfono"
           value={newTelefono}
           onChangeText={(text) => setNewTelefono(text)}
           style={EditarUserStyles.input}
           mode="outlined"
+          theme={{
+            colors: {
+              primary: '#3a798b', // Color del borde y del texto cuando está enfocado
+              underlineColor: 'transparent', // Color de la línea subrayada
+              text: '#000000', // Color del texto
+              background: '#ffffff', // Color de fondo del input
+            }
+          }}
         />
-        <Text style={EditarUserStyles.text}>Dirección</Text>
         <TextInput
           label="Dirección"
           value={newDireccion}
           onChangeText={(text) => setNewDireccion(text)}
           style={EditarUserStyles.input}
           mode="outlined"
+          theme={{
+            colors: {
+              primary: '#3a798b', // Color del borde y del texto cuando está enfocado
+              underlineColor: 'transparent', // Color de la línea subrayada
+              text: '#000000', // Color del texto
+              background: '#ffffff', // Color de fondo del input
+            }
+          }}
         />
         <Button
           mode="contained"

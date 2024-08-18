@@ -18,18 +18,18 @@ export const LoginStyles = StyleSheet.create({
     fontSize: 36,
     fontWeight: "bold",
     marginBottom: 40,
-    color: "#0077B6",
+    color: "#4a7f8d",
   },
   logoImage: {
     width: 300,
-    height: 120,
-    marginBottom: 40,
+    height: 155,
+    marginBottom: 20,
   },
   headerText: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 40,
-    color: "#0077B6",
+    marginBottom: 10,
+    color: "#4a7f8d",
   },
   inputContainer: {
     width: "80%",
@@ -67,7 +67,7 @@ export const LoginStyles = StyleSheet.create({
     marginBottom: 10,
   },
   loginButton: {
-    backgroundColor: "#0077B6",
+    backgroundColor: "#4a7f8d",
     borderRadius: 10,
     paddingVertical: 12,
     width: "80%",

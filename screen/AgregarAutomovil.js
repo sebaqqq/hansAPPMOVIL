@@ -146,6 +146,14 @@ function AgregarAutomovil({ route }) {
           value={modelo}
           onChangeText={(text) => setModelo(text)}
           mode="outlined"
+          theme={{
+            colors: {
+              primary: '#3a798b', // Color del borde y del texto cuando está enfocado
+              underlineColor: 'transparent', // Color de la línea subrayada
+              text: '#000000', // Color del texto
+              background: '#ffffff', // Color de fondo del input
+            }
+          }}
         />
         <Text style={AgregarAutomovilStyles.nombreCategoria}>Año</Text>
         <TextInput
@@ -156,6 +164,14 @@ function AgregarAutomovil({ route }) {
           keyboardType="numeric"
           onChangeText={(text) => setAno(text)}
           mode="outlined"
+          theme={{
+            colors: {
+              primary: '#3a798b', // Color del borde y del texto cuando está enfocado
+              underlineColor: 'transparent', // Color de la línea subrayada
+              text: '#000000', // Color del texto
+              background: '#ffffff', // Color de fondo del input
+            }
+          }}
         />
         <Text style={AgregarAutomovilStyles.nombreCategoria}>Color</Text>
         <TextInput
@@ -165,6 +181,14 @@ function AgregarAutomovil({ route }) {
           value={color}
           onChangeText={(text) => setColor(text)}
           mode="outlined"
+          theme={{
+            colors: {
+              primary: '#3a798b', // Color del borde y del texto cuando está enfocado
+              underlineColor: 'transparent', // Color de la línea subrayada
+              text: '#000000', // Color del texto
+              background: '#ffffff', // Color de fondo del input
+            }
+          }}
         />
         <Text style={AgregarAutomovilStyles.nombreCategoria}>Patente</Text>
         <TextInput
@@ -176,6 +200,14 @@ function AgregarAutomovil({ route }) {
           value={patente}
           onChangeText={(text) => setPatente(text)}
           mode="outlined"
+          theme={{
+            colors: {
+              primary: '#3a798b', // Color del borde y del texto cuando está enfocado
+              underlineColor: 'transparent', // Color de la línea subrayada
+              text: '#000000', // Color del texto
+              background: '#ffffff', // Color de fondo del input
+            }
+          }}
         />
         <Text style={AgregarAutomovilStyles.nombreCategoria}>
           Número de Chasis
@@ -189,6 +221,14 @@ function AgregarAutomovil({ route }) {
           value={numchasis}
           onChangeText={(text) => setNumChasis(text)}
           mode="outlined"
+          theme={{
+            colors: {
+              primary: '#3a798b', // Color del borde y del texto cuando está enfocado
+              underlineColor: 'transparent', // Color de la línea subrayada
+              text: '#000000', // Color del texto
+              background: '#ffffff', // Color de fondo del input
+            }
+          }}
         />
         <Text style={AgregarAutomovilStyles.nombreCategoria}>Kilometraje</Text>
         <TextInput
@@ -199,6 +239,14 @@ function AgregarAutomovil({ route }) {
           onChangeText={(text) => setKilometraje(text)}
           keyboardType="numeric"
           mode="outlined"
+          theme={{
+            colors: {
+              primary: '#3a798b', // Color del borde y del texto cuando está enfocado
+              underlineColor: 'transparent', // Color de la línea subrayada
+              text: '#000000', // Color del texto
+              background: '#ffffff', // Color de fondo del input
+            }
+          }}
         />
         <Button
           style={AgregarAutomovilStyles.button}

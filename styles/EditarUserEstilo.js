@@ -3,24 +3,26 @@ import { StyleSheet } from "react-native";
 export const EditarUserStyles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: "#f5f5f5",
+    padding: "10%",
+    backgroundColor: "#ffffff",
+    marginTop: "15%",
+    borderRadius: 30,
+    width: "90%",
+    alignSelf: "center",
   },
   textTitle: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
     textAlign: "center",
-    color: "#0077B6",
-  },
-  text: {
-    fontSize: 16,
-    marginBottom: 5,
-    color: "#333",
+    color: "#090909",
   },
   input: {
     marginBottom: 15,
     backgroundColor: "#fff",
+  },
+  boton: {
+    backgroundColor: "#4a7f8d",
   },
   loadingContainer: {
     flex: 1,

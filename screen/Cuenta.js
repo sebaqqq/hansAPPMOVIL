@@ -42,7 +42,7 @@ function Perfil() {
   if (loading) {
     return (
       <View style={CuentaStyles.loadingContainer}>
-        <ActivityIndicator size="large" color="#0077B6" />
+        <ActivityIndicator size="large" color="#4a7f8d" />
         <Text style={CuentaStyles.loadingText}>Cargando...</Text>
       </View>
     );
@@ -51,7 +51,7 @@ function Perfil() {
   return (
     <View style={CuentaStyles.container}>
       <View style={CuentaStyles.header}>
-        <Text style={CuentaStyles.logo}>Settore</Text>
+        <Text style={CuentaStyles.logo}>FixWay</Text>
         <View style={CuentaStyles.buttonContainer}>
           <TouchableOpacity
             style={CuentaStyles.iconButton}
@@ -73,7 +73,7 @@ function Perfil() {
       ) : (
         <View style={CuentaStyles.profile}>
           <Image
-            source={require("../images/AutoSinFondo.png")}
+            source={require("../images/EngranajeSinFondo.png")}
             style={CuentaStyles.logoImage}
           />
           <Text style={CuentaStyles.meca}>{user.rol}</Text>
@@ -90,7 +90,7 @@ function Perfil() {
 
 const renderProfileInfo = (iconName, text) => (
   <View style={CuentaStyles.section}>
-    <FontAwesome name={iconName} size={20} color="#0077B6" />
+    <FontAwesome name={iconName} size={20} color="#090909" paddingRight={10} />
     <Text style={CuentaStyles.text}>{text}</Text>
   </View>
 );

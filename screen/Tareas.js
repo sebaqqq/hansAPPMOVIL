@@ -40,7 +40,7 @@ const Tareas = () => {
         <MaterialCommunityIcons
           name="update"
           size={26}
-          color="#0077B6"
+          color="#4a7f8d"
           onPress={handleRefresh}
           style={{ marginRight: 20 }}
         />
@@ -175,6 +175,7 @@ const Tareas = () => {
                 <Button
                   mode="contained"
                   onPress={() => finalizarTarea(item.id)}
+                  style={{ backgroundColor: "#4a7f8d" }}
                 >
                   Finalizar
                 </Button>

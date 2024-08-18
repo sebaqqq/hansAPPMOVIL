@@ -19,7 +19,7 @@ const PatenteStyles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   selectedCard: {
-    borderColor: "#0077B6",
+    borderColor: "#4a7f8d",
   },
   cardTitle: {
     fontSize: 18,

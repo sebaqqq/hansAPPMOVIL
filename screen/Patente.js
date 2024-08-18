@@ -44,7 +44,7 @@ const Patente = () => {
           <MaterialIcons
             name="inventory"
             size={24}
-            color="#0077B6"
+            color="#4a7f8d"
             onPress={() => navigation.navigate("Inventario")}
           />
         </View>
@@ -289,6 +289,9 @@ const Patente = () => {
                       setModalVisible(true);
                       setSelectedPatente(patente);
                     }}
+                    style={{
+                      backgroundColor: "#4a7f8d",
+                    }}
                   >
                     Tomar Tarea
                   </Button>
@@ -314,7 +317,7 @@ const Patente = () => {
               </Card.Content>
               <Card.Actions>
                 <Button onPress={handleCloseModal}>Cancelar</Button>
-                <Button onPress={tomarTarea}>Confirmar</Button>
+                <Button onPress={tomarTarea} style={{ backgroundColor: "#4a7f8d"}}>Confirmar</Button>
               </Card.Actions>
             </Card>
           </Modal>

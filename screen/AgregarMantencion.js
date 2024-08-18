@@ -48,7 +48,7 @@ function AgregarMantencion() {
           name="car-arrow-right"
           size={26}
           right={20}
-          color="#0077B6"
+          color="#4a7f8d"
           onPress={() => navigation.navigate("Agregar Automovil")}
         />
       ),
@@ -301,6 +301,14 @@ function AgregarMantencion() {
               mode="outlined"
               label={"Patente"}
               onChangeText={(text) => handleCheckPatente(text)}
+              theme={{
+                colors: {
+                  primary: '#3a798b', // Color del borde y del texto cuando está enfocado
+                  underlineColor: 'transparent', // Color de la línea subrayada
+                  text: '#000000', // Color del texto
+                  background: '#ffffff', // Color de fondo del input
+                }
+              }}
             />
           </View>
           {errorMessage ? (
@@ -429,6 +437,14 @@ function AgregarMantencion() {
               label={"Kilometro"}
               value={kilometrajeMantencion}
               onChangeText={handleKilometrajeChange}
+              theme={{
+                colors: {
+                  primary: '#3a798b', // Color del borde y del texto cuando está enfocado
+                  underlineColor: 'transparent', // Color de la línea subrayada
+                  text: '#000000', // Color del texto
+                  background: '#ffffff', // Color de fondo del input
+                }
+              }}
             />
           </View>
           <Text variant="headlineSmall">Descripción</Text>
@@ -440,9 +456,17 @@ function AgregarMantencion() {
               mode="outlined"
               label={"Descripción"}
               onChangeText={(text) => setDescripcion(text)}
+              theme={{
+                colors: {
+                  primary: '#3a798b', // Color del borde y del texto cuando está enfocado
+                  underlineColor: 'transparent', // Color de la línea subrayada
+                  text: '#000000', // Color del texto
+                  background: '#ffffff', // Color de fondo del input
+                }
+              }}
             />
           </View>
-          <Button mode="contained" onPress={handleAddMantencion}>
+          <Button mode="contained" onPress={handleAddMantencion} style={{ backgroundColor: '#3a798b' }}>
             Agregar Mantención a Lista
           </Button>
           <FlatList

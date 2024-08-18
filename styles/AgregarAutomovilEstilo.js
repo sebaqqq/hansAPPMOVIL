@@ -25,7 +25,7 @@ export const AgregarAutomovilStyles = StyleSheet.create({
   },
   button: {
     marginTop: 16,
-    backgroundColor: "#007bff", // Puedes usar el color hex que prefieras
+    backgroundColor: "#3a798b", // Puedes usar el color hex que prefieras
   },
   confirmationModal: {
     backgroundColor: "#fff",

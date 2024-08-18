@@ -39,16 +39,16 @@ export default function Navigation() {
   function MyStack() {
     return (
       <>
-        <StatusBar backgroundColor="#0077B6" barStyle="light-content" />
+        <StatusBar backgroundColor="#090909" barStyle="light-content" />
         <Stack.Navigator
           systemUiVisibility={false}
           initialRouteName="Login"
           screenOptions={{
             headerStyle: {
-              backgroundColor: "#FAFAFA",
+              backgroundColor: "#090909",
             },
-            headerTintColor: "#0077B6",
-            backgroundColor: "#9ACEF8",
+            headerTintColor: "#ffffff",
+            backgroundColor: "#3a798b",
             headerTitleStyle: {
               fontWeight: "bold",
             },
@@ -78,9 +78,9 @@ export default function Navigation() {
   function MyTabs() {
     return (
       <Tab.Navigator
-        initialRouteName="SETTORE"
+        initialRouteName="FixWay"
         screenOptions={{
-          tabBarActiveTintColor: "#0077B6",
+          tabBarActiveTintColor: "#4a7f8d",
           tabBarInactiveTintColor: "#000000",
           tabBarActiveBackgroundColor: "#FFFFFF ",
           tabBarInactiveBackgroundColor: "#FFFFFF",
@@ -91,6 +91,13 @@ export default function Navigation() {
           component={Patente}
           options={{
             tabBarLabel: "Patente",
+            headerStyle: {
+              backgroundColor: "#090909",
+            },
+            headerTintColor: "#ffffff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
             tabBarIcon: ({ color, size }) => (
               <FontAwesome5 name="car-side" size={size} color={color} />
             ),
@@ -106,6 +113,13 @@ export default function Navigation() {
           component={Tareas}
           options={{
             tabBarLabel: "Tareas",
+            headerStyle: {
+              backgroundColor: "#090909",
+            },
+            headerTintColor: "#ffffff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
             tabBarIcon: ({ color, size }) => (
               <FontAwesome5 name="tasks" size={size} color={color} />
             ),
@@ -137,6 +151,13 @@ export default function Navigation() {
           component={AgrergarMantencion}
           options={{
             tabBarLabel: "Mantención",
+            headerStyle: {
+              backgroundColor: "#090909",
+            },
+            headerTintColor: "#ffffff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
             tabBarIcon: ({ color, size }) => (
               <AntDesign name="pluscircleo" size={size} color={color} />
             ),

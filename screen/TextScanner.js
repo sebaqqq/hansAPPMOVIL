@@ -84,7 +84,7 @@ export default function Scanner() {
       />
       <View style={TexTScannerStyles.overlay}>
         <Text style={TexTScannerStyles.label}>Escanea el código QR</Text>
-        <Button mode="contained" onPress={resetScanner}>
+        <Button mode="contained" onPress={resetScanner} style={{ backgroundColor: "#4a7f8d" }}>
           Reiniciar Escaneo
         </Button>
       </View>

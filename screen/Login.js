@@ -74,7 +74,7 @@ const Login = () => {
                   LoginStyles.input,
                   {
                     borderBottomColor:
-                      emailFocused || email.length > 0 ? "#525FE1" : "#000",
+                      emailFocused || email.length > 0 ? "#4a7f8d" : "#000",
                   },
                 ]}
                 placeholderTextColor="#A0A0A0"
@@ -92,7 +92,7 @@ const Login = () => {
                       left: 40,
                       color:
                         emailFocused || email.length > 0
-                          ? "#525FE1"
+                          ? "#4a7f8d"
                           : "#A0A0A0",
                     },
                   ]}
@@ -115,7 +115,7 @@ const Login = () => {
                   {
                     borderBottomColor:
                       passwordFocused || password.length > 0
-                        ? "#525FE1"
+                        ? "#4a7f8d"
                         : "#000",
                   },
                 ]}
@@ -145,7 +145,7 @@ const Login = () => {
                       left: 40,
                       color:
                         passwordFocused || password.length > 0
-                          ? "#525FE1"
+                          ? "#4a7f8d"
                           : "#A0A0A0",
                     },
                   ]}
