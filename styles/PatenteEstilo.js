@@ -7,6 +7,7 @@ const PatenteStyles = StyleSheet.create({
   },
   searchBar: {
     margin: 10,
+    backgroundColor: "#3a798b",
   },
   scrollContent: {
     flex: 1,
