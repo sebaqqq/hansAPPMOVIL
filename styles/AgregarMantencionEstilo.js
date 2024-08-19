@@ -83,11 +83,15 @@ export const AgregarMantencionStyles = StyleSheet.create({
     borderRadius: 5,
     alignItems: "center",
     flex: 1,
-    marginHorizontal: 5, // Add margin between buttons
+    marginHorizontal: 5,
   },
   modalButtonText: {
     color: "#FFF",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  modalPatente: {
+    flex: 1,
+    margin: 0,
   },
 });

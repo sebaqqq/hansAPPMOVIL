@@ -23,6 +23,7 @@ import {
   PaperProvider,
   Portal,
 } from "react-native-paper";
+import { WebView } from "react-native-webview";
 
 function AgregarMantencion() {
   const [patente, setPatente] = useState("");
@@ -39,6 +40,7 @@ function AgregarMantencion() {
   const [cantidadProducto, setCantidadProducto] = useState("");
   const [codigoProducto, setCodigoProducto] = useState("");
   const [precioProducto, setPrecioProducto] = useState("");
+  const [isModalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -303,14 +305,21 @@ function AgregarMantencion() {
               onChangeText={(text) => handleCheckPatente(text)}
               theme={{
                 colors: {
-                  primary: '#3a798b', // Color del borde y del texto cuando está enfocado
-                  underlineColor: 'transparent', // Color de la línea subrayada
-                  text: '#000000', // Color del texto
-                  background: '#ffffff', // Color de fondo del input
-                }
+                  primary: "#3a798b",
+                  underlineColor: "transparent",
+                  text: "#000000",
+                  background: "#ffffff",
+                },
               }}
             />
           </View>
+          <Button
+            mode="contained"
+            onPress={() => setModalVisible(true)}
+            style={{ backgroundColor: "#3a798b" }}
+          >
+            Verificar Patente
+          </Button>
           {errorMessage ? (
             <Text style={AgregarMantencionStyles.errorText}>
               {errorMessage}
@@ -439,11 +448,11 @@ function AgregarMantencion() {
               onChangeText={handleKilometrajeChange}
               theme={{
                 colors: {
-                  primary: '#3a798b', // Color del borde y del texto cuando está enfocado
-                  underlineColor: 'transparent', // Color de la línea subrayada
-                  text: '#000000', // Color del texto
-                  background: '#ffffff', // Color de fondo del input
-                }
+                  primary: "#3a798b",
+                  underlineColor: "transparent",
+                  text: "#000000",
+                  background: "#ffffff",
+                },
               }}
             />
           </View>
@@ -458,15 +467,19 @@ function AgregarMantencion() {
               onChangeText={(text) => setDescripcion(text)}
               theme={{
                 colors: {
-                  primary: '#3a798b', // Color del borde y del texto cuando está enfocado
-                  underlineColor: 'transparent', // Color de la línea subrayada
-                  text: '#000000', // Color del texto
-                  background: '#ffffff', // Color de fondo del input
-                }
+                  primary: "#3a798b",
+                  underlineColor: "transparent",
+                  text: "#000000",
+                  background: "#ffffff",
+                },
               }}
             />
           </View>
-          <Button mode="contained" onPress={handleAddMantencion} style={{ backgroundColor: '#3a798b' }}>
+          <Button
+            mode="contained"
+            onPress={handleAddMantencion}
+            style={{ backgroundColor: "#3a798b" }}
+          >
             Agregar Mantención a Lista
           </Button>
           <FlatList
@@ -501,6 +514,21 @@ function AgregarMantencion() {
               Guardar Mantenciones
             </Button>
           )}
+
+          <Modal
+            visible={isModalVisible}
+            onDismiss={() => setModalVisible(false)}
+            contentContainerStyle={AgregarMantencionStyles.modalPatente}
+          >
+            <WebView source={{ uri: "https://www.patentechile.com/" }} />
+            <Button
+              mode="contained"
+              onPress={() => setModalVisible(false)}
+              style={{ marginTop: 10 }}
+            >
+              Cerrar
+            </Button>
+          </Modal>
           <Portal>
             <Modal
               visible={isConfirmationModalVisible}
