@@ -7,6 +7,7 @@ import { Picker } from "@react-native-picker/picker";
 import Modal from "react-native-modal";
 import { AgregarAutomovilStyles } from "../styles/AgregarAutomovilEstilo";
 import ValidadorPatente from "../hooks/validadorPatente";
+import ValidadorVIN from "../hooks/validadorVIN";
 import { Button, TextInput } from "react-native-paper";
 
 function AgregarAutomovil({ route }) {
@@ -19,6 +20,7 @@ function AgregarAutomovil({ route }) {
   const [patente, setPatente] = useState("");
   const [mensajePatente, setMensajePatente] = useState("");
   const [mensajePatenteError, setMensajePatenteError] = useState("");
+  const [mensajeChasisError, setMensajeChasisError] = useState("");
   const [isConfirmationModalVisible, setConfirmationModalVisible] = useState(false);
   const navigation = useNavigation();
 
@@ -95,6 +97,20 @@ function AgregarAutomovil({ route }) {
       setMensajePatenteError("Patente inválida");
       setMensajePatente("");
       setTimeout(() => setMensajePatenteError(""), 8000);
+    }
+  };
+
+  const validarChasisOnChange = (text) => {
+    const vin = text.toUpperCase().trim();
+    setNumChasis(vin);
+
+    const validadorVIN = new ValidadorVIN(vin);
+    const { esValido, mensajeError } = validadorVIN.validarVIN();
+
+    if (!esValido) {
+      setMensajeChasisError(mensajeError);
+    } else {
+      setMensajeChasisError("");
     }
   };
 
@@ -236,7 +252,7 @@ function AgregarAutomovil({ route }) {
           autoCapitalize="characters"
           keyboardType="ascii-capable"
           value={numchasis}
-          onChangeText={(text) => setNumChasis(text)}
+          onChangeText={validarChasisOnChange}
           mode="outlined"
           theme={{
             colors: {
@@ -247,6 +263,7 @@ function AgregarAutomovil({ route }) {
             },
           }}
         />
+        {mensajeChasisError ? <Text>{mensajeChasisError}</Text> : null}
         <Text style={AgregarAutomovilStyles.nombreCategoria}>Kilometraje</Text>
         <TextInput
           style={AgregarAutomovilStyles.input}
