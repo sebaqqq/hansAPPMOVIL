@@ -6,6 +6,7 @@ import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { Picker } from "@react-native-picker/picker";
 import Modal from "react-native-modal";
 import { AgregarAutomovilStyles } from "../styles/AgregarAutomovilEstilo";
+import ValidadorPatente from "../hooks/validadorPatente";
 import { Button, TextInput } from "react-native-paper";
 
 function AgregarAutomovil({ route }) {
@@ -16,8 +17,9 @@ function AgregarAutomovil({ route }) {
   const [kilometraje, setKilometraje] = useState("");
   const [numchasis, setNumChasis] = useState("");
   const [patente, setPatente] = useState("");
-  const [isConfirmationModalVisible, setConfirmationModalVisible] =
-    useState(false);
+  const [mensajePatente, setMensajePatente] = useState("");
+  const [mensajePatenteError, setMensajePatenteError] = useState("");
+  const [isConfirmationModalVisible, setConfirmationModalVisible] = useState(false);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -78,6 +80,21 @@ function AgregarAutomovil({ route }) {
       navigation.navigate("Agregar Mantencion");
     } catch (error) {
       console.error("Error adding/updating automovil: ", error);
+    }
+  };
+
+  const validarPatenteOnChange = (text) => {
+    setPatente(text.toUpperCase().trim());
+    const validador = new ValidadorPatente(text);
+
+    if (validador.esValido) {
+      setMensajePatente("Patente válida");
+      setMensajePatenteError("");
+      setTimeout(() => setMensajePatente(""), 2000);
+    } else {
+      setMensajePatenteError("Patente inválida");
+      setMensajePatente("");
+      setTimeout(() => setMensajePatenteError(""), 8000);
     }
   };
 
@@ -148,11 +165,11 @@ function AgregarAutomovil({ route }) {
           mode="outlined"
           theme={{
             colors: {
-              primary: '#3a798b', // Color del borde y del texto cuando está enfocado
-              underlineColor: 'transparent', // Color de la línea subrayada
-              text: '#000000', // Color del texto
-              background: '#ffffff', // Color de fondo del input
-            }
+              primary: '#3a798b',
+              underlineColor: 'transparent',
+              text: '#000000',
+              background: '#ffffff',
+            },
           }}
         />
         <Text style={AgregarAutomovilStyles.nombreCategoria}>Año</Text>
@@ -166,11 +183,11 @@ function AgregarAutomovil({ route }) {
           mode="outlined"
           theme={{
             colors: {
-              primary: '#3a798b', // Color del borde y del texto cuando está enfocado
-              underlineColor: 'transparent', // Color de la línea subrayada
-              text: '#000000', // Color del texto
-              background: '#ffffff', // Color de fondo del input
-            }
+              primary: '#3a798b',
+              underlineColor: 'transparent',
+              text: '#000000',
+              background: '#ffffff',
+            },
           }}
         />
         <Text style={AgregarAutomovilStyles.nombreCategoria}>Color</Text>
@@ -183,11 +200,11 @@ function AgregarAutomovil({ route }) {
           mode="outlined"
           theme={{
             colors: {
-              primary: '#3a798b', // Color del borde y del texto cuando está enfocado
-              underlineColor: 'transparent', // Color de la línea subrayada
-              text: '#000000', // Color del texto
-              background: '#ffffff', // Color de fondo del input
-            }
+              primary: '#3a798b',
+              underlineColor: 'transparent',
+              text: '#000000',
+              background: '#ffffff',
+            },
           }}
         />
         <Text style={AgregarAutomovilStyles.nombreCategoria}>Patente</Text>
@@ -198,20 +215,20 @@ function AgregarAutomovil({ route }) {
           autoCapitalize="characters"
           keyboardType="ascii-capable"
           value={patente}
-          onChangeText={(text) => setPatente(text)}
+          onChangeText={validarPatenteOnChange}
           mode="outlined"
           theme={{
             colors: {
-              primary: '#3a798b', // Color del borde y del texto cuando está enfocado
-              underlineColor: 'transparent', // Color de la línea subrayada
-              text: '#000000', // Color del texto
-              background: '#ffffff', // Color de fondo del input
-            }
+              primary: '#3a798b',
+              underlineColor: 'transparent',
+              text: '#000000',
+              background: '#ffffff',
+            },
           }}
         />
-        <Text style={AgregarAutomovilStyles.nombreCategoria}>
-          Número de Chasis
-        </Text>
+        {mensajePatente ? <Text>{mensajePatente}</Text> : null}
+        {mensajePatenteError ? <Text>{mensajePatenteError}</Text> : null}
+        <Text style={AgregarAutomovilStyles.nombreCategoria}>Número de Chasis</Text>
         <TextInput
           style={AgregarAutomovilStyles.input}
           placeholder="Número de Chasis"
@@ -223,11 +240,11 @@ function AgregarAutomovil({ route }) {
           mode="outlined"
           theme={{
             colors: {
-              primary: '#3a798b', // Color del borde y del texto cuando está enfocado
-              underlineColor: 'transparent', // Color de la línea subrayada
-              text: '#000000', // Color del texto
-              background: '#ffffff', // Color de fondo del input
-            }
+              primary: '#3a798b',
+              underlineColor: 'transparent',
+              text: '#000000',
+              background: '#ffffff',
+            },
           }}
         />
         <Text style={AgregarAutomovilStyles.nombreCategoria}>Kilometraje</Text>
@@ -241,11 +258,11 @@ function AgregarAutomovil({ route }) {
           mode="outlined"
           theme={{
             colors: {
-              primary: '#3a798b', // Color del borde y del texto cuando está enfocado
-              underlineColor: 'transparent', // Color de la línea subrayada
-              text: '#000000', // Color del texto
-              background: '#ffffff', // Color de fondo del input
-            }
+              primary: '#3a798b',
+              underlineColor: 'transparent',
+              text: '#000000',
+              background: '#ffffff',
+            },
           }}
         />
         <Button
@@ -261,7 +278,7 @@ function AgregarAutomovil({ route }) {
         >
           <View style={AgregarAutomovilStyles.confirmationModal}>
             <Text style={AgregarAutomovilStyles.confirmationModalText}>
-              ¿Estás seguro de que deseas guardar esta Automóvil?
+              ¿Estás seguro de que deseas guardar esta información?
             </Text>
             <TouchableOpacity onPress={handleConfirmationAndSave}>
               <Text style={AgregarAutomovilStyles.confirmationModalButton}>
