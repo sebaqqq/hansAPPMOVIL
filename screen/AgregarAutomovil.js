@@ -112,7 +112,7 @@ function AgregarAutomovil({ route }) {
       setMensajeChasisError(mensajeError);
       setMensajeChasis("");
     } else {
-      setMensajeChasis("Número de chasis válido");
+      setMensajeChasis("Chasis válido");
       setMensajeChasisError("");
     }
   };
