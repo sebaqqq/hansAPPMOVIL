@@ -1,4 +1,3 @@
-// hooks/ValidadorVIN.js
 
 export default class ValidadorVIN {
   constructor(vin) {

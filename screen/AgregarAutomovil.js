@@ -20,6 +20,7 @@ function AgregarAutomovil({ route }) {
   const [patente, setPatente] = useState("");
   const [mensajePatente, setMensajePatente] = useState("");
   const [mensajePatenteError, setMensajePatenteError] = useState("");
+  const [mensajeChasis, setMensajeChasis] = useState("");
   const [mensajeChasisError, setMensajeChasisError] = useState("");
   const [isConfirmationModalVisible, setConfirmationModalVisible] = useState(false);
   const navigation = useNavigation();
@@ -109,7 +110,9 @@ function AgregarAutomovil({ route }) {
 
     if (!esValido) {
       setMensajeChasisError(mensajeError);
+      setMensajeChasis("");
     } else {
+      setMensajeChasis("Número de chasis válido");
       setMensajeChasisError("");
     }
   };
@@ -263,6 +266,7 @@ function AgregarAutomovil({ route }) {
             },
           }}
         />
+        {mensajeChasis ? <Text>{mensajeChasis}</Text> : null}
         {mensajeChasisError ? <Text>{mensajeChasisError}</Text> : null}
         <Text style={AgregarAutomovilStyles.nombreCategoria}>Kilometraje</Text>
         <TextInput
