@@ -33,54 +33,47 @@ export default function DatosEscaneadosScreen({ route }) {
     return `${day}/${month}/${year}`;
   };
 
-  const { mantencionData } = route.params;
-  const descripcion =
-    mantencionData?.descripcion || "Descripción no disponible";
-  const estado = mantencionData?.estado || "Estado no disponible";
-  const fecha = mantencionData?.fecha || "Fecha no disponible";
-  const kilometrajeMantencion =
-    mantencionData?.kilometrajeMantencion || "Kilometraje no disponible";
-  const tipoMantencion =
-    mantencionData?.tipoMantencion || "Tipo de Mantención no disponible";
-  const productos = mantencionData?.productos || [];
+  const { tareas } = route.params; // Recibimos todas las tareas desde la pantalla anterior
 
   return (
     <ScrollView style={DatosEscaneadosStyles.container}>
-      <Card>
-        <Card.Content>
-          <Title style={DatosEscaneadosStyles.title}>Datos Escaneados</Title>
-          <Paragraph
-            style={DatosEscaneadosStyles.dataItem}
-          >{`Descripción: ${descripcion}`}</Paragraph>
-          <Paragraph
-            style={DatosEscaneadosStyles.dataItem}
-          >{`Estado: ${translateEstado(estado)}`}</Paragraph>
-          <Paragraph
-            style={DatosEscaneadosStyles.dataItem}
-          >{`Fecha: ${formatDate(new Date(fecha))}`}</Paragraph>
-          <Paragraph
-            style={DatosEscaneadosStyles.dataItem}
-          >{`Kilometro de Mantención: ${formatoKilometraje(
-            kilometrajeMantencion
-          )}`}</Paragraph>
-          <Paragraph
-            style={DatosEscaneadosStyles.dataItem}
-          >{`Tipo de Mantención: ${tipoMantencion}`}</Paragraph>
-        </Card.Content>
-      </Card>
-      {productos.length > 0 && (
-        <Card style={DatosEscaneadosStyles.productContainer}>
+      {tareas.map((mantencionData, index) => (
+        <Card key={index} style={DatosEscaneadosStyles.card}>
           <Card.Content>
-            <Title style={DatosEscaneadosStyles.productTitle}>Productos:</Title>
-            {productos.map((producto, index) => (
-              <Paragraph
-                style={DatosEscaneadosStyles.productItem}
-                key={index}
-              >{`- ${producto.nombreProducto}`}</Paragraph>
-            ))}
+            <Title style={DatosEscaneadosStyles.title}>Datos Escaneados {index + 1}</Title>
+            <Paragraph
+              style={DatosEscaneadosStyles.dataItem}
+            >{`Descripción: ${mantencionData.descripcion || "Descripción no disponible"}`}</Paragraph>
+            <Paragraph
+              style={DatosEscaneadosStyles.dataItem}
+            >{`Estado: ${translateEstado(mantencionData.estado || "Estado no disponible")}`}</Paragraph>
+            <Paragraph
+              style={DatosEscaneadosStyles.dataItem}
+            >{`Fecha: ${formatDate(new Date(mantencionData.fecha))}`}</Paragraph>
+            <Paragraph
+              style={DatosEscaneadosStyles.dataItem}
+            >{`Kilometraje: ${formatoKilometraje(
+              mantencionData.kilometrajeMantencion || "Kilometraje no disponible"
+            )}`}</Paragraph>
+            <Paragraph
+              style={DatosEscaneadosStyles.dataItem}
+            >{`Tipo de Mantención: ${mantencionData.tipoMantencion || "Tipo de Mantención no disponible"}`}</Paragraph>
           </Card.Content>
+          {mantencionData.productos && mantencionData.productos.length > 0 && (
+            <Card style={DatosEscaneadosStyles.productContainer}>
+              <Card.Content>
+                <Title style={DatosEscaneadosStyles.productTitle}>Productos:</Title>
+                {mantencionData.productos.map((producto, i) => (
+                  <Paragraph
+                    style={DatosEscaneadosStyles.productItem}
+                    key={i}
+                  >{`- ${producto.nombreProducto}`}</Paragraph>
+                ))}
+              </Card.Content>
+            </Card>
+          )}
         </Card>
-      )}
+      ))}
     </ScrollView>
   );
 }

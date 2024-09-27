@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigation } from "@react-navigation/native";
 import { TexTScannerStyles } from "../styles/TexTScannerEstilo";
@@ -28,16 +28,21 @@ export default function Scanner() {
         setErrorMessage("La patente no es válida.");
         return;
       }
-
-      const mantencionDocRef = doc(db, "historialMantencion", text);
-      const mantencionDocSnapshot = await getDoc(mantencionDocRef);
-
-      if (mantencionDocSnapshot.exists()) {
-        const mantencionData = mantencionDocSnapshot.data();
-        console.log(mantencionData);
-        navigation.navigate("Datos Escaneados", { mantencionData });
+  
+      const patente = text.split("-")[0];
+      
+      // Consulta para obtener todas las tareas con la misma patente
+      const q = query(collection(db, "mantenciones"), where("patente", "==", patente));
+      const querySnapshot = await getDocs(q);
+  
+      if (!querySnapshot.empty) {
+        const tareas = [];
+        querySnapshot.forEach((doc) => {
+          tareas.push(doc.data());
+        });
+        navigation.navigate("Datos Escaneados", { tareas });
       } else {
-        setErrorMessage("No se encontró una mantención con esa patente");
+        setErrorMessage("No se encontraron tareas con esa patente.");
       }
     } catch (error) {
       console.error("Error al verificar la patente:", error.message);
@@ -46,6 +51,7 @@ export default function Scanner() {
       setIsScanning(true);
     }
   };
+  
 
   const handleBarCodeScanned = ({ data }) => {
     if (isScanning) {
