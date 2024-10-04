@@ -6,6 +6,8 @@ import { db } from "../firebase";
 import { useNavigation } from "@react-navigation/native";
 import { TexTScannerStyles } from "../styles/TexTScannerEstilo";
 import { Button } from "react-native-paper";
+import MLKitOCR from "react-native-mlkit-ocr"; // Importar el módulo de OCR
+import * as ImagePicker from 'expo-image-picker';
 
 export default function Scanner() {
   const navigation = useNavigation();
@@ -13,6 +15,7 @@ export default function Scanner() {
   const [hasPermission, setHasPermission] = useState(null);
   const [isScanning, setIsScanning] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const [ocrText, setOcrText] = useState(""); // Estado para el texto escaneado
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
@@ -28,7 +31,6 @@ export default function Scanner() {
         setErrorMessage("La patente no es válida.");
         return;
       }
-  
       const patente = text.split("-")[0];
       
       // Consulta para obtener todas las tareas con la misma patente
@@ -42,7 +44,7 @@ export default function Scanner() {
         });
         navigation.navigate("Datos Escaneados", { tareas });
       } else {
-        setErrorMessage("No se encontraron tareas con esa patente.");
+        setErrorMessage("No se encontró una mantención con esa patente");
       }
     } catch (error) {
       console.error("Error al verificar la patente:", error.message);
@@ -51,12 +53,37 @@ export default function Scanner() {
       setIsScanning(true);
     }
   };
+
+  // Función para manejar el OCR
+  const handleTextRecognition = async (imageUri) => {
+    try {
+      const recognizedText = await MLKitOCR.detectFromUri(imageUri);
+      const textResult = recognizedText.map(block => block.text).join(" ");
+      setOcrText(textResult); // Guardar el texto reconocido
+      handleCheckPatente(textResult); // Verificar el texto reconocido
+    } catch (error) {
+      console.error("Error al reconocer el texto:", error);
+      setErrorMessage("Error al reconocer el texto. Inténtelo de nuevo.");
+    }
+  };
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
   
+    if (!result.canceled) {
+      handleTextRecognition(result.uri); // Pasar la imagen seleccionada
+    }
+  };
 
   const handleBarCodeScanned = ({ data }) => {
     if (isScanning) {
       setIsScanning(false);
-      handleCheckPatente(data);
+      handleCheckPatente(data); // Aquí es donde se procesaría el código de barras escaneado
     }
   };
 
@@ -67,10 +94,11 @@ export default function Scanner() {
     }, 10000);
     return () => clearInterval(intervalId);
   }, [refresh]);
-
+  
   const resetScanner = () => {
     setIsScanning(true);
     setErrorMessage("");
+    setOcrText(""); // Reiniciar el texto OCR
     setRefresh((prevRefresh) => !prevRefresh);
   };
 
@@ -93,6 +121,10 @@ export default function Scanner() {
         <Button mode="contained" onPress={resetScanner} style={{ backgroundColor: "#4a7f8d" }}>
           Reiniciar Escaneo
         </Button>
+        <Button mode="contained" onPress={pickImage} style={{ backgroundColor: "#4a7f8d" }}>
+          Reconocer Texto
+        </Button>
+        {ocrText ? <Text style={TexTScannerStyles.textResult}>{ocrText}</Text> : null}
       </View>
       {errorMessage ? (
         <Text style={TexTScannerStyles.errorMessage}>{errorMessage}</Text>
