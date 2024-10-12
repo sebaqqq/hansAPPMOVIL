@@ -24,6 +24,10 @@ import {
   Portal,
 } from "react-native-paper";
 import { WebView } from "react-native-webview";
+import { SafeAreaView } from "react-native-safe-area-context";
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const genAI = new GoogleGenerativeAI("AIzaSyDxk1AIyWngyaSkGiYlYC6Kqu--AhdXGws");
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 function AgregarMantencion() {
   const [patente, setPatente] = useState("");
@@ -40,8 +44,12 @@ function AgregarMantencion() {
   const [cantidadProducto, setCantidadProducto] = useState("");
   const [codigoProducto, setCodigoProducto] = useState("");
   const [precioProducto, setPrecioProducto] = useState("");
+  const [isButtonVisible, setButtonVisible] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
+  const [isAISuggestionModalVisible, setAISuggestionModalVisible] =
+    useState(false);
+  const [AISuggestion, setAISuggestion] = useState("");
 
   useEffect(() => {
     navigation.setOptions({
@@ -56,6 +64,32 @@ function AgregarMantencion() {
       ),
     });
   }, [navigation]);
+
+  useEffect(() => {
+    // Verificar si todos los campos están llenos para mostrar el botón
+    const allFieldsFilled =
+      patente &&
+      tipoMantencion &&
+      descripcion &&
+      estado &&
+      kilometrajeMantencion &&
+      productoSeleccionado &&
+      cantidadProducto &&
+      precioProducto &&
+      codigoProducto;
+
+    setButtonVisible(allFieldsFilled);
+  }, [
+    patente,
+    tipoMantencion,
+    descripcion,
+    estado,
+    kilometrajeMantencion,
+    productoSeleccionado,
+    cantidadProducto,
+    precioProducto,
+    codigoProducto,
+  ]);
 
   const limpiarCampos = () => {
     setTipoMantencion("");
@@ -170,6 +204,27 @@ function AgregarMantencion() {
     } catch (error) {
       console.error("Error saving maintenance:", error.message);
       setErrorMessage("Error al guardar la mantención. Inténtelo de nuevo.");
+    }
+  };
+
+  const aiSugerencia = async () => {
+    try {
+      const prompt = `
+        Sugiere una recomendacion a largo plazo.
+        Tipo de Mantención: ${tipoMantencion}
+        Kilometraje de Mantención: ${kilometrajeMantencion}
+        Productos seleccionados: ${productoSeleccionado}
+      `;
+
+      const result = await model.generateContent(prompt);
+      const response = result.response;
+      const geminiText = response.text();
+
+      setAISuggestion(geminiText || "Sin sugerencias.");
+      setAISuggestionModalVisible(true);
+    } catch (error) {
+      console.error("Error al obtener la sugerencia de AI:", error.message);
+      setErrorMessage("Error al obtener la sugerencia. Inténtelo de nuevo.");
     }
   };
 
@@ -482,6 +537,15 @@ function AgregarMantencion() {
           >
             Agregar Mantención a Lista
           </Button>
+          {isButtonVisible && (
+            <Button
+              mode="contained"
+              onPress={aiSugerencia}
+              style={{ backgroundColor: "#3a798b", marginTop: 10 }}
+            >
+              Obtener Sugerencia de IA
+            </Button>
+          )}
           <FlatList
             style={{ marginBottom: 5 }}
             data={mantencionesPendientes}
@@ -529,6 +593,31 @@ function AgregarMantencion() {
               Cerrar
             </Button>
           </Modal>
+          <Modal
+            visible={isAISuggestionModalVisible}
+            onDismiss={() => setAISuggestionModalVisible(false)}
+            contentContainerStyle={AgregarMantencionStyles.ModalIA}
+            animationType="slide"
+          >
+            <ScrollView>
+              <View style={AgregarMantencionStyles.ModalIATextContainer}>
+                <Text style={AgregarMantencionStyles.ModalIATitle}>
+                  Sugerencia de IA:
+                </Text>
+                <Text style={AgregarMantencionStyles.ModalIAText}>
+                  {AISuggestion}
+                </Text>
+              </View>
+            </ScrollView>
+            <Button
+              mode="contained"
+              onPress={() => setAISuggestionModalVisible(false)}
+              style={{ marginTop: 10 }}
+            >
+              Cerrar
+            </Button>
+          </Modal>
+
           <Portal>
             <Modal
               visible={isConfirmationModalVisible}

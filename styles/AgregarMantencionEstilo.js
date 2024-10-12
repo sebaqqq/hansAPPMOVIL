@@ -94,4 +94,25 @@ export const AgregarMantencionStyles = StyleSheet.create({
     flex: 1,
     margin: 0,
   },
+  ModalIA: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+    margin: 20,
+    borderRadius: 10,
+    backgroundColor: "#fff",
+  },
+  ModalIATitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  ModalIAText: {
+    marginBottom: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f5f5f5",
+    borderRadius: 10,
+    padding: 10,
+  },
 });
