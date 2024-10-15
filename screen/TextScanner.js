@@ -6,8 +6,6 @@ import { db } from "../firebase";
 import { useNavigation } from "@react-navigation/native";
 import { TexTScannerStyles } from "../styles/TexTScannerEstilo";
 import { Button } from "react-native-paper";
-import MLKitOCR from "react-native-mlkit-ocr"; // Importar el módulo de OCR
-import * as ImagePicker from 'expo-image-picker';
 
 export default function Scanner() {
   const navigation = useNavigation();
@@ -15,7 +13,6 @@ export default function Scanner() {
   const [hasPermission, setHasPermission] = useState(null);
   const [isScanning, setIsScanning] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-  const [ocrText, setOcrText] = useState(""); // Estado para el texto escaneado
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
@@ -32,11 +29,14 @@ export default function Scanner() {
         return;
       }
       const patente = text.split("-")[0];
-      
+
       // Consulta para obtener todas las tareas con la misma patente
-      const q = query(collection(db, "mantenciones"), where("patente", "==", patente));
+      const q = query(
+        collection(db, "mantenciones"),
+        where("patente", "==", patente)
+      );
       const querySnapshot = await getDocs(q);
-  
+
       if (!querySnapshot.empty) {
         const tareas = [];
         querySnapshot.forEach((doc) => {
@@ -54,36 +54,10 @@ export default function Scanner() {
     }
   };
 
-  // Función para manejar el OCR
-  const handleTextRecognition = async (imageUri) => {
-    try {
-      const recognizedText = await MLKitOCR.detectFromUri(imageUri);
-      const textResult = recognizedText.map(block => block.text).join(" ");
-      setOcrText(textResult); // Guardar el texto reconocido
-      handleCheckPatente(textResult); // Verificar el texto reconocido
-    } catch (error) {
-      console.error("Error al reconocer el texto:", error);
-      setErrorMessage("Error al reconocer el texto. Inténtelo de nuevo.");
-    }
-  };
-
-  const pickImage = async () => {
-    let result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-  
-    if (!result.canceled) {
-      handleTextRecognition(result.uri); // Pasar la imagen seleccionada
-    }
-  };
-
   const handleBarCodeScanned = ({ data }) => {
     if (isScanning) {
       setIsScanning(false);
-      handleCheckPatente(data); // Aquí es donde se procesaría el código de barras escaneado
+      handleCheckPatente(data);
     }
   };
 
@@ -94,13 +68,6 @@ export default function Scanner() {
     }, 10000);
     return () => clearInterval(intervalId);
   }, [refresh]);
-  
-  const resetScanner = () => {
-    setIsScanning(true);
-    setErrorMessage("");
-    setOcrText(""); // Reiniciar el texto OCR
-    setRefresh((prevRefresh) => !prevRefresh);
-  };
 
   if (hasPermission === null) {
     return <Text>Solicitando permiso de Cámara</Text>;
@@ -118,13 +85,13 @@ export default function Scanner() {
       />
       <View style={TexTScannerStyles.overlay}>
         <Text style={TexTScannerStyles.label}>Escanea el código QR</Text>
-        <Button mode="contained" onPress={resetScanner} style={{ backgroundColor: "#4a7f8d" }}>
+        <Button
+          mode="contained"
+          onPress={resetScanner}
+          style={{ backgroundColor: "#4a7f8d" }}
+        >
           Reiniciar Escaneo
         </Button>
-        <Button mode="contained" onPress={pickImage} style={{ backgroundColor: "#4a7f8d" }}>
-          Reconocer Texto
-        </Button>
-        {ocrText ? <Text style={TexTScannerStyles.textResult}>{ocrText}</Text> : null}
       </View>
       {errorMessage ? (
         <Text style={TexTScannerStyles.errorMessage}>{errorMessage}</Text>
