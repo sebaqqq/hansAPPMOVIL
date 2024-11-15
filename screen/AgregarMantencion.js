@@ -345,12 +345,15 @@ function AgregarMantencion() {
 
   return (
     <PaperProvider>
-      <ScrollView>
-        <View style={AgregarMantencionStyles.container}>
-          <Text variant="headlineSmall">Patente</Text>
+      <View style={AgregarMantencionStyles.container}>
+        <ScrollView>
+          <Text variant="headlineSmall" style={AgregarMantencionStyles.texto}>
+            Patente
+          </Text>
           <View>
             <TextInput
               style={AgregarMantencionStyles.input}
+              textColor="#000000"
               placeholder="Patente del auto"
               value={patente}
               autoCapitalize="characters"
@@ -372,6 +375,7 @@ function AgregarMantencion() {
             mode="contained"
             onPress={() => setModalVisible(true)}
             style={{ backgroundColor: "#3a798b" }}
+            labelStyle={{ color: "#fff" }}
           >
             Verificar Patente
           </Button>
@@ -380,7 +384,9 @@ function AgregarMantencion() {
               {errorMessage}
             </Text>
           ) : null}
-          <Text variant="headlineSmall">Categoria</Text>
+          <Text variant="headlineSmall" style={AgregarMantencionStyles.texto}>
+            Categoria
+          </Text>
           <View>
             <Picker
               selectedValue={tipoMantencion}
@@ -446,7 +452,9 @@ function AgregarMantencion() {
               />
             </Picker>
           </View>
-          <Text variant="headlineSmall">Producto</Text>
+          <Text variant="headlineSmall" style={AgregarMantencionStyles.texto}>
+            Producto
+          </Text>
           <View>
             {productos && productos.length > 0 ? (
               <Picker
@@ -469,11 +477,15 @@ function AgregarMantencion() {
                 ))}
               </Picker>
             ) : (
-              <Text>No hay productos disponibles.</Text>
+              <Text style={AgregarMantencionStyles.texto}>
+                No hay productos disponibles.
+              </Text>
             )}
           </View>
           {precioProducto && <Text>Precio Producto: ${precioProducto}</Text>}
-          <Text variant="headlineSmall">Estado</Text>
+          <Text variant="headlineSmall" style={AgregarMantencionStyles.texto}>
+            Estado
+          </Text>
           <View>
             <Picker
               selectedValue={estado}
@@ -492,10 +504,13 @@ function AgregarMantencion() {
               />
             </Picker>
           </View>
-          <Text variant="headlineSmall">Kilometro Mantención</Text>
+          <Text variant="headlineSmall" style={AgregarMantencionStyles.texto}>
+            Kilometro Mantención
+          </Text>
           <View>
             <TextInput
               style={AgregarMantencionStyles.input}
+              textColor="#000000"
               keyboardType="numeric"
               mode="outlined"
               label={"Kilometro"}
@@ -511,10 +526,13 @@ function AgregarMantencion() {
               }}
             />
           </View>
-          <Text variant="headlineSmall">Descripción</Text>
+          <Text variant="headlineSmall" style={AgregarMantencionStyles.texto}>
+            Descripción
+          </Text>
           <View>
             <TextInput
               style={AgregarMantencionStyles.input}
+              textColor="#000000"
               placeholder="Descripción de la mantención"
               value={descripcion}
               mode="outlined"
@@ -534,6 +552,7 @@ function AgregarMantencion() {
             mode="contained"
             onPress={handleAddMantencion}
             style={{ backgroundColor: "#3a798b" }}
+            labelStyle={{ color: "#fff" }}
           >
             Agregar Mantención a Lista
           </Button>
@@ -541,7 +560,11 @@ function AgregarMantencion() {
             <Button
               mode="contained"
               onPress={aiSugerencia}
-              style={{ backgroundColor: "#3a798b", marginTop: 10 }}
+              style={{
+                backgroundColor: "#0542f9",
+                marginTop: 10,
+              }}
+              labelStyle={{ color: "#fff" }}
             >
               Obtener Sugerencia de IA
             </Button>
@@ -556,14 +579,20 @@ function AgregarMantencion() {
                   <Text style={AgregarMantencionStyles.cardTitle}>
                     Tipo: {item.tipoMantencion}
                   </Text>
-                  <Text>Descripción: {item.descripcion}</Text>
-                  <Text>Fecha: {formatDate(new Date(item.fecha))}</Text>
-                  <Text>Estado: {translateEstado(item.estado)}</Text>
-                  <Text>
+                  <Text style={AgregarMantencionStyles.texto}>
+                    Descripción: {item.descripcion}
+                  </Text>
+                  <Text style={AgregarMantencionStyles.texto}>
+                    Fecha: {formatDate(new Date(item.fecha))}
+                  </Text>
+                  <Text style={AgregarMantencionStyles.texto}>
+                    Estado: {translateEstado(item.estado)}
+                  </Text>
+                  <Text style={AgregarMantencionStyles.texto}>
                     Kilometraje:{" "}
                     {formatoKilometraje(item.kilometrajeMantencion)}
                   </Text>
-                  <Text>
+                  <Text style={AgregarMantencionStyles.texto}>
                     Productos:{" "}
                     {item.productos
                       .map((producto) => producto.nombreProducto)
@@ -574,82 +603,104 @@ function AgregarMantencion() {
             )}
           />
           {mantencionesPendientes.length > 0 && (
-            <Button mode="contained" onPress={showConfirmationModal}>
+            <Button
+              mode="contained"
+              onPress={showConfirmationModal}
+              style={{ backgroundColor: "#039021" }}
+              labelStyle={{ color: "#fff" }}
+            >
               Guardar Mantenciones
             </Button>
           )}
+        </ScrollView>
 
-          <Modal
-            visible={isModalVisible}
-            onDismiss={() => setModalVisible(false)}
-            contentContainerStyle={AgregarMantencionStyles.modalPatente}
+        <Modal
+          visible={isModalVisible}
+          onDismiss={() => setModalVisible(false)}
+          contentContainerStyle={AgregarMantencionStyles.modalPatente}
+        >
+          <WebView source={{ uri: "https://www.patentechile.com/" }} />
+          <Button
+            mode="contained"
+            onPress={() => setModalVisible(false)}
+            style={{ marginTop: 10, backgroundColor: "rgb(255, 0, 0)" }}
+            labelStyle={{ color: "#fff" }}
           >
-            <WebView source={{ uri: "https://www.patentechile.com/" }} />
-            <Button
-              mode="contained"
-              onPress={() => setModalVisible(false)}
-              style={{ marginTop: 10 }}
-            >
-              Cerrar
-            </Button>
-          </Modal>
-          <Modal
-            visible={isAISuggestionModalVisible}
-            onDismiss={() => setAISuggestionModalVisible(false)}
-            contentContainerStyle={AgregarMantencionStyles.ModalIA}
-            animationType="slide"
+            Cerrar
+          </Button>
+        </Modal>
+        <Modal
+          visible={isAISuggestionModalVisible}
+          onDismiss={() => setAISuggestionModalVisible(false)}
+          contentContainerStyle={AgregarMantencionStyles.ModalIA}
+          animationType="slide"
+        >
+          <ScrollView>
+            <View style={AgregarMantencionStyles.ModalIATextContainer}>
+              <Text style={AgregarMantencionStyles.ModalIATitle}>
+                Sugerencia de IA:
+              </Text>
+              <Text style={AgregarMantencionStyles.ModalIAText}>
+                {AISuggestion}
+              </Text>
+            </View>
+          </ScrollView>
+          <Button
+            mode="contained"
+            onPress={() => setAISuggestionModalVisible(false)}
+            style={{
+              marginTop: 10,
+              backgroundColor: "rgb(255, 0, 0)",
+            }}
+            labelStyle={{ color: "#fff" }}
           >
-            <ScrollView>
-              <View style={AgregarMantencionStyles.ModalIATextContainer}>
-                <Text style={AgregarMantencionStyles.ModalIATitle}>
-                  Sugerencia de IA:
-                </Text>
-                <Text style={AgregarMantencionStyles.ModalIAText}>
-                  {AISuggestion}
-                </Text>
-              </View>
-            </ScrollView>
-            <Button
-              mode="contained"
-              onPress={() => setAISuggestionModalVisible(false)}
-              style={{ marginTop: 10 }}
-            >
-              Cerrar
-            </Button>
-          </Modal>
+            Cerrar
+          </Button>
+        </Modal>
 
-          <Portal>
-            <Modal
-              visible={isConfirmationModalVisible}
-              onDismiss={hideConfirmationModal}
-              contentContainerStyle={AgregarMantencionStyles.modalContainer}
-            >
-              <Card>
-                <Card.Title title="Agregar Mantencion" />
-                <Card.Content>
-                  <Text style={AgregarMantencionStyles.modalText}>
-                    ¿Estás seguro de guardar esta mantención?
-                  </Text>
-                </Card.Content>
-                <Card.Actions
-                  style={AgregarMantencionStyles.modalButtonContainer}
+        <Portal>
+          <Modal
+            visible={isConfirmationModalVisible}
+            onDismiss={hideConfirmationModal}
+            contentContainerStyle={AgregarMantencionStyles.modalContainer}
+          >
+            <Card style={AgregarMantencionStyles.modalCard}>
+              <Card.Title
+                title="Agregar Mantención"
+                titleStyle={{ color: "#4a7f8d" }}
+              />
+              <Card.Content style={{ backgroundColor: "#fff" }}>
+                <Text style={AgregarMantencionStyles.modalText}>
+                  ¿Estás seguro de guardar esta mantención?
+                </Text>
+              </Card.Content>
+              <Card.Actions
+                style={AgregarMantencionStyles.modalButtonContainer}
+              >
+                <Button
+                  mode="contained"
+                  onPress={handleConfirmationAndSave}
+                  style={{ backgroundColor: "#3a798b" }}
+                  labelStyle={{ color: "#fff" }}
                 >
-                  <Button
-                    mode="contained"
-                    onPress={handleConfirmationAndSave}
-                    style={AgregarMantencionStyles.buttonModal}
-                  >
-                    Confirmar
-                  </Button>
-                  <Button mode="outlined" onPress={hideConfirmationModal}>
-                    Cancelar
-                  </Button>
-                </Card.Actions>
-              </Card>
-            </Modal>
-          </Portal>
-        </View>
-      </ScrollView>
+                  Confirmar
+                </Button>
+                <Button
+                  mode="outlined"
+                  onPress={hideConfirmationModal}
+                  style={{
+                    borderColor: "#3a798b",
+                    backgroundColor: "#fff",
+                  }}
+                  labelStyle={{ color: "#3a798b" }}
+                >
+                  Cancelar
+                </Button>
+              </Card.Actions>
+            </Card>
+          </Modal>
+        </Portal>
+      </View>
     </PaperProvider>
   );
 }

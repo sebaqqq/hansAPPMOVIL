@@ -55,6 +55,7 @@ const ForgotPassword = () => {
       </Text>
       <TextInput
         label="Correo electrónico"
+        textColor="#000000"
         mode="flat"
         value={email}
         onChangeText={(text) => setEmail(text)}
@@ -63,8 +64,7 @@ const ForgotPassword = () => {
       />
       <Button
         mode="contained"
-        style={{ width: 300, marginTop: 20, backgroundColor: "#0077B6" }}
-        // style={RecuperarContrasenaEstilo.loginButton}
+        style={{ width: 300, marginTop: 20, backgroundColor: "#4a7f8d" }}
         onPress={handleForgotPassword}
         disabled={loading}
       >

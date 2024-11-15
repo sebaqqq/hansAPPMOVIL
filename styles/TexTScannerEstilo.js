@@ -12,11 +12,16 @@ export const TexTScannerStyles = StyleSheet.create({
     alignItems: "center",
     padding: 0,
   },
+  barcodeContainer: {
+    width: 500, // Cambia este valor para ajustar el ancho del scanner
+    height: 500, // Cambia este valor para ajustar el alto del scanner
+    top: "-3%",
+  },
   label: {
     fontSize: 25,
     color: "black",
-    marginBottom: 60,
     padding: 35,
+    fontWeight: "bold",
   },
   errorMessage: {
     color: "red",

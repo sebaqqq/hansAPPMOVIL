@@ -94,6 +94,9 @@ const Inventario = () => {
     <View style={InventarioStyles.container}>
       <Searchbar
         placeholder="Buscar Producto"
+        placeholderTextColor={"white"}
+        inputStyle={{ color: "white" }}
+        iconColor="white"
         onChangeText={(text) => setFilter(text)}
         value={filter}
         style={InventarioStyles.searchBar}
