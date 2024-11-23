@@ -53,7 +53,14 @@ export const TareasStyles = StyleSheet.create({
   confirmationModalButton: {
     marginVertical: 5,
     width: "100%",
-    color: "#fff",
+    backgroundColor: "#4a7f8d",
+  },
+  cancelModalButton: {
+    marginVertical: 5,
+    width: "100%",
+    backgroundColor: "#fff",
+    borderColor: "#4a7f8d",
+    borderWidth: 1,
   },
   loadingContainer: {
     flex: 1,

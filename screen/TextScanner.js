@@ -69,6 +69,12 @@ export default function Scanner() {
     return () => clearInterval(intervalId);
   }, [refresh]);
 
+  const resetScanner = () => {
+    setIsScanning(true);
+    setErrorMessage("");
+    setRefresh((prevRefresh) => !prevRefresh);
+  };
+
   if (hasPermission === null) {
     return <Text>Solicitando permiso de Cámara</Text>;
   }
@@ -78,17 +84,20 @@ export default function Scanner() {
 
   return (
     <View style={TexTScannerStyles.container}>
-      <BarCodeScanner
-        key={refresh}
-        onBarCodeScanned={handleBarCodeScanned}
-        style={StyleSheet.absoluteFillObject}
-      />
       <View style={TexTScannerStyles.overlay}>
         <Text style={TexTScannerStyles.label}>Escanea el código QR</Text>
+        <View style={TexTScannerStyles.barcodeContainer}>
+          <BarCodeScanner
+            key={refresh}
+            onBarCodeScanned={handleBarCodeScanned}
+            style={StyleSheet.absoluteFillObject}
+          />
+        </View>
         <Button
           mode="contained"
           onPress={resetScanner}
           style={{ backgroundColor: "#4a7f8d" }}
+          labelStyle={{ color: "#fff" }}
         >
           Reiniciar Escaneo
         </Button>

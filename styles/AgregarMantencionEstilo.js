@@ -6,9 +6,13 @@ export const AgregarMantencionStyles = StyleSheet.create({
     padding: 20,
     backgroundColor: "#F7F7F7",
   },
+  texto: {
+    color: "#000000",
+  },
   input: {
     marginBottom: 15,
     backgroundColor: "#FFF",
+    color: "#000000",
   },
   picker: {
     backgroundColor: "#FFF",
@@ -62,6 +66,9 @@ export const AgregarMantencionStyles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 5,
   },
+  modalCard: {
+    backgroundColor: "#fff",
+  },
   modalContainer: {
     padding: 20,
     margin: 20,
@@ -72,6 +79,7 @@ export const AgregarMantencionStyles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 20,
     textAlign: "center",
+    color: "#000000",
   },
   modalButtonContainer: {
     flexDirection: "row",
@@ -106,6 +114,7 @@ export const AgregarMantencionStyles = StyleSheet.create({
   ModalIATitle: {
     fontSize: 20,
     fontWeight: "bold",
+    color: "#000000",
   },
   ModalIAText: {
     marginBottom: 20,
@@ -114,5 +123,6 @@ export const AgregarMantencionStyles = StyleSheet.create({
     backgroundColor: "#f5f5f5",
     borderRadius: 10,
     padding: 10,
+    color: "#000000",
   },
 });

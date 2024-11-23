@@ -8,6 +8,7 @@ export const InventarioStyles = StyleSheet.create({
   },
   searchBar: {
     backgroundColor: "#3a798b",
+    color: "#fff",
   },
   inventarioItem: {
     marginBottom: 10,

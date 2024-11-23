@@ -176,6 +176,7 @@ const Tareas = () => {
                   mode="contained"
                   onPress={() => finalizarTarea(item.id)}
                   style={{ backgroundColor: "#4a7f8d" }}
+                  labelStyle={{ color: "#fff" }}
                 >
                   Finalizar
                 </Button>
@@ -204,13 +205,15 @@ const Tareas = () => {
             mode="contained"
             onPress={handleConfirm}
             style={TareasStyles.confirmationModalButton}
+            labelStyle={{ color: "#fff" }}
           >
             Confirmar
           </Button>
           <Button
             mode="contained"
             onPress={handleCancel}
-            style={TareasStyles.confirmationModalButton}
+            style={TareasStyles.cancelModalButton}
+            labelStyle={{ color: "#4a7f8d" }}
           >
             Cancelar
           </Button>

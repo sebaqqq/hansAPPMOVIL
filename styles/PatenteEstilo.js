@@ -25,10 +25,12 @@ const PatenteStyles = StyleSheet.create({
   cardTitle: {
     fontSize: 18,
     fontWeight: "bold",
+    color: "rgb(0, 0, 0)",
   },
   infoText: {
     fontSize: 16,
     marginVertical: 2,
+    color: "rgb(0, 0, 0)",
   },
   tomarButton: {
     justifyContent: "flex-end",

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { View, ScrollView, Alert, RefreshControl } from "react-native";
+import { View, Text, ScrollView, Alert, RefreshControl } from "react-native";
 import { db, auth } from "../firebase";
 import {
   collection,
@@ -17,11 +17,12 @@ import {
   Searchbar,
   Modal,
   Portal,
-  Text,
   Button,
   Card,
   PaperProvider,
 } from "react-native-paper";
+import { color } from "react-native-elements/dist/helpers";
+import { colors } from "react-native-elements";
 
 const Patente = () => {
   const [loading, setLoading] = useState(true);
@@ -221,6 +222,9 @@ const Patente = () => {
       <View style={PatenteStyles.container}>
         <Searchbar
           placeholder="Buscar patente..."
+          placeholderTextColor={"white"}
+          inputStyle={{ color: "white" }}
+          iconColor="white"
           onChangeText={(query) => setFiltroPatente(query)}
           value={filtroPatente}
           style={PatenteStyles.searchBar}
@@ -289,9 +293,8 @@ const Patente = () => {
                       setModalVisible(true);
                       setSelectedPatente(patente);
                     }}
-                    style={{
-                      backgroundColor: "#4a7f8d",
-                    }}
+                    style={{ backgroundColor: "#4a7f8d" }}
+                    labelStyle={{ color: "#fff" }}
                   >
                     Tomar Tarea
                   </Button>
@@ -306,7 +309,10 @@ const Patente = () => {
             onDismiss={() => setModalVisible(false)}
           >
             <Card style={PatenteStyles.modalContainer}>
-              <Card.Title title="Confirmar Tarea" />
+              <Card.Title
+                title="Confirmar Tarea"
+                titleStyle={{ color: "#4a7f8d" }}
+              />
               <Card.Content>
                 <Text>¿Estás seguro de que deseas tomar esta tarea?</Text>
                 {selectedPatente && (
@@ -316,21 +322,45 @@ const Patente = () => {
                 )}
               </Card.Content>
               <Card.Actions>
-                <Button onPress={handleCloseModal}>Cancelar</Button>
-                <Button onPress={tomarTarea} style={{ backgroundColor: "#4a7f8d"}}>Confirmar</Button>
+                <Button
+                  onPress={handleCloseModal}
+                  style={{
+                    backgroundColor: "#fff",
+                    borderColor: "#4a7f8d",
+                  }}
+                  labelStyle={{ color: "#4a7f8d" }}
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  onPress={tomarTarea}
+                  style={{ backgroundColor: "#4a7f8d" }}
+                  labelStyle={{ color: "#fff" }}
+                >
+                  Confirmar
+                </Button>
               </Card.Actions>
             </Card>
           </Modal>
           <Modal visible={confirmModalVisible} onDismiss={handleConfirmModal}>
             <Card style={PatenteStyles.modalContainer}>
-              <Card.Title title="Tarea Tomada" />
+              <Card.Title
+                title="Tarea Tomada"
+                titleStyle={{ color: "#4a7f8d" }}
+              />
               <Card.Content>
                 <Text>
                   La tarea ha sido tomada con éxito y está en proceso.
                 </Text>
               </Card.Content>
               <Card.Actions>
-                <Button onPress={handleConfirmModal}>Aceptar</Button>
+                <Button
+                  onPress={handleConfirmModal}
+                  style={{ backgroundColor: "#4a7f8d" }}
+                  labelStyle={{ color: "#fff" }}
+                >
+                  Aceptar
+                </Button>
               </Card.Actions>
             </Card>
           </Modal>

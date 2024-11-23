@@ -20,19 +20,19 @@ export const RecuperarContrasenaEstilo = StyleSheet.create({
     fontSize: 36,
     fontWeight: "bold",
     marginBottom: 40,
-    color: "#0077B6",
+    color: "#4a7f8d",
     textAlign: "center",
   },
   logoImage: {
     width: 300,
-    height: 120,
-    marginBottom: 40,
+    height: 160,
+    marginBottom: 15,
   },
   headerText: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 40,
-    color: "#0077B6",
+    color: "#4a7f8d",
     textAlign: "center",
   },
   inputContainer: {
